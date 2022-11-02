@@ -1,0 +1,23 @@
+{
+  "name": "2022-2-pis-grupo1",
+  "version": "1.0.0",
+  "description": "Sistema de notas da ACME Cursos criado por alunos da disciplina de Projeto Integrador de Sistemas, sob administração do professor Thiago Delgado Pinto.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://gitlab.com/thiagodp/2022-2-pis-grupo1.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://gitlab.com/thiagodp/2022-2-pis-grupo1/issues"
+  },
+  "homepage": "https://gitlab.com/thiagodp/2022-2-pis-grupo1#readme",
+  "dependencies": {
+    "commitment": "^0.1.0"
+  }
+}
