@@ -1,0 +1,23 @@
+{
+    "name": "rafael_barros/2022-2-pis-grupo1",
+    "description": "Trabalho da disciplina \"Projeto Integrador de Sistemas\", do curso de Sistemas de Informa\u0000\u0000o na unidade do CEFET Nova Friburgo/RJ.",
+    "type": "project",
+    "license": "mit",
+    "autoload": {
+        "psr-4": {
+            "RafaelBarros\\20222PisGrupo1\\": "api/"
+        }
+    },
+    "authors": [{
+            "name": "rafa55565",
+            "email": "rafael_viniciusbarros@hotmail.com"
+        },
+        {
+            "name": "vitorhugprangel",
+            "email": "vitorhugo.rangel@yahoo.com.br"
+        }
+    ],
+    "require": {
+        "php": ">=7.4"
+    }
+}

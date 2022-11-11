@@ -19,5 +19,8 @@
   "homepage": "https://gitlab.com/thiagodp/2022-2-pis-grupo1#readme",
   "dependencies": {
     "commitment": "^0.1.0"
+  },
+  "devDependencies": {
+    "typescript": "^4.8.4"
   }
 }
