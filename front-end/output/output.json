@@ -1,0 +1,174 @@
+{
+  "stats": {
+    "suites": 1,
+    "tests": 1,
+    "passes": 1,
+    "pending": 0,
+    "failures": 0,
+    "start": "2022-11-11T22:34:47.941Z",
+    "end": "2022-11-11T22:34:52.743Z",
+    "duration": 4802,
+    "testsRegistered": 1,
+    "passPercent": 100,
+    "pendingPercent": 0,
+    "other": 0,
+    "hasOther": false,
+    "skipped": 0,
+    "hasSkipped": false
+  },
+  "results": [
+    {
+      "uuid": "433e2113-32f1-4944-9a6a-aed54ff31a5e",
+      "title": "",
+      "fullFile": "",
+      "file": "",
+      "beforeHooks": [],
+      "afterHooks": [],
+      "tests": [],
+      "suites": [
+        {
+          "uuid": "07fbe4c3-5d2f-483d-af87-069e8b7a8504",
+          "title": "Search",
+          "fullFile": "C:\\Vitor\\Faculdade\\10º semestre\\PIS\\2022-2\\2022-2-pis-grupo1\\front-end\\test\\testConcordia.js",
+          "file": "\\test\\testConcordia.js",
+          "beforeHooks": [
+            {
+              "title": "\"before all\" hook: codeceptjs.beforeSuite in \"Search\"",
+              "fullTitle": "Search \"before all\" hook: codeceptjs.beforeSuite in \"Search\"",
+              "timedOut": false,
+              "duration": 454,
+              "state": null,
+              "speed": null,
+              "pass": false,
+              "fail": false,
+              "pending": false,
+              "context": null,
+              "code": "scenario.suiteSetup(suite)",
+              "err": {},
+              "uuid": "9f5f37f8-1ea6-4a88-a76c-13e18d02414d",
+              "parentUUID": "07fbe4c3-5d2f-483d-af87-069e8b7a8504",
+              "isHook": true,
+              "skipped": false
+            },
+            {
+              "title": "\"before each\" hook: codeceptjs.before in \"Search\"",
+              "fullTitle": "Search \"before each\" hook: codeceptjs.before in \"Search\"",
+              "timedOut": false,
+              "duration": 195,
+              "state": null,
+              "speed": null,
+              "pass": false,
+              "fail": false,
+              "pending": false,
+              "context": null,
+              "code": "scenario.setup(suite)",
+              "err": {},
+              "uuid": "f0faba13-e2af-45ee-88c8-9cead660a031",
+              "parentUUID": "07fbe4c3-5d2f-483d-af87-069e8b7a8504",
+              "isHook": true,
+              "skipped": false
+            }
+          ],
+          "afterHooks": [
+            {
+              "title": "\"after all\" hook: codeceptjs.afterSuite in \"Search\"",
+              "fullTitle": "Search \"after all\" hook: codeceptjs.afterSuite in \"Search\"",
+              "timedOut": false,
+              "duration": 1,
+              "state": null,
+              "speed": null,
+              "pass": false,
+              "fail": false,
+              "pending": false,
+              "context": null,
+              "code": "scenario.suiteTeardown(suite)",
+              "err": {},
+              "uuid": "5ba34d48-d6c0-431f-8004-5fb4bdc3fab6",
+              "parentUUID": "07fbe4c3-5d2f-483d-af87-069e8b7a8504",
+              "isHook": true,
+              "skipped": false
+            },
+            {
+              "title": "\"after each\" hook: finalize codeceptjs in \"Search\"",
+              "fullTitle": "Search \"after each\" hook: finalize codeceptjs in \"Search\"",
+              "timedOut": false,
+              "duration": 48,
+              "state": null,
+              "speed": null,
+              "pass": false,
+              "fail": false,
+              "pending": false,
+              "context": null,
+              "code": "scenario.teardown(suite)",
+              "err": {},
+              "uuid": "17c74c5d-ecec-4d32-b0f0-16ae5b86b172",
+              "parentUUID": "07fbe4c3-5d2f-483d-af87-069e8b7a8504",
+              "isHook": true,
+              "skipped": false
+            }
+          ],
+          "tests": [
+            {
+              "title": "Shows results that correspond to the term | Procurar por concordia no google - 1",
+              "fullTitle": "Search: Shows results that correspond to the term | Procurar por concordia no google - 1",
+              "timedOut": false,
+              "duration": 4099,
+              "state": "passed",
+              "speed": "slow",
+              "pass": true,
+              "fail": false,
+              "pending": false,
+              "context": null,
+              "code": "I}) => {\n    I.amOnPage(\"https://google.com\"); // (11,2)\n    I.fillField('q', \"concordialang\"); // (12,2)\n    I.pressKey(\"Enter\"); // (13,4)\n    I.wait(2); // (14,4)\n    I.see(\"npm\"); // (15,2)",
+              "err": {},
+              "uuid": "dab6e7f7-8ac6-43b5-9726-13594320747b",
+              "parentUUID": "07fbe4c3-5d2f-483d-af87-069e8b7a8504",
+              "isHook": false,
+              "skipped": false
+            }
+          ],
+          "suites": [],
+          "passes": [
+            "dab6e7f7-8ac6-43b5-9726-13594320747b"
+          ],
+          "failures": [],
+          "pending": [],
+          "skipped": [],
+          "duration": 4099,
+          "root": false,
+          "rootEmpty": false,
+          "_timeout": 0
+        }
+      ],
+      "passes": [],
+      "failures": [],
+      "pending": [],
+      "skipped": [],
+      "duration": 0,
+      "root": true,
+      "rootEmpty": true,
+      "_timeout": 0
+    }
+  ],
+  "meta": {
+    "mocha": {
+      "version": "9.2.2"
+    },
+    "mochawesome": {
+      "options": {
+        "quiet": false,
+        "reportFilename": "output",
+        "saveHtml": true,
+        "saveJson": true,
+        "consoleReporter": "spec",
+        "useInlineDiffs": false,
+        "code": true
+      },
+      "version": "6.3.1"
+    },
+    "marge": {
+      "options": "json=true,reportDir=C:\\Vitor\\Faculdade\\10º semestre\\PIS\\2022-2\\2022-2-pis-grupo1\\front-end\\output,reportFilename=output",
+      "version": "5.2.0"
+    }
+  }
+}
