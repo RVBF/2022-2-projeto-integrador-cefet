@@ -76,13 +76,13 @@ class Aluno
 
     public function validateInsert()
     {
-        $todosErros = [];
-        return $this->validateAll($todosErros);
+        $allErrors = [];
+        return $this->validateAll($allErrors);
     }
 
     public function validateUpdate()
     {
-        $todosErros = [];
-        return $this->validateAll($todosErros);
+        $allErrors = [];
+        return $this->validateAll($allErrors);
     }
 }
