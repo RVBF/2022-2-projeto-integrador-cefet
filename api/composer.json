@@ -3,6 +3,11 @@
     "description": "Trabalho da disciplina \"Projeto Integrador de Sistemas\", do curso de Sistemas de Informa\u0000\u0000o na unidade do CEFET Nova Friburgo/RJ.",
     "type": "project",
     "license": "mit",
+    "scripts": {
+        "start": "php -S localhost:3001",
+        "test": "kahlan",
+        "cov": "(set XDEBUG_MODE=coverage||export XDEBUG_MODE=coverage) && kahlan --coverage --src=app"
+    },
     "autoload": {
         "psr-4": {
             "RafaelBarros\\20222PisGrupo1\\": "api/"
@@ -13,11 +18,14 @@
             "email": "rafael_viniciusbarros@hotmail.com"
         },
         {
-            "name": "vitorhugprangel",
+            "name": "vitorhugorangel",
             "email": "vitorhugo.rangel@yahoo.com.br"
         }
     ],
     "require": {
         "php": ">=7.4"
+    },
+    "require-dev": {
+        "kahlan/kahlan": "^5.2"
     }
 }
