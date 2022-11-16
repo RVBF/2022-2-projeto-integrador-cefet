@@ -10,7 +10,7 @@
   "author": "",
   "license": "ISC",
   "devDependencies": {
-    "@types/jest": "^29.2.2",
+    "@types/jest": "^29.2.3",
     "codeceptjs": "^3.3.6",
     "concordialang": "^2.0.0-alpha.20",
     "concordialang-codeceptjs-playwright": "^0.5.4",
