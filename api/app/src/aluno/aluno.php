@@ -25,15 +25,15 @@ class Aluno
 
     public function validateAll($allErrors)
     {
-        if (empty($this->matricula) && !is_numeric($this->matricula) && strlen($this->matricula) < 6) {
+        if (empty($this->matricula) || !is_numeric($this->matricula) || strlen($this->matricula) < 6) {
             $allErrors[] = 'Matrícula inválida';
         }
 
-        if (empty($this->nome) && strlen($this->nome) < 2 && strlen($this->nome) > 100) {
+        if (empty($this->nome) || strlen($this->nome) < 2 || strlen($this->nome) > 100) {
             $allErrors[] = 'Nome inválido';
         }
 
-        if ($this->validateCPF($this->cpf) !== 1) {
+        if ($this->validateCPF($this->cpf) != 1) {
             $allErrors[] = 'CPF inválido';
         }
 
@@ -44,6 +44,8 @@ class Aluno
         if (!preg_match('/^[^0-9][a-zA-Z0-9_]+([.][a-zA-Z0-9_]+)*[@][a-zA-Z0-9_]+([.][a-zA-Z0-9_]+)*[.][a-zA-Z]{2,4}$/', $this->email)) {
             $allErrors[] = 'Email inválido';
         }
+
+        return $allErrors;
     }
 
     public function validateCPF($cpf)
