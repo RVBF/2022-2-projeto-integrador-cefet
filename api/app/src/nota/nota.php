@@ -22,17 +22,26 @@ class Nota
         $this->mediaFinal =  $mediaFinal;
     }
 
-    public function calculateMediaDeAvaliacoes($av1, $av2, $af)
+    public function calculateMediaDeAvaliacoes($av1, $av2)
     {
         $this->mediaDeAvaliacoes = ($av1 + $av2) / 2;
-        $this->mediaFinal = $af + $this->mediaDeAvaliacoes;
 
-        if ($this->mediaDeAvaliacoes >= 7 || $this->mediaFinal >= 5) {
+        if ($this->mediaDeAvaliacoes >= 7) {
             return 'Aprovado';
-        } else if ($this->mediaDeAvaliacoes < 3 || $this->mediaFinal < 5) {
+        } else if ($this->mediaDeAvaliacoes < 3) {
             return 'Reprovado';
         } else {
             return 'Avaliação Final';
         }
+    }
+
+    public function calculateMediaFinal($av1, $av2, $af)
+    {
+        $this->mediaDeAvaliacoes = ($av1 + $av2) / 2;
+        $this->mediaFinal = ($af + $this->mediaDeAvaliacoes) / 2;
+
+        if ($this->mediaFinal >= 5) {
+            return 'Aprovado';
+        } else return 'Reprovado';
     }
 }
