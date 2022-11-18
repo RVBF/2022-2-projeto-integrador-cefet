@@ -7,4 +7,9 @@ db/
 .history
 .env
 .sock
+<<<<<<< HEAD
 html
+=======
+test
+output
+>>>>>>> 40d3666f2bdaefd7d6be3cbd763140045b893760
