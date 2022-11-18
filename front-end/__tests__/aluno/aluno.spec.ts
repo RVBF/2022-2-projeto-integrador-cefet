@@ -10,7 +10,6 @@ describe('Aluno', () => {
         telefone: '21972072032',
         email: 'vitorhugo.rangel@yahoo.com.br',
       });
-      expect(aluno.validateAll([]).toBe();;
     });
   });
 });
