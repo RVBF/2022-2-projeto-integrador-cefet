@@ -1,0 +1,42 @@
+<div id="menu-principal">
+    <div id="menu-esquerda">
+        <a href="/aluno"><em class="fa-solid fa-circle-plus fa-2x" id="add-aluno"></em></a>
+        <h2 id="titulo-tabela">Notas</h2>
+    </div>
+    <div id="menu-direita">
+        <form id="procura-aluno">
+            <label for="valor">Procurar aluno:</label>
+            <select name="campo" id="campo">
+                <option value="matricula">Matrícula</option>
+                <option value="nome">Nome</option>
+                <option value="cpf">CPF</option>
+                <option value="email">Telefone</option>
+                <option value="telefone">Email</option>
+            </select>
+            <input type="search" id="valor" name="valor" />
+            <input type="submit" value="Pesquisar" />
+        </form>
+    </div>
+</div>
+
+<table id="listarAluno" aria-describedby="listarAluno">
+    <thead>
+        <th>Matricula</th>
+        <th>Nome</th>
+        <th>CPF</th>
+        <th>Email</th>
+        <th>Telefone</th>
+        <th>Avaliação 1</th>
+        <th>Avaliação 2</th>
+        <th>Avaliação Final</th>
+        <th>Média Final</th>
+        <th>Situação Final</th>
+        <th>Ações</th>
+    </thead>
+    <tbody></tbody>
+</table>
+<div class="paginacao">
+    <button id="primeira">Primeira</button>
+    <span id="pages-botao"></span>
+    <button id="ultima">Última</button>
+</div>

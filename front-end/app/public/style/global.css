@@ -4,6 +4,20 @@
 	box-sizing: border-box;
 }
 
+body {
+	background-color: rgb(85, 85, 107);
+}
+
+a {
+	text-decoration: none;
+	color: black;
+}
+
+body header {
+	background-color: rgb(85, 85, 107);
+	height: 91px;
+}
+
 body main {
 	margin-right: 50px;
 	width: 100%;
@@ -167,6 +181,12 @@ button {
 	padding: 10px;
 }
 
+#cabeçalho {
+	width: auto;
+	margin-top: 5px;
+}
+
+
 #add-nota {
 	padding: 10px;
 }
@@ -269,7 +289,11 @@ i {
 	display: flex;
 }
 
-#procura-aluno {
+
+
+#procura-aluno,
+#procura-funcionario,
+#procura-curso {
 	padding-top: 10px;
 	text-align: end;
 	margin-right: 20px;
