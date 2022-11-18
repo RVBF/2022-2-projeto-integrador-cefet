@@ -10,9 +10,13 @@
     },
     "autoload": {
         "psr-4": {
-            "RafaelBarros\\20222PisGrupo1\\": "api/"
+            "App\\": "app/",
+            "App\\Src\\": "app/src/"
         }
     },
+    "files": [
+        "app/helpers/helpers_routes.php"
+    ],
     "authors": [{
             "name": "rafa55565",
             "email": "rafael_viniciusbarros@hotmail.com"
