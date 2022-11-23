@@ -4,7 +4,7 @@ require_once 'app/src/nota/nota.php';
 
 describe('Validar calculo de notas', function () {
 
-    it('Deve retornar {Aprovado} quando média de avalições maior ou igul a 7', function () {
+    it('Deve retornar {Aprovado} quando média de avalições maior ou igual a 7', function () {
         $notasTest = new Nota(
             '$av1',
             '$av2',
