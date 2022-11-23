@@ -1,12 +1,15 @@
 <?php
 
+ini_set('display_errors', 1);
+ini_set('display_startup_errors', 1);
+error_reporting(E_ALL);
 
 define('APP_INICIADO', microtime(true));
-define('REMOTE_IP',	'127.0.0.1' );
-define('REMOTE_HOST',	'' );
-define('DEBUG_MODE',	true );
+define('REMOTE_IP',    '127.0.0.1');
+define('REMOTE_HOST',    '');
+define('DEBUG_MODE',    true);
 
-date_default_timezone_set('America/Sao_Paulo' );
+date_default_timezone_set('America/Sao_Paulo');
 
 
 use App\Router;
@@ -30,15 +33,14 @@ header('Access-Control-Allow-Origin: https://localhost:5500');
 header('Access-Control-Allow-Credentials: true');
 header('Content-Type: application/json');
 // Realiza ajustes para modo de depuração
-if (!DEBUG_MODE)
-	{
+if (!DEBUG_MODE) {
 
-	// Modifica o retorno default do servidor para 500,
-	// pois ele retorna 200 mesmo com erro no PHP
-	http_response_code(500 );
+    // Modifica o retorno default do servidor para 500,
+    // pois ele retorna 200 mesmo com erro no PHP
+    http_response_code(500);
 
-	// Desabilita a exibição de erros, por motivos de segurança
-	ini_set('display_errors', 0 );
+    // Desabilita a exibição de erros, por motivos de segurança
+    ini_set('display_errors', 0);
 }
 require 'bootstrap.php';
 require 'app/helpers/helpers_routes.php';
