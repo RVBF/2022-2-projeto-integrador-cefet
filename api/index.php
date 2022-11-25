@@ -3,7 +3,6 @@
 ini_set('display_errors', 1);
 ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
-
 define('APP_INICIADO', microtime(true));
 define('REMOTE_IP',    '127.0.0.1');
 define('REMOTE_HOST',    '');
@@ -41,6 +40,22 @@ if (!DEBUG_MODE) {
 
     // Desabilita a exibição de erros, por motivos de segurança
     ini_set('display_errors', 0);
+}
+require_once 'app/src/config/pdo-connection.php';
+try {
+	$db = PDOConnection::getInstance();
+
+    var_dump($db);
+    $data = $db->query("show databases;");
+    echo $data;
+
+	$stm->execute();
+
+	return $stm->fetchAll(PDO::FETCH_ASSOC);
+  
+} catch (Exception $e) {
+	print $e->getMessage();
+  
 }
 require 'bootstrap.php';
 require 'app/helpers/helpers_routes.php';
