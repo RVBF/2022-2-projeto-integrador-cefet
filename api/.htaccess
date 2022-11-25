@@ -1,11 +1,10 @@
+# BEGIN WordPress
+<IfModule mod_rewrite.c>
 RewriteEngine On
-
-# RewriteBase /
-
+RewriteBase /
+RewriteRule ^index\.php$ - [L]
 RewriteCond %{REQUEST_FILENAME} !-f
-RewriteRule ^ index.php [QSA,L]
-
-<IfModule mod_headers.c>
-  Header unset Server
-  Header unset X-Powered-By
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteRule . /index.php [L]
 </IfModule>
+# END WordPress
