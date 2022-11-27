@@ -21,19 +21,9 @@ export class Aluno {
     this.email = email;
   }
 
-  validateInsertAluno = (): string[] => {
-    const arrayErros: string[] = [];
+  validateAll = (): String[] => {
+    const arrayErrors: string[] = [];
 
-    return this.validateAll(arrayErros);
-  };
-
-  validateUpdateAluno = (): string[] => {
-    const arrayErros: string[] = [];
-
-    return this.validateAll(arrayErros);
-  };
-
-  validateAll = (arrayErrors: string[]): string[] => {
     if (this.matricula == null || isNaN(this.matricula) || this.matricula.toString().length < 6) {
       arrayErrors.push('Matrícula inválida');
     }
@@ -46,20 +36,12 @@ export class Aluno {
       arrayErrors.push('CPF inválido');
     }
 
-    if (
-      !RegExp(
-        '/^(?:(?:+|00)?(55)s?)?(?:(?([1-9][0-9]))?s?)?(?:((?:9d|[2-9])d{3})-?(d{4}))$/',
-        this.telefone,
-      )
+    if (!/^(?:(?:\+|00)?(55)\s?)?(?:\(?([1-9][0-9])\)?\s?)?(?:((?:9\d|[2-9])\d{3})\-?(\d{4}))$/.test(this.telefone)
     ) {
       arrayErrors.push('Telefone inválido');
     }
 
-    if (
-      !RegExp(
-        '/^[^0-9][a-zA-Z0-9_]+([.][a-zA-Z0-9_]+)*[@][a-zA-Z0-9_]+([.][a-zA-Z0-9_]+)*[.][a-zA-Z]{2,4}$/',
-        this.email,
-      )
+    if (!/^[^0-9][a-zA-Z0-9_]+([.][a-zA-Z0-9_]+)*[@][a-zA-Z0-9_]+([.][a-zA-Z0-9_]+)*[.][a-zA-Z]{2,4}$/.test( this.email )
     ) {
       arrayErrors.push('Email inválido');
     }
