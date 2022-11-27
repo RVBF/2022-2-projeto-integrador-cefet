@@ -1,11 +1,9 @@
 <?php
+namespace App\Src\Aluno;
 
-require './aluno.php';
-require './aluno-repositorio-mysql.php';
-require './aluno-visao.php';
-require_once '../pdo/conexao.php';
+use AlunoVisao;
 
-class AlunoControladora
+class AlunoController
 {
     private $visao;
     private $servico;
@@ -14,13 +12,12 @@ class AlunoControladora
     {
         $this->visao = new AlunoVisao();
 
-        $pdo = new Conexao();
-        $pdoConn = $pdo->getConnection();
-        $this->servico = new AlunoRepositorioEmMySQL($pdoConn);
+        // $this->servico = new AlunoRepositorioEmMySQL($db);
     }
 
-    public function init()
+    public function listar()
     {
+        printr('cheguei');
     }
 
     function insertStudent()

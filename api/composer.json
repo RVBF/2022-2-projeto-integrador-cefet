@@ -12,7 +12,9 @@
         "psr-4": {
             "App\\": "app/",
             "App\\Src\\": "app/src/",
-            "App\\Src\\config\\": "app/src/config"
+            "App\\Src\\Aluno\\": "app/src/aluno/",
+            "App\\Src\\config\\": "app/src/config/",
+            "App\\Router\\": "app/routes/"
         }
     },
     "files": [

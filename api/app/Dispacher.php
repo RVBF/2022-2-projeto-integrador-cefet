@@ -5,14 +5,14 @@ namespace App;
 class Dispacher
 {
 
-	public function dispach($callback, array $params = [], $namespace = "App\\")
+	public function dispach($callback, array $params = [], $namespace = "")
 	{	
 		if(is_callable($callback['callback']))
 		{
 			return call_user_func_array($callback['callback'], array_values($params));
 			
 		} elseif (is_string($callback['callback'])) {
-			
+		
 			if(!!strpos($callback['callback'], '@') !== false) {
 				
 				if(!empty($callback['namespace']))

@@ -1,33 +1,49 @@
-version: '3'
+version: '3.9'
 
 services:
-  apache:
-    image: 'php:7.4.30-apache'
+  web-server:
+    image: 'nginx:1.21.1'
     env_file: ./.env
     container_name: 2022-pis-grupo1
     restart: always
     ports:
       - '80:80'
+      - '443:443'
+    networks:
+      - web-dev
     volumes:
-      - ./api:/var/www/html
-    depends_on:
-      - db
-    links:
-      - db
-    command: 
-    - a2enmod rewrite
-    - service apache2 restart
-    - docker-php-ext-configure pdo_mysql --with-pdo-mysql=mysqlnd 
-    - docker-php-ext-configure mysqli --with-mysqli=mysqlnd 
-    - docker-php-ext-install pdo_mysql 
-  db:
-    image: mysql:5.7
+      - ./confs/servers/:/etc/nginx/conf.d/
+      - ./:/var/www
+      - ./confs/ssl/:/var/www/ssl
+
+  php:
+    build:
+      dockerfile: ./php.dockerfile
+      context: .
+    image: php7.4-fpm
     env_file: ./.env
-    restart: always
+    container_name: webdev-php
+    volumes: 
+      - "./api:/var/www/api"
+    ports: 
+      - "9000:9000"
+    networks: 
+      - web-dev
+  db:
+    image: mysql:8.0.26
+    container_name: webdev-mysql
+    env_file: ./.env
+    volumes: 
+      - ./confs/mysql_db:/var/lib/mysql
+    command: --default-authentication-plugin=mysql_native_password
     environment:
-      MYSQL_DATABASE: $MYSQL_DB_DATABASE
-      MYSQL_USER: $MYSQL_DB_USER
-      MYSQL_ALLOW_EMPTY_PASSWORD: 1
-      MYSQL_ROOT_PASSWORD: $MYSQL_DB_PASSWORD
-    volumes:
-      - ./db:/var/lib/mysql
+      MYSQL_ALLOW_EMPTY_PASSWORD: yes
+    ports:
+      - "3306:3306"
+    networks: 
+      - web-dev
+
+networks:
+  web-dev:
+    driver: bridge
+

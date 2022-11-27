@@ -13,6 +13,7 @@ function resolve($request = null)
 	if(is_null($request)) {
 		$request = request();
 	}
+
 	return Route::resolve($request);		
 }
 
