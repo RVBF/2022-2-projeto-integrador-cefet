@@ -54,7 +54,6 @@ class RouteCollection
 
 	protected function parseUri($uri)
 	{
-
 		return implode('/', array_filter(explode('/', $uri)));
 	}
 
@@ -199,7 +198,7 @@ class RouteCollection
 
 		foreach($this->routes_post as $pattern => $callback) {
 
-			if(preg_match($pattern, $patter_sent, $pieces))
+			if(preg_match($pattern, $pattern_sent, $pieces))
 			{
 				return (object) ['callback' => $callback, 'uri' => $pieces];
 			}
@@ -213,8 +212,11 @@ class RouteCollection
 	{
 
 		$pattern_sent = $this->parseUri($pattern_sent);
+		debug($pattern_sent);
 
 		foreach($this->routes_get as $pattern => $callback) {
+			debug($pattern);
+			debug($pattern_sent);
 
 			if(preg_match($pattern, $pattern_sent, $pieces))
 			{

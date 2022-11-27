@@ -2,7 +2,6 @@
 
 namespace App;
 
-use App\Router;
 
 class Route
 {
