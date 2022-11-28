@@ -7,7 +7,8 @@
     "setup": "cd front-end && npm install && cd .. && cd api && composer install && cd ..",
     "start":"http-server -p 5501 -c -1 --cors",
     "test": "cd front-end && npm test && cd .. && cd api && composer test && cd ..",
-    "update": "cd front-end && npm update && cd .. && cd api && composer upgrade && cd .. "
+    "update": "cd front-end && npm update && cd .. && cd api && composer upgrade && cd .. ",
+    "tsc": "cd front-end && npx tsc"
   },
   "repository": {
     "type": "git",

@@ -2,10 +2,10 @@ node_modules
 vendor
 dist
 coverage
-db/
 .vscode
 .history
 .env
 .sock
 test
 output
+confs/mysql_db/*
