@@ -14,8 +14,13 @@ describe('Validar dados de um aluno', function () {
         expect($alunoTest->validateUpdate())->toBe(["Matrícula inválida"]);
     });
 
-    it('deve retornar nome inválido', function () {
+    it('deve retornar nome inválido, quando tiver menos de 2 caracteres', function () {
         $alunoTest = new Aluno('123456', 'V', '180.842.477-86', '(21) 97207-2032', 'vitorhugo.rangel@yahoo.com.br');
+        expect($alunoTest->validateUpdate())->toBe(["Nome inválido"]);
+    });
+
+    it('deve retornar nome inválido, quando tiver mais de 100 caracteres', function () {
+        $alunoTest = new Aluno('123456', 'is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industrys stasa', '180.842.477-86', '(21) 97207-2032', 'vitorhugo.rangel@yahoo.com.br');
         expect($alunoTest->validateUpdate())->toBe(["Nome inválido"]);
     });
 
