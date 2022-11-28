@@ -65,7 +65,6 @@ class Router
 	public function resolve($request){
 		
 		$route = $this->find($request->method(), $request->base());
-
 		if($route)
 		{
 			
@@ -80,14 +79,17 @@ class Router
 
 	protected function getValues($pattern, $positions)
 	{
+
+
 		$result = [];
 
 		$pattern = array_filter(explode('/', $pattern));
 
 		foreach($pattern as $key => $value)
 		{
-			if(in_array($key, $positions)) {
-				$result[array_search($key, $positions)] = $value;
+
+			if(in_array(($key+1), $positions)) {
+				$result[array_search(($key+1), ($positions+1))] = $value;
 			}
 		}
 

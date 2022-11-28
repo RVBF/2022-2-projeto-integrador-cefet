@@ -14,8 +14,6 @@ class Controller
 
 	public function index()
 	{
-
-
 		$data = array_map(function($row){
 
 			return '<tr><td>' . $row['nome'] . '</td><td>' . $row['telefone'] . '</td><td><a href="' . route('clientes.show', $row['id'])  .'">Detalhes</a></td></tr>';

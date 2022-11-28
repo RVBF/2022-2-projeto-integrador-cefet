@@ -212,11 +212,8 @@ class RouteCollection
 	{
 
 		$pattern_sent = $this->parseUri($pattern_sent);
-		debug($pattern_sent);
 
 		foreach($this->routes_get as $pattern => $callback) {
-			debug($pattern);
-			debug($pattern_sent);
 
 			if(preg_match($pattern, $pattern_sent, $pieces))
 			{
@@ -283,7 +280,7 @@ class RouteCollection
 		$needles = ['{', '[', '(', "\\"];
 
 		$pattern = array_filter(explode('/', $pattern));
-
+		// exit();
 		foreach($pattern as $key => $element)
 		{
 			$found = $this->strposarray($element, $needles);
