@@ -1,27 +1,16 @@
 <!DOCTYPE html>
-<html lang="pt">
+<html lang="en">
 
 <head>
-    <meta charset="UTF-8" />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Acme Cursos</title>
-    <script src="./dist/index.js" type="module" defer></script>
-    <link rel="stylesheet" href="./app/public/style/global.css" />
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="front-end/app/public/style/global.css">
+  <title>Acme</title>
 </head>
 
 <body>
-
-    <div id="cabecalho">
-        <a href="/">
-            <img id="logoSistema" src="./src/logoAcme.png" alt="Logo da Acme Cursos" />
-        </a>
-    </div>
-    <div id="sucessBar"></div>
-    <div id="errorBar"></div>
-    <div id="container">
-        <div id="menu-icones"></div>
-        <main></main>
+  <div id="root"></div>
+  <script src="./routes/index.ts"></script>
 </body>
 
 </html>
