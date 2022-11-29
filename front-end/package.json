@@ -4,7 +4,9 @@
     "description": "",
     "main": "index.js",
     "scripts": {
-        "test": "jest"
+        "dev:server": "parcel ./*.html",
+        "build": "parcel build ./*.html",
+        "test": "codeceptjs run"
     },
     "keywords": [],
     "author": "",

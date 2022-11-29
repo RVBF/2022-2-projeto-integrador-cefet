@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-inferrable-types */
 interface AlunoDTO {
   matricula: number;
   nome: string;
