@@ -1,0 +1,51 @@
+@import '../../styles/colors.scss';
+.user-content {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  padding: 2rem 3rem;
+  border-bottom: 1px solid $textColor;
+}
+.user-content > .cards-user-content {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-around;
+}
+.user-content > .cards-user-content > h3 {
+  padding: 0 0.5rem;
+}
+.user-content > .user-right-content {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+}
+
+.user-content > .user-right-content > .icon {
+  height: 2.5rem;
+  width: 2.5rem;
+  align-items: center;
+  justify-content: center;
+  border-radius: 1rem;
+  margin-right: 3rem;
+}
+.user-content > .user-right-content > .icon > svg {
+  height: 100%;
+  width: 100%;
+}
+.user-content > .choose-icon {
+  align-self: end;
+  height: 2.5rem;
+  width: 2.5rem;
+  align-items: center;
+  justify-content: center;
+  border-radius: 1rem;
+  // margin-left: 6rem;
+}
+.user-content > .choose-icon > svg {
+  height: 100%;
+  width: 100%;
+  color: $success;
+}
