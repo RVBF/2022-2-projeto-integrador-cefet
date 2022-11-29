@@ -10,3 +10,4 @@ coverage
 test
 output
 confs/mysql_db/*
+.cache
