@@ -1,0 +1,23 @@
+@import '../../../../styles/colors.scss';
+
+.user-info {
+  margin-bottom: 2rem;
+  grid-area: 'users-in-game';
+  border: 2px solid $textColor;
+  border-radius: 0.4rem;
+  background: $withe;
+}
+.user-info > .members-container {
+  background: $withe;
+  display: flex;
+  flex-direction: column;
+  border-radius: 0.4rem;
+}
+.user-info > .members-container > header {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  padding: 2rem 3rem;
+  border-bottom: 2px solid $textColor;
+}
