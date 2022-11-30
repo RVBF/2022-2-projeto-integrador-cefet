@@ -4,21 +4,21 @@ class Nota
     public $av1;
     public $av2;
     public $mediaDeAvaliacoes;
-    public $avaliacaoFinal;
+    public $notaAF;
     public $mediaFinal;
 
     public function __construct(
         $av1,
         $av2,
         $mediaDeAvaliacoes,
-        $avaliacaoFinal,
+        $notaAF,
         $mediaFinal,
     ) {
 
         $this->av1 = $av1;
         $this->av2 = $av2;
         $this->mediaDeAvaliacoes = $mediaDeAvaliacoes;
-        $this->avaliacaoFinal = $avaliacaoFinal;
+        $this->notaAF = $notaAF;
         $this->mediaFinal =  $mediaFinal;
     }
 
