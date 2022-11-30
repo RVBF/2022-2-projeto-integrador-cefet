@@ -1,16 +1,72 @@
 <?php
+require_once 'app/src/config/pdo-connection.php';
 
+use App\Request;
 use App\Route;
+use App\Src\AlunoCurso\AlunoCursoController;
 use App\Src\Controller;
+use App\Src\Aluno\AlunoController;
 
-Route::get('/', function(){
-	echo "Página inicial";
+$db = null;
+try {
+	$db = PDOConnection::getInstance();
+} catch (Exception $e) {
+	print $e->getMessage();
+}
+
+Route::get('/aluno-curso', function () use (&$db) {
+
+	$controller  = new AlunoCursoController($db);
+	$request = new Request;
+	$controller->listar($request);
+});
+Route::get('/aluno-curso/{limit}/{offset}', function () use (&$db) {
+
+	$controller  = new AlunoCursoController($db);
+	$request = new Request;
+	$controller->listar($request);
+});
+Route::get('/aluno-curso/{limit}/{offset}', function () use (&$db) {
+
+	$controller  = new AlunoCursoController($db);
+	$request = new Request;
+	$controller->listar($request);
 });
 
-Route::get(['set' => '/cliente', 'as' => 'clientes.index'], Controller::class.'@index');
+Route::post('/aluno-curso', function () use (&$db) {
+	$controller  = new AlunoCursoController($db);
+	$request = new Request;
+	$controller->cadastrar($request);
+});
 
-Route::get(['set' => '/cliente/listar/{id}/show', 'as' => 'clientes.show'], Controller::class.'@show');
-Route::get(['set' => '/cliente/{id}/show', 'as' => 'clientes.show'], Controller::class.'@show');
+Route::put('/aluno-curso/{$id}', function () use (&$db) {
+	$controller  = new AlunoCursoController($db);
+	$request = new Request;
+	$controller->update($request);
+});
+
+Route::put('/aluno-curso/{$id}/show', function () use (&$db) {
+	$controller  = new AlunoCursoController($db);
+	$request = new Request;
+	$controller->comId($request);
+});
+
+Route::delete('/aluno-curso/{$id}', function () use (&$db) {
+	$controller  = new AlunoCursoController($db);
+	$request = new Request;
+	$controller->delete($request);
+});
 
 
-Route::delete(['set' => 'cliente/delete', 'as' => 'clientes.delete'], Controller::class.'@teste');
+
+Route::get('/aluno', function () use (&$db) {
+	$controller  = new AlunoController($db);
+	$request = new Request;
+	$controller->listar($request);
+});
+
+Route::get('/aluno/{limit}/{offset}', function () use (&$db) {
+	$controller  = new AlunoController($db);
+	$request = new Request;
+	$controller->listar($request);
+});

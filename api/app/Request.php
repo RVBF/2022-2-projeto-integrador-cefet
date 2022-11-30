@@ -44,7 +44,7 @@ class Request
 		}
 	}
 
-	protected function sefFiles() {
+	protected function setFiles() {
 		foreach ($_FILES as $key => $value) {
 			$this->files[$key] = $value;
 		}
@@ -66,7 +66,7 @@ class Request
 
 	public function all()
 	{
-		return $this->data();
+		return $this->data;
 	}
 
 	public function __isset($key)

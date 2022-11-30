@@ -16,7 +16,8 @@ class PDOConnection {
 
 				$options[ PDO::ATTR_PERSISTENT ] = true;
 				$options[ PDO::MYSQL_ATTR_INIT_COMMAND ] = 'SET NAMES utf8';
-				self::$instance = new PDO("mysql:dbname={$app['connections']['mysql']['database']};host={$app['connections']['mysql']['host']}", 'root', $app['connections']['mysql']['password_root'], $options);
+				self::$instance = new PDO("mysql:dbname=".$app['connections']['mysql']['database'].";host=".$app['connections']['mysql']['host']."", 'root', $app['connections']['mysql']['password_root'], $options);
+
 				self::$instance->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_SILENT);  
 			} catch(PDOException $error) {
 				echo $error->getMessage();

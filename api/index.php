@@ -8,6 +8,21 @@ define('DEBUG_MODE',    true);
 date_default_timezone_set('America/Sao_Paulo');
 
 
+if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
+    header('Access-Control-Allow-Origin: *');
+    header('Access-Control-Allow-Credentials: true');
+    header('Access-Control-Allow-Methods: POST, GET, DELETE, PUT, PATCH, OPTIONS');
+    header('Access-Control-Allow-Headers: token, Content-Type');
+    header('Access-Control-Max-Age: 1728000');
+    header('Content-Length: 0');
+    header('Content-Type: text/plain');
+    die();
+  }
+  header('Access-Control-Allow-Origin: *');
+//   header('Access-Control-Allow-Origin: https://localhost:1234');
+  header('Access-Control-Allow-Credentials: true');
+  header('Content-Type: application/json');
+
 
 require 'vendor/autoload.php';
 
@@ -22,14 +37,6 @@ if (!DEBUG_MODE) {
     ini_set('display_errors', 0);
 }
 
-require_once 'app/src/config/pdo-connection.php';
-
-try {
-	$db = PDOConnection::getInstance();
-} catch (Exception $e) {
-	print $e->getMessage();
-  
-}
 require_once 'bootstrap.php';
 require_once 'app/helpers/helper_routes.php';
 resolve();
