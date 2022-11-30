@@ -4,30 +4,30 @@ namespace App\Src\AlunoCurso;
 class AlunoCurso
 {
     private $id;
-    private $numeroMatricula;
+    private $matricula;
     private $av1;
     private $av2;
-    private $avaliacaoFinal;
+    private $notaAF;
     private $faltas;
     private $aluno;
     private $curso;
 
     public function __construct(
         $id,
-        $numeroMatricula,
+        $matricula,
         $av1,
         $av2,
-        $avaliacaoFinal,
+        $notaAF,
         $faltas,
         $aluno,
         $curso
     ) {
 
         $this->id = $id;
-        $this->numeroMatricula = $numeroMatricula;
+        $this->matricula = $matricula;
         $this->av1 = $av1;
         $this->av2 = $av2;
-        $this->avaliacaoFinal = $avaliacaoFinal;
+        $this->notaAF = $notaAF;
         $this->faltas = $faltas;
         $this->aluno = $aluno;
         $this->curso = $curso;    
@@ -49,12 +49,12 @@ class AlunoCurso
         return $this->av1;
     }
  
-    public function setNumeroMatricula($numeroMatricula){
-        $this->$numeroMatricula = $numeroMatricula;
+    public function setmatricula($matricula){
+        $this->$matricula = $matricula;
     }
 
-    public function getNumeroMatricula(){
-        return $this->numeroMatricula;
+    public function getmatricula(){
+        return $this->matricula;
     }
     
     public function setAv2($av2){
@@ -65,13 +65,6 @@ class AlunoCurso
         return $this->av2;
     }
     
-    public function setAvalicaoFinal($avaliacaoFinal){
-        $this->avaliacaoFinal = $avaliacaoFinal;
-    }
-
-    public function getAvalicaoFinal(){
-        return $this->avaliacaoFinal;
-    }
 
     public function setFalta($falta){
         $this->falta = $falta;
@@ -81,12 +74,12 @@ class AlunoCurso
         return $this->faltas;
     }
 
-    public function setAvaliacaoFinal($avaliacaoFinal){
-        $this->avaliacaoFinal = $avaliacaoFinal;
+    public function setNotaAF($notaAF){
+        $this->notaAF = $notaAF;
     }
 
-    public function getAvaliacaoFinal(){
-        return $this->avaliacaoFinal;
+    public function getNotaAF(){
+        return $this->notaAF;
     }
 
     public function setAluno($aluno){
@@ -118,7 +111,7 @@ class AlunoCurso
     public function calculateMediaFinal()
     {
         $mediaDeAvaliacoes = $this->calculateMediaDeAvaliacoes();
-        $mediaFinal = ($this->avaliacaoFinal + $mediaDeAvaliacoes) / 2;
+        $mediaFinal = ($this->notaAF + $mediaDeAvaliacoes) / 2;
 
         if ($mediaFinal >= 5) {
             return 'Aprovado';
@@ -128,10 +121,10 @@ class AlunoCurso
     public function toArray(){
         return [ 
             'id' => $this->id,
-            'numeroMatricula' => $this->numeroMatricula,
+            'matricula' => $this->matricula,
             'av1' => $this->av1,
             'av2' => $this->av2,
-            'avaliacaoFinal' => $this->avaliacaoFinal,
+            'notaAF' => $this->notaAF,
             'faltas' => $this->faltas,
             'aluno' => $this->aluno,
             'curso' => $this->curso,    
