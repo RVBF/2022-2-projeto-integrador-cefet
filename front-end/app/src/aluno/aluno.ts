@@ -1,5 +1,6 @@
 /* eslint-disable @typescript-eslint/no-inferrable-types */
 interface AlunoDTO {
+  id: number;
   matricula: number;
   nome: string;
   cpf: string;
@@ -8,13 +9,15 @@ interface AlunoDTO {
 }
 
 export class Aluno {
+  id: number = 0;
   matricula: number = 0;
   nome: string = '';
   cpf: string = '';
   telefone: string = '';
   email: string = '';
 
-  constructor({ matricula, nome, cpf, telefone, email }: AlunoDTO) {
+  constructor({ id, matricula, nome, cpf, telefone, email }: AlunoDTO) {
+    this.id = id;
     this.matricula = matricula;
     this.nome = nome;
     this.cpf = cpf;

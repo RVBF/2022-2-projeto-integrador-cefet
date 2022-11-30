@@ -1,20 +1,25 @@
 <?php
 
+namespace App\Src\Aluno;
+
 class Aluno
 {
-    public $matricula;
-    public $nome;
-    public $cpf;
-    public $telefone;
-    public $email;
+    private $id;
+    private $matricula;
+    private $nome;
+    private $cpf;
+    private $telefone;
+    private $email;
 
     public function __construct(
+        $id,
         $matricula,
         $nome,
         $cpf,
         $telefone,
-        $email,
+        $email
     ) {
+        $this->id = $id;
         $this->matricula = $matricula;
         $this->nome = $nome;
         $this->cpf = $cpf;
@@ -22,6 +27,52 @@ class Aluno
         $this->email = $email;
     }
 
+    public function setId($id){
+        $this->id = $id;
+    }
+
+    public function getId(){
+        return $this->id;
+    }
+    public function setMatricula($matricula){
+        $this->matricula = $matricula;
+    }
+
+    public function getMatricula(){
+        return $this->matricula;
+    }
+
+    public function setNome($nome){
+        $this->nome = $nome;
+    }
+
+    public function getNome(){
+        return $this->nome;
+    }
+
+    public function setCpf($cpf){
+        $this->cpf = $cpf;
+    }
+
+    public function getCpf(){
+        return $this->cpf;
+    }
+
+    public function setTelefone($telefone){
+        $this->telefone = $telefone;
+    }
+
+    public function getTelefone(){
+        return $this->telefone;
+    }
+
+    public function setEmail($email){
+        $this->email = $email;
+    }
+
+    public function getEmail(){
+        return $this->email;
+    }
 
     public function validateAll($allErrors)
     {
@@ -86,5 +137,16 @@ class Aluno
     {
         $allErrors = [];
         return $this->validateAll($allErrors);
+    }
+
+    public function toArray(){
+        return [ 
+            'id' => $this->id,
+            'matricula' => $this->matricula,
+            'nome' => $this->nome,
+            'cpf' => $this->cpf,
+            'telefone' => $this->telefone,
+            'email' => $this->email,   
+        ];
     }
 }
