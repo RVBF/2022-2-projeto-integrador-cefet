@@ -1,8 +1,7 @@
-import { Container } from '../../components';
-import { Navigator } from '../../components/Navigator';
+import { Container } from '../../../components';
+import { Navigator } from '../../../components/Navigator';
 import { Form } from './components/Form';
 
-import './styles.scss';
 
 export async function Salvar(root: HTMLDivElement) {
   const main = document.createElement('main');

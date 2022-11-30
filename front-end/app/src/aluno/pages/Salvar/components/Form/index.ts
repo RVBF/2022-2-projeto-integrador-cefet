@@ -4,11 +4,10 @@ import {
   Input,
   Title,
   Form as FormInput,
-} from '../../../../components';
+} from '../../../../../components';
 
 import * as actions from './actions';
 
-import './styles.scss';
 
 export function Form() {
   // Sorry about that

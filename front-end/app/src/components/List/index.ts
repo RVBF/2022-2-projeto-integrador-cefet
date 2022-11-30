@@ -1,4 +1,3 @@
-import './styles.scss';
 
 export function List(
   container: HTMLElement,

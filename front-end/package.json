@@ -6,7 +6,7 @@
     "scripts": {
         "dev:server": "parcel ./*.html",
         "build": "parcel build ./*.html",
-        "test": "codeceptjs run"
+        "test": "jest"
     },
     "keywords": [],
     "author": "",
