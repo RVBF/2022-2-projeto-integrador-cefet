@@ -1,6 +1,5 @@
-import { List } from '../../../../components/List';
+import { List } from '../../../../../components/List';
 
-import './styles.scss';
 
 export function Alunos(data: any) {
   const container = document.createElement('div');

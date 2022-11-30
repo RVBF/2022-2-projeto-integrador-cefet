@@ -1,8 +1,7 @@
 /* eslint-disable @typescript-eslint/no-use-before-define */
-import { Navigator } from '../../components/Navigator';
+import { Navigator } from '../../../components/Navigator';
 import { Alunos } from './components/Alunos';
 
-import './styles.scss';
 
 export async function Listar(root: HTMLDivElement) {
   const main = document.createElement('main');
