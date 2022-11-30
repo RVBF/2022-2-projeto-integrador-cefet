@@ -1,0 +1,24 @@
+.create-history-container {
+  display: flex;
+  flex-direction: column;
+  grid-area: 'history-creation';
+  margin-bottom: 2rem;
+}
+
+.create-history-container > header {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+}
+.create-history-container > header > .add-history-button-container {
+  width: 30%;
+}
+.create-history-container > form > .history-name-content {
+  width: 100%;
+  margin: 1rem 0;
+}
+.create-history-container > form > .description {
+  display: flex;
+  flex-direction: column;
+}
