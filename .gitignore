@@ -9,5 +9,6 @@ coverage
 .sock
 test
 output
-confs/mysql_db/*
+confs/mysql_db
 .cache
+.parcel-cache

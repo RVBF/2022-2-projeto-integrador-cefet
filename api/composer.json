@@ -13,7 +13,9 @@
             "App\\": "app/",
             "App\\Src\\": "app/src/",
             "App\\Src\\Aluno\\": "app/src/aluno/",
+            "App\\Src\\AlunoCurso\\": "app/src/aluno-curso/",
             "App\\Src\\config\\": "app/src/config/",
+            "App\\Src\\Comum\\": "app/src/comum/",
             "App\\Router\\": "app/routes/"
         }
     },

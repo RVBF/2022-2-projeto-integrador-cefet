@@ -26,7 +26,6 @@ class Controller
 
 	public function show($id) 
 	{
-		debug($id);
 		foreach ($this->clientes as $row) {
 			if($row['id'] == $id) {
 				$cliente = $row;
