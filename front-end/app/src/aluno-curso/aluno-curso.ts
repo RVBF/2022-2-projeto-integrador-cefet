@@ -6,7 +6,7 @@ interface AlunoCursoDTO {
   notaAv2: number;
   notaAF: number;
   falta: number;
-  aluno: Aluno|null;
+  aluno: Aluno | null;
 }
 export class AlunoCurso {
   id: number = 0;
@@ -15,7 +15,7 @@ export class AlunoCurso {
   notaAv2: number = 0;
   notaAF: number = 0;
   falta: number = 0;
-  aluno: Aluno|null = null;
+  aluno: Aluno | null = null;
   constructor(
     {
       id,
@@ -25,7 +25,7 @@ export class AlunoCurso {
       notaAF,
       falta,
       aluno,
-    } : AlunoCursoDTO
+    }: AlunoCursoDTO
   ) {
     this.id = id;
     this.matricula = matricula;
@@ -53,6 +53,21 @@ export class AlunoCurso {
 
   calcularMediaFinal(): number {
     return (this.estaDeFinal()) ? (this.calcularMedia() + this.notaAF) / 2 : this.calcularMedia();
+  }
+
+  situacaoAluno(): String {
+    if (this.calcularMedia() >= 7) {
+      return 'Aprovado';
+    } else if (this.calcularMedia() >= 3 && this.calcularMedia() < 7) {
+      return 'Avaliação Final';
+    }
+    else return 'Reprovado';
+  }
+
+  situacaoFinalAluno(): String {
+    if (this.estaDeFinal() == true && this.calcularMediaFinal() >= 5) {
+      return 'Aprovado';
+    } else return 'Reprovado';
   }
 
   validar(): string[] {

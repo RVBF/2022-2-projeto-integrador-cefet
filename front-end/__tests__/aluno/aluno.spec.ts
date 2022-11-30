@@ -4,6 +4,7 @@ describe('Aluno', () => {
   describe('Validar dados de aluno', () => {
     it('não deve retornar nenhum erro, quando todos os atributos estiverem corretos', () => {
       const aluno = new Aluno({
+        id: 1,
         matricula: 123456,
         nome: 'Vitor',
         cpf: '18084247786',
@@ -15,6 +16,7 @@ describe('Aluno', () => {
 
     it('deve retornar matrícula inválida, quando a matrícula tiver menos que 6 dígitos.', () => {
       const aluno = new Aluno({
+        id: 1,
         matricula: 12345,
         nome: 'Vitor',
         cpf: '18084247786',
@@ -26,6 +28,7 @@ describe('Aluno', () => {
 
     it('deve retornar nome inválido, quando o nome tiver menos de 2 caracteres', () => {
       const aluno = new Aluno({
+        id: 1,
         matricula: 123456,
         nome: 'V',
         cpf: '18084247786',
@@ -37,6 +40,7 @@ describe('Aluno', () => {
 
     it('deve retornar nome inválido, quando o nome tiver mais de 100 caracteres', () => {
       const aluno = new Aluno({
+        id: 1,
         matricula: 123456,
         nome: 'is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industrys stasa',
         cpf: '18084247786',
@@ -48,6 +52,7 @@ describe('Aluno', () => {
 
     it('deve retornar cpf inválido, quando for inserido um cpf inválido', () => {
       const aluno = new Aluno({
+        id: 1,
         matricula: 123456,
         nome: 'Vitor',
         cpf: '18084247787',
@@ -59,6 +64,7 @@ describe('Aluno', () => {
 
     it('deve retornar telefone inválido, quando o telefone for inválido', () => {
       const aluno = new Aluno({
+        id: 1,
         matricula: 123456,
         nome: 'Vitor',
         cpf: '18084247786',
@@ -70,6 +76,7 @@ describe('Aluno', () => {
 
     it('deve retornar email inválido, quando o email for inválido', () => {
       const aluno = new Aluno({
+        id: 1,
         matricula: 123456,
         nome: 'Vitor',
         cpf: '18084247786',
