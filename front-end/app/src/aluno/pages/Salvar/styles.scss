@@ -1,0 +1,19 @@
+.main-content {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  height: 88vh;
+  width: 100%;
+}
+
+.main-content>.content {
+  display: flex;
+  flex-direction: column;
+  padding: 2rem 2rem;
+}
+
+@media (min-width: 800px) {
+  .main-content>.content {
+    padding: 2rem 4rem;
+  }
+}
