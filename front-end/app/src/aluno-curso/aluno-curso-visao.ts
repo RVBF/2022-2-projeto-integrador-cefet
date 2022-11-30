@@ -23,29 +23,31 @@ export class VisaoListagem {
       }
 
       alunosCursos.forEach((alunoCurso :AlunoCurso) => {
-         const objAlunoCurso  = new AlunoCurso({id : alunoCurso.id, matricula : alunoCurso.numeroMatricula, notaAv1: alunoCurso.av1, notaAv2 : alunoCurso.av2, notaAF: alunoCurso.notaAF, falta : alunoCurso.falta, aluno : alunoCurso.aluno})
-         tbodyTable?.append(linhaTabela(
-            colunaTabela(objAlunoCurso.id),
+         console.log(alunoCurso);
+         const objAlunoCurso  = new AlunoCurso({id : alunoCurso.id, matricula : alunoCurso.matricula, av1: alunoCurso.av1, av2 : alunoCurso.av2, notaAF: alunoCurso.notaAF, falta : alunoCurso.falta, aluno : alunoCurso.aluno});
+         console.log(objAlunoCurso.calcularMedia());
+         tbodyTable?.append(linhaTabela([
             colunaTabela(objAlunoCurso!.matricula),
-            colunaTabela(objAlunoCurso!.notaAv1),
-            colunaTabela(objAlunoCurso!.notaAv2),
+            colunaTabela('Rafael Barros'),
+            colunaTabela(objAlunoCurso!.av1),
+            colunaTabela(objAlunoCurso!.av2),
+            colunaTabela(objAlunoCurso.calcularMedia()),
             colunaTabela(objAlunoCurso!.notaAF),
-            colunaTabela(objAlunoCurso!.calcularMedia()),
-            colunaTabela(objAlunoCurso!.calcularMediaFinal())
+            colunaTabela(objAlunoCurso.calcularMediaFinal())]
          ));
       });
    }
 
    desenharEdit(alunoCurso: AlunoCurso): void {
       const matricula = this.getValueInputElement('matricula');
-      const notaAv1 = this.getValueInputElement('nota_av1');
-      const notaAv2 = this.getValueInputElement('nota_av2');
+      const av1 = this.getValueInputElement('nota_av1');
+      const av2 = this.getValueInputElement('nota_av2');
       const notaAF = this.getValueInputElement('nota_AF');
       const alunoID = this.getValueInputElement('aluno_id');
 
       matricula.value = alunoCurso.matricula.toFixed(2);
-      notaAv1.value = alunoCurso.notaAv1.toFixed(2);
-      notaAv2.value = alunoCurso.notaAv2.toFixed(2);
+      av1.value = alunoCurso.av1.toFixed(2);
+      av2.value = alunoCurso.av2.toFixed(2);
       notaAF.value = alunoCurso.notaAF.toFixed(2);
       alunoID.value = String(alunoCurso!.aluno!.id);
    }
@@ -92,8 +94,8 @@ export class VisaoListagem {
       return new AlunoCurso({
          id: 0,
          matricula: Number(this.getValueInputElement('matricula')),
-         notaAv1: Number(this.getValueInputElement('nota_av1')),
-         notaAv2: Number(this.getValueInputElement('nota_av2')),
+         av1: Number(this.getValueInputElement('nota_av1')),
+         av2: Number(this.getValueInputElement('nota_av2')),
          notaAF: Number(this.getValueInputElement('nota_AF')),
          falta: Number(this.getValueInputElement('falta')),
          aluno: new Aluno({ id: Number(this.getValueInputElement('aluno_id')), matricula: 0, nome: '', cpf: '', telefone: '', email: '' })
@@ -104,8 +106,8 @@ export class VisaoListagem {
       return new AlunoCurso({
          id: 0,
          matricula: Number(this.getValueInputElement('matricula').value),
-         notaAv1: Number(this.getValueInputElement('nota_av1').value),
-         notaAv2: Number(this.getValueInputElement('nota_av2').value),
+         av1: Number(this.getValueInputElement('nota_av1').value),
+         av2: Number(this.getValueInputElement('nota_av2').value),
          notaAF: Number(this.getValueInputElement('nota_AF').value),
          falta: Number(this.getValueInputElement('falta').value),
          aluno: new Aluno({ id: Number(this.getValueInputElement('aluno_id').value), matricula: 0, nome: '', cpf: '', telefone: '', email: '' })
