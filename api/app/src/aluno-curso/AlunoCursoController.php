@@ -42,8 +42,8 @@ class AlunoCursoController
       $alunoCurso = new AlunoCurso(
         $data["id"],
         $data["matricula"],
-        $data["notaAv1"],
-        $data["notaAv2"],
+        $data["av1"],
+        $data["av2"],
         $data["notaAF"],
         $data["falta"],
         $data["aluno"],
@@ -72,10 +72,10 @@ class AlunoCursoController
       $data = $request->all();
 
       $alunoCurso = $this->colecaoAlunoCurso->comId($data['id']);
-      $alunoCurso->setNumeroMatricula($data["matricula"]);
-      $alunoCurso->setAv1($data["notaAv1"]);
-      $alunoCurso->setAv2($data["notaAv2"]);
-      $alunoCurso->getAvalicaoFinal($data["notaAF"]);
+      $alunoCurso->setmatricula($data["matricula"]);
+      $alunoCurso->setAv1($data["av1"]);
+      $alunoCurso->setAv2($data["av2"]);
+      $alunoCurso->getNotaAF($data["notaAF"]);
       $alunoCurso->setFalta($data["falta"]);
       $alunoCurso->setAluno($data["aluno"]);
       $alunoCurso->setCurso($data["curso"]);

@@ -50,7 +50,7 @@ class RepositorioAlunoCursoEMBDR implements RepositorioAlunoCurso
 				"curso_id" => $alunoCurso->getCurso(),
 				"nota_av1" => $alunoCurso->getAv1(),
 				"nota_av2" => $alunoCurso->getAv2(),
-				"nota_af" => $alunoCurso->getAvalicaoFinal(),
+				"nota_af" => $alunoCurso->getNotaAF(),
 				"faltas" => $alunoCurso->getFaltas()
 			]);
 
@@ -80,7 +80,7 @@ class RepositorioAlunoCursoEMBDR implements RepositorioAlunoCurso
 				"curso_id" => $alunoCurso->getCurso(),
 				"nota_av1" => $alunoCurso->getAv1(),
 				"nota_av2" => $alunoCurso->getAv2(),
-				"nota_af" => $alunoCurso->getAvalicaoFinal(),
+				"nota_af" => $alunoCurso->getNotaAF(),
 				"faltas" => $alunoCurso->getFaltas(),
 				"id" => $alunoCurso->getId()
 			]);

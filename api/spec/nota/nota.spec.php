@@ -9,7 +9,7 @@ describe('Validar calculo de notas', function () {
             '$av1',
             '$av2',
             '$mediaDeAvaliacoes',
-            '$avaliacaoFinal',
+            '$notaAF',
             '$mediaFinal',
         );
         expect($notasTest->calculateMediaDeAvaliacoes(7, 7))->toBe('Aprovado');
@@ -20,7 +20,7 @@ describe('Validar calculo de notas', function () {
             '$av1',
             '$av2',
             '$mediaDeAvaliacoes',
-            '$avaliacaoFinal',
+            '$notaAF',
             '$mediaFinal',
         );
         expect($notasTest->calculateMediaDeAvaliacoes(6.9, 6.9))->toBe('Avaliação Final');
@@ -31,7 +31,7 @@ describe('Validar calculo de notas', function () {
             '$av1',
             '$av2',
             '$mediaDeAvaliacoes',
-            '$avaliacaoFinal',
+            '$notaAF',
             '$mediaFinal',
         );
         expect($notasTest->calculateMediaDeAvaliacoes(3, 2.9))->toBe('Reprovado');
@@ -42,7 +42,7 @@ describe('Validar calculo de notas', function () {
             '$av1',
             '$av2',
             '$mediaDeAvaliacoes',
-            '$avaliacaoFinal',
+            '$notaAF',
             '$mediaFinal',
         );
         expect($notasTest->calculateMediaFinal(6, 6, 4))->toBe('Aprovado');
@@ -53,7 +53,7 @@ describe('Validar calculo de notas', function () {
             '$av1',
             '$av2',
             '$mediaDeAvaliacoes',
-            '$avaliacaoFinal',
+            '$notaAF',
             '$mediaFinal',
         );
         expect($notasTest->calculateMediaFinal(6, 6, 3.99))->toBe('Reprovado');
