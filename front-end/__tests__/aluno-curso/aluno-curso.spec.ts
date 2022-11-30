@@ -6,8 +6,8 @@ describe('Relizar os testes das Notas', () => {
             const nota = new AlunoCurso({
                 id: 1,
                 matricula: 123456,
-                notaAv1: 7,
-                notaAv2: 7,
+                av1: 7,
+                av2: 7,
                 notaAF: 0,
                 falta: 1,
                 aluno: null
@@ -19,8 +19,8 @@ describe('Relizar os testes das Notas', () => {
             const nota = new AlunoCurso({
                 id: 1,
                 matricula: 123456,
-                notaAv1: 3,
-                notaAv2: 3,
+                av1: 3,
+                av2: 3,
                 notaAF: 7,
                 falta: 1,
                 aluno: null
@@ -32,8 +32,8 @@ describe('Relizar os testes das Notas', () => {
             const nota = new AlunoCurso({
                 id: 1,
                 matricula: 123456,
-                notaAv1: 7,
-                notaAv2: 6,
+                av1: 7,
+                av2: 6,
                 notaAF: 0,
                 falta: 1,
                 aluno: null
@@ -45,8 +45,8 @@ describe('Relizar os testes das Notas', () => {
             const nota = new AlunoCurso({
                 id: 1,
                 matricula: 123456,
-                notaAv1: 3,
-                notaAv2: 2.9,
+                av1: 3,
+                av2: 2.9,
                 notaAF: 0,
                 falta: 1,
                 aluno: null
@@ -58,8 +58,8 @@ describe('Relizar os testes das Notas', () => {
             const nota = new AlunoCurso({
                 id: 1,
                 matricula: 123456,
-                notaAv1: 7,
-                notaAv2: 6,
+                av1: 7,
+                av2: 6,
                 notaAF: 3.4,
                 falta: 1,
                 aluno: null

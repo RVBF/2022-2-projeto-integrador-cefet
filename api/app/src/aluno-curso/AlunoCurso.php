@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Src\AlunoCurso;
 
 class AlunoCurso
@@ -30,71 +31,87 @@ class AlunoCurso
         $this->notaAF = $notaAF;
         $this->faltas = $faltas;
         $this->aluno = $aluno;
-        $this->curso = $curso;    
-    }
-
-    public function setId($id){
-        $this->id = $id;
-    }
-
-    public function getId(){
-        return $this->id;
-    }
-
-    public function setAv1($av1){
-        $this->av1 = $av1;
-    }
-
-    public function getAv1(){
-        return $this->av1;
-    }
- 
-    public function setmatricula($matricula){
-        $this->$matricula = $matricula;
-    }
-
-    public function getmatricula(){
-        return $this->matricula;
-    }
-    
-    public function setAv2($av2){
-        $this->av2 = $av2;
-    }
-
-    public function getAv2(){
-        return $this->av2;
-    }
-    
-
-    public function setFalta($falta){
-        $this->falta = $falta;
-    }
-
-    public function getFaltas(){
-        return $this->faltas;
-    }
-
-    public function setNotaAF($notaAF){
-        $this->notaAF = $notaAF;
-    }
-
-    public function getNotaAF(){
-        return $this->notaAF;
-    }
-
-    public function setAluno($aluno){
-        $this->aluno = $aluno;
-    }
-
-    public function getAluno(){
-        return $this->aluno;
-    }
-
-    public function setCurso($curso){
         $this->curso = $curso;
     }
 
-    public function getCurso(){
+    public function setId($id)
+    {
+        $this->id = $id;
+    }
+
+    public function getId()
+    {
+        return $this->id;
+    }
+
+    public function setAv1($av1)
+    {
+        $this->av1 = $av1;
+    }
+
+    public function getAv1()
+    {
+        return $this->av1;
+    }
+
+    public function setmatricula($matricula)
+    {
+        $this->$matricula = $matricula;
+    }
+
+    public function getmatricula()
+    {
+        return $this->matricula;
+    }
+
+    public function setAv2($av2)
+    {
+        $this->av2 = $av2;
+    }
+
+    public function getAv2()
+    {
+        return $this->av2;
+    }
+
+
+    public function setFalta($falta)
+    {
+        $this->falta = $falta;
+    }
+
+    public function getFaltas()
+    {
+        return $this->faltas;
+    }
+
+    public function setNotaAF($notaAF)
+    {
+        $this->notaAF = $notaAF;
+    }
+
+    public function getNotaAF()
+    {
+        return $this->notaAF;
+    }
+
+    public function setAluno($aluno)
+    {
+        $this->aluno = $aluno;
+    }
+
+    public function getAluno()
+    {
+        return $this->aluno;
+    }
+
+    public function setCurso($curso)
+    {
+        $this->curso = $curso;
+    }
+
+    public function getCurso()
+    {
         return $this->curso;
     }
 
@@ -110,7 +127,7 @@ class AlunoCurso
 
     public function calculateMediaFinal()
     {
-        $mediaDeAvaliacoes = $this->calculateMediaDeAvaliacoes();
+        $mediaDeAvaliacoes = ($this->av1 + $this->av2) / 2;
         $mediaFinal = ($this->notaAF + $mediaDeAvaliacoes) / 2;
 
         if ($mediaFinal >= 5) {
@@ -118,8 +135,9 @@ class AlunoCurso
         } else return 'Reprovado';
     }
 
-    public function toArray(){
-        return [ 
+    public function toArray()
+    {
+        return [
             'id' => $this->id,
             'matricula' => $this->matricula,
             'av1' => $this->av1,
@@ -127,7 +145,7 @@ class AlunoCurso
             'notaAF' => $this->notaAF,
             'faltas' => $this->faltas,
             'aluno' => $this->aluno,
-            'curso' => $this->curso,    
+            'curso' => $this->curso,
         ];
     }
 }
