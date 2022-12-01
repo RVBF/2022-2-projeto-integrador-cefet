@@ -4,13 +4,13 @@
     "description": "Sistema de notas da ACME Cursos criado por alunos da disciplina de Projeto Integrador de Sistemas, sob administração do professor Thiago Delgado Pinto.",
     "main": "index.js",
     "scripts": {
-        "setup": "cd front-end && npm install && cd .. && cd api && composer install && cd ..",
-        "start": "cd front-end && http-server -p 5501 -c -1 --cors",
-        "test": "cd front-end && npm test && cd .. && cd api && composer test && cd ..",
-        "update": "cd front-end && npm update && cd .. && cd api && composer upgrade && cd .. ",
-        "tsc": "cd front-end && npx tsc",
-        "tsc-watch": "cd front-end && npx tsc-watch",
-        "build": "cd front-end && parcel build ./*.html"
+        "setup": "cd app && npm install && cd .. && cd api && composer install && cd ..",
+        "start": "cd app && npm run dev:server",
+        "test": "cd app && npm test && cd .. && cd api && composer test && cd ..",
+        "update": "cd app && npm update && cd .. && cd api && composer upgrade && cd .. ",
+        "tsc": "cd app && npx tsc",
+        "tsc-watch": "cd app && npx tsc-watch",
+        "build": "cd app && cd src && cd pages && parcel build ./*.html"
     },
     "repository": {
         "type": "git",
