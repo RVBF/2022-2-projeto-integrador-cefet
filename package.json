@@ -10,7 +10,7 @@
         "update": "cd app && npm update && cd .. && cd api && composer upgrade && cd .. ",
         "tsc": "cd app && npx tsc",
         "tsc-watch": "cd app && npx tsc-watch",
-        "build": "cd app && cd src && cd pages && parcel build ./*.html"
+        "build": "cd app && parcel build ./*.html"
     },
     "repository": {
         "type": "git",
