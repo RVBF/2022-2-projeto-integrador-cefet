@@ -1,7 +1,7 @@
 <?php
 error_reporting(E_ALL);
 ini_set('display_errors', true);
-include 'vendor/autoload.php';
+// includ:e 'vendor/autoload.php';
 
 session_start();
 try {
