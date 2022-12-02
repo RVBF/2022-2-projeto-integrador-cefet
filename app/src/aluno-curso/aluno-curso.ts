@@ -1,4 +1,4 @@
-import { Aluno } from "../aluno/aluno.js";
+import { Aluno } from "./../aluno/aluno";
 interface AlunoCursoDTO {
   id: number;
   matricula: number;
