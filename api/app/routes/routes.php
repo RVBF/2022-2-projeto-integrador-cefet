@@ -26,12 +26,12 @@ Route::get('/aluno-curso/{limit}/{offset}', function () use (&$db) {
 	$request = new Request;
 	$controller->listar($request);
 });
-Route::get('/aluno-curso/{limit}/{offset}', function () use (&$db) {
+// Route::get('/aluno-curso/{limit}/{offset}', function () use (&$db) {
 
-	$controller  = new AlunoCursoController($db);
-	$request = new Request;
-	$controller->listar($request);
-});
+// 	$controller  = new AlunoCursoController($db);
+// 	$request = new Request;
+// 	$controller->listar($request);
+// });
 
 Route::post('/aluno-curso', function () use (&$db) {
 	$controller  = new AlunoCursoController($db);
