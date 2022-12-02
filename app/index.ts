@@ -1,24 +1,21 @@
 import { appConfig } from './src/config/config';
 import { AlunoCursoController } from "./src/aluno-curso/aluno-curso-controladora";
-// import { router } from "src/routes/router";
-// export * from './components/Button';
-// export * from './components/Container';
-// export * from './components/Form';
-// export * from './components/Input';
-// export * from './components/List';
-// export * from './components/Title';
-// export * from './components/Tabela';
+import { router } from "./src/routes/router";
+import { switchRouter } from "./src/routes/app.routes";
+import { getRootDiv } from "./src/utils/raiz-div";
+export * from './src/components/Button';
+export * from './src/components/Container';
+export * from './src/components/Form';
+export * from './src/components/Input';
+export * from './src/components/List';
+export * from './src/components/Title';
+export * from './src/components/Tabela';
 
 
 const alunoCursoController = new AlunoCursoController();
 
 window.addEventListener('load', () => {
-    routesSwitch();
+    switchRouter();
 });
 
-function routesSwitch() {
-    const root = getRootDiv();
-    if (root) root.innerHTML = '';
 
-    router('#/aluno-curso') ? alunoCursoController.init() : null;
-}

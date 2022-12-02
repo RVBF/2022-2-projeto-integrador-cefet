@@ -1,7 +1,7 @@
-import { AlunoCurso } from './aluno-curso.js';
-import { ServicoAlunoCurso } from './aluno-curso-servico.js';
-import { VisaoListagem } from './aluno-curso-visao.js';
-import { carregarPagina } from '../utils/carrega-pagina.js'
+import { AlunoCurso } from './aluno-curso';
+import { ServicoAlunoCurso } from './aluno-curso-servico';
+import { VisaoListagem } from './aluno-curso-visao';
+import { carregarPagina } from '../utils/carrega-pagina'
 /* eslint-disable-next-line func-style */
 async function loadPage(file: string): Promise<string> {
     const response = await fetch(file);
@@ -19,15 +19,15 @@ export class AlunoCursoController {
     }
 
     async init(): Promise<void> {
-        const [main] = document.getElementById('root');
+        const [main] = document.getElementsByName('main');
         console.log(this.visaoListagem.listarAlunoCursosRegex());
 
         if (document.location.href.search('novo') != -1) {
 
         }
         else {
-            main.innerHTML = await carregarPagina('../pages/listar-aluno-curso.html');
-            await this.insertDataToView();
+            main.innerHTML = await carregarPagina('src/pages/aluno-curso-form.html');
+        await this.insertDataToView();
         }
         // else if (this.visaoListagem.cadastroAlunoCursoRegex()) {
         //     main.innerHTML = await carregarPagina('../../public/aluno-curso/aluno-curso-form.html');

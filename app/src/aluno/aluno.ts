@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-inferrable-types */
 interface AlunoDTO {
   id: number;
   matricula: number;

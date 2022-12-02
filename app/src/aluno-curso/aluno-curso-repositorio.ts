@@ -1,6 +1,6 @@
-import { appConfig } from '../config/config.js';
-import { AlunoCurso } from './aluno-curso.js';
-import { RepositorioError } from '../repositorio-error.js';
+import { appConfig } from '../config/config';
+import { AlunoCurso } from './aluno-curso';
+import { RepositorioError } from '../repositorio-error';
 
 const API_ALUNOCURSO = `${appConfig.api}/aluno-curso`;
 

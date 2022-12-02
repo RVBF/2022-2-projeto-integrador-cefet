@@ -1,8 +1,8 @@
-import { AlunoCurso } from "./aluno-curso.js";
-import { ServicoAlunoCurso } from "./aluno-curso-servico.js";
-import { path } from "../utils/caminho-pagina.js";
-import { Aluno } from "../aluno/aluno.js";
-import { colunaTabela, linhaTabela } from "../components/Tabela/index.js";
+import { AlunoCurso } from "./aluno-curso";
+import { ServicoAlunoCurso } from "./aluno-curso-servico";
+import { path } from "../utils/caminho-pagina";
+import { Aluno } from "../aluno/aluno";
+import { colunaTabela, linhaTabela } from "../components/Tabela/index";
 export class VisaoListagem {
    servicoAlunoCurso: ServicoAlunoCurso;
    constructor() {

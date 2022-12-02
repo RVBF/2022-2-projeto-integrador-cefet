@@ -1,6 +1,6 @@
-import { AlunoCurso } from './aluno-curso.js';
-import { RepositorioError } from '../repositorio-error.js';
-import { AlunoCursoRepositorio } from './aluno-curso-repositorio.js';
+import { AlunoCurso } from './aluno-curso';
+import { RepositorioError } from '../repositorio-error';
+import { AlunoCursoRepositorio } from './aluno-curso-repositorio';
 
 export class ServicoAlunoCurso {
    AlunoCursoRepositorio: AlunoCursoRepositorio;

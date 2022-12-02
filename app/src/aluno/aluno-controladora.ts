@@ -20,14 +20,14 @@ export class AlunoController {
     }
 
     async init(): Promise<void> {
-        const [main] = document.getElementById('root');
+        const [main] = document.getElementsByTagName('main');
         console.log(this.visaoListagem.listarAlunoRegex());
 
         if (document.location.href.search('novo') != -1) {
 
         }
         else {
-            main.innerHTML = await carregarPagina('../pages/listar-aluno.html');
+            main.innerHTML = await carregarPagina("src/pages/listar-aluno.html");
 
             await this.insertDataToView();
         }
