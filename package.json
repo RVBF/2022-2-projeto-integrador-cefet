@@ -24,7 +24,8 @@
     },
     "homepage": "https://gitlab.com/thiagodp/2022-2-pis-grupo1#readme",
     "dependencies": {
-        "http-server": "^14.1.1"
+        "http-server": "^14.1.1",
+        "materialize-css": "^1.0.0-rc.2"
     },
     "devDependencies": {
         "@types/jest": "^29.2.3",

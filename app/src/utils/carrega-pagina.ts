@@ -1,12 +1,6 @@
-import { appConfig } from '../config/config';
+export const carregarPagina = async ( file: string ): Promise<string> => {
+    const response = await fetch( file );
 
-export async function carregarPagina(path: any) {
-    const featchPage = await fetch(appConfig.baseURL + path).catch(() => undefined);
-    if (featchPage!.status >= 400) {
-        return null;
-    }
+    return response.text();
+};
 
-    const html = await featchPage!.text();
-
-    document.querySelector('main')!.innerHTML = html;
-}
