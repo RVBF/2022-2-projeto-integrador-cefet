@@ -37,7 +37,6 @@ export class AlunoCursoRepositorio {
    }
 
    async todos(limit: number = 10, offset: number = 1): Promise<AlunoCurso[]> {
-      console.log('entrei');
       const response = await fetch(`${API_ALUNOCURSO}`, {
          method: 'GET',
          headers: {
@@ -45,7 +44,6 @@ export class AlunoCursoRepositorio {
          },
          // body: JSON.stringify({limit : limit, offset: offset})
       });
-      console.log(response);
       if (!response.ok) {
          throw new RepositorioError(`Erro ao buscar as notas: ${response.statusText}`);
       }

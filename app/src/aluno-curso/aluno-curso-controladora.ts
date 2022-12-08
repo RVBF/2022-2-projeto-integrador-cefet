@@ -19,38 +19,37 @@ export class AlunoCursoController {
     }
 
     async init(): Promise<void> {
-        const [main] = document.getElementsByName('main');
-        console.log(this.visaoListagem.listarAlunoCursosRegex());
+               console.log('entrie');
 
-        if (document.location.href.search('novo') != -1) {
+        const [main] = document.getElementsByTagName('main');
+        console.log(this.visaoListagem.listarnotasRegex());
+        console.log(this.visaoListagem.cadastroNotaRegex());
 
+        if ( this.visaoListagem.listarnotasRegex() ) {
+            main.innerHTML = await carregarPagina( 'aluno-curso-table.html' );
+
+            await this.insertDataToView();
+        } else if ( this.visaoListagem.cadastroNotaRegex() ) {
+
+            main.innerHTML = await carregarPagina( 'cadastrar-aluno-curso.html' );
+
+            // this.preencheSelect();
+            // this.visaoListagem.aoDispararCadastrar( this.cadastrar );
+        } else if ( this.visaoListagem.atualizarNotaRegex() ) {
+            main.innerHTML = await carregarPagina(
+                '../../public/usuario/usuarios-cadastro-form.html',
+            );
+            // const usuarioId = this.servicoUsuario.catchUrlId();
+
+            // this.preencheSelect();
+            // await this.insertDataToViewEdit( usuarioId );
+            // this.visaoUsuario.aoDispararEditar( this.editar );
         }
-        else {
-            main.innerHTML = await carregarPagina('src/pages/aluno-curso-form.html');
-        await this.insertDataToView();
-        }
-        // else if (this.visaoListagem.cadastroAlunoCursoRegex()) {
-        //     main.innerHTML = await carregarPagina('../../public/aluno-curso/aluno-curso-form.html');
-
-        //     this.visaoListagem.aoDispararCadastrar(this.cadastrar);
-
-        // } 
-        // else if (this.visaoListagem.atualizarAlunoCursoRegex()) {
-        //     main.innerHTML = await carregarPagina(
-        //         '../../public/usuario/aluno-curso-form.html',
-        //     );
-
-        //     const alunoId = this.servicoAlunoCurso.pegarUrlId();
-
-        //     await this.insertDataToViewEdit(alunoId);
-        //     this.visaoListagem.aoDispararEditar(this.editar);
-        // }
     }
 
     async insertDataToView(): Promise<void> {
         try {
             const alunoCurso: AlunoCurso[] = await this.servicoAlunoCurso.todos(10, 1);
-            console.log(alunoCurso);
             this.visaoListagem.desenhar(alunoCurso);
         } catch (error: any) {
             this.visaoListagem.showErrorMessage(error.message);

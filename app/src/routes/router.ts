@@ -15,7 +15,7 @@ export async function router({
     page = pathRouter.substring(1);
   }
 
-  return carregarPagina(`/src/pages/${page}.html`);
+  return carregarPagina(`${page}.html`);
 }
 
 export function getLocation() {

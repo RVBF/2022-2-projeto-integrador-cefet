@@ -1,7 +1,7 @@
 import { carregarPagina } from './carrega-pagina';
 
 export const carregaProibida = async (): Promise<void> => {
-    const [main] = document.getElementById('root');
+    const [main] = document.getElementsByTagName('main');
 
-    main.innerHTML = await carregarPagina('../pages/403.html');
+    main.innerHTML = await carregarPagina('403.html');
 };

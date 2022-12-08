@@ -1,36 +1,31 @@
-import { Aluno } from './aluno';
-import { ServicoAluno } from './aluno-servico';
-import { VisaoListagem } from './aluno-visao';
-import { carregarPagina } from '../utils/carrega-pagina';
-/* eslint-disable-next-line func-style */
 
+import { carregarPagina } from '../utils/carrega-pagina'
+/* eslint-disable-next-line func-style */
 async function loadPage(file: string): Promise<string> {
     const response = await fetch(file);
 
     return response.text();
 }
 
-export class AlunoController {
-    servicoAluno: ServicoAluno;
-    visaoListagem: VisaoListagem;
+export class DashboardController {
+    // servicoAlunoCurso: ServicoAlunoCurso;
+    // visaoListagem: VisaoListagem;
 
     constructor() {
-        this.servicoAluno = new ServicoAluno();
-        this.visaoListagem = new VisaoListagem();
+        // this.servicoAlunoCurso = new ServicoAlunoCurso();
+        // this.visaoListagem = new VisaoListagem();
     }
 
     async init(): Promise<void> {
+
         const [main] = document.getElementsByTagName('main');
-        console.log(this.visaoListagem.listarAlunoRegex());
+        main.innerHTML = await carregarPagina('dashboard.html');
 
-        if (document.location.href.search('novo') != -1) {
-
-        }
-        else {
-            main.innerHTML = await carregarPagina("listar-aluno.html");
-
-            await this.insertDataToView();
-        }
+        // document.addEventListener('DOMContentLoaded', function () {
+        //     var elems = document.querySelectorAll('.sidenav');
+        //     var instances = M.Sidenav.init(elems, options);
+        // });
+        // await this.insertDataToView();
         // else if (this.visaoListagem.cadastroAlunoCursoRegex()) {
         //     main.innerHTML = await carregarPagina('../../public/aluno-curso/aluno-curso-form.html');
 
@@ -49,14 +44,14 @@ export class AlunoController {
         // }
     }
 
-    async insertDataToView(): Promise<void> {
-        try {
-            const aluno: Aluno[] = await this.servicoAluno.todos(10, 1);
-            this.visaoListagem.desenhar(aluno);
-        } catch (error: any) {
-            this.visaoListagem.showErrorMessage(error.message);
-        }
-    }
+    // async insertDataToView(): Promise<void> {
+    //     try {
+    //         const alunoCurso: AlunoCurso[] = await this.servicoAlunoCurso.todos(10, 1);
+    //         this.visaoListagem.desenhar(alunoCurso);
+    //     } catch (error: any) {
+    //         this.visaoListagem.showErrorMessage(error.message);
+    //     }
+    // }
 
     // async insertDataToViewEdit(usuarioId: number): Promise<void> {
     //     try {
@@ -103,6 +98,6 @@ export class AlunoController {
     // };
 
     showErrorMessage(): Promise<void> {
-        throw new Error('Alunos não encontrados.');
+        throw new Error('Avisos não encontrados.');
     }
 }

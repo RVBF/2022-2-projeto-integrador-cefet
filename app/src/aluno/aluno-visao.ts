@@ -1,6 +1,6 @@
-import { Aluno } from "./aluno.js";
-import { ServicoAluno } from "./aluno-servico.js";
-import { path } from "../utils/caminho-pagina.js";
+import { Aluno } from "./aluno";
+import { ServicoAluno } from "./aluno-servico";
+import { path } from "../utils/caminho-pagina";
 
 export class VisaoListagem {
    servicoAluno: ServicoAluno;

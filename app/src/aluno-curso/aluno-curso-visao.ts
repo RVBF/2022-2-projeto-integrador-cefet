@@ -8,9 +8,9 @@ export class VisaoListagem {
    constructor() {
       this.servicoAlunoCurso = new ServicoAlunoCurso();
    }
-   listarAlunoCursosRegex = (): boolean => (/^\/#\/aluno-curso\/?$/i).test(path());
-   cadastroAlunoCursoRegex = (): boolean => (/^\/aluno-curso\/novo\/?$/i).test(path());
-   atualizarAlunoCursoRegex = (): boolean => (/^\/aluno-curso\/\d+\/editar\/?$/).test(path());
+   listarnotasRegex = (): boolean => ( /^\/notas\/?$/i ).test( path() );
+   cadastroNotaRegex = (): boolean => ( /^\/notas\/novo\/?$/i ).test( path() );
+   atualizarNotaRegex = (): boolean => ( /^\/notas\/\d+\/edit\/?$/ ).test( path() );
 
    desenhar(alunosCursos: AlunoCurso[]): void {
 
@@ -23,9 +23,7 @@ export class VisaoListagem {
       }
 
       alunosCursos.forEach((alunoCurso :AlunoCurso) => {
-         console.log(alunoCurso);
          const objAlunoCurso  = new AlunoCurso({id : alunoCurso.id, matricula : alunoCurso.matricula, av1: alunoCurso.av1, av2 : alunoCurso.av2, notaAF: alunoCurso.notaAF, falta : alunoCurso.falta, aluno : alunoCurso.aluno});
-         console.log(objAlunoCurso.calcularMedia());
          tbodyTable?.append(linhaTabela([
             colunaTabela(objAlunoCurso!.matricula),
             colunaTabela('Rafael Barros'),
