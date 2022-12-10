@@ -45,7 +45,7 @@ export class AlunoRepositorio {
          },
          // body: JSON.stringify({limit : limit, offset: offset})
       });
-      console.log(response);
+
       if (!response.ok) {
          throw new RepositorioError(`Erro ao buscar os alunos: ${response.statusText}`);
       }

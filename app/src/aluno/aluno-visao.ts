@@ -2,14 +2,14 @@ import { Aluno } from "./aluno";
 import { ServicoAluno } from "./aluno-servico";
 import { path } from "../utils/caminho-pagina";
 
-export class VisaoListagem {
+export class AlunoVisao {
    servicoAluno: ServicoAluno;
    constructor() {
       this.servicoAluno = new ServicoAluno();
    }
-   listarAlunoRegex = (): boolean => (/^\/#\/aluno\/?$/i).test(path());
-   cadastroAlunoRegex = (): boolean => (/^\/aluno\/novo\/?$/i).test(path());
-   atualizarAlunoRegex = (): boolean => (/^\/aluno\/\d+\/editar\/?$/).test(path());
+   listarAlunoRegex = (): boolean => (/^\/alunos\/?$/i).test(path());
+   cadastrosRegex = (): boolean => (/^\/alunos\/novo\/?$/i).test(path());
+   atualizarAlunoRegex = (): boolean => (/^\/alunos\/\d+\/editar\/?$/).test(path());
 
    desenhar(alunos: Aluno[]): void {
       const tbodyTable = document.querySelector('#aluno > tbody');

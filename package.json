@@ -5,12 +5,12 @@
     "main": "index.js",
     "scripts": {
         "setup": "cd app && npm install && cd .. && cd api && composer install && cd ..",
-        "start": "cd app && npm run dev:server",
+        "start": "cd app && parcel build ./app/public/*.html   && parcel public/**/*.html --open --https",
         "test": "cd app && npm test && cd .. && cd api && composer test && cd ..",
         "update": "cd app && npm update && cd .. && cd api && composer upgrade && cd .. ",
         "tsc": "cd app && npx tsc",
         "tsc-watch": "cd app && npx tsc-watch",
-        "build": "cd app && parcel build ./*.html"
+        "build": "cd app && parcel build public/**/*.html"
     },
     "repository": {
         "type": "git",
@@ -24,11 +24,7 @@
     },
     "homepage": "https://gitlab.com/thiagodp/2022-2-pis-grupo1#readme",
     "dependencies": {
-        "http-server": "^14.1.1",
-        "materialize-css": "^1.0.0-rc.2"
+
     },
-    "devDependencies": {
-        "@types/jest": "^29.2.3",
-        "typescript": "^4.8.4"
-    }
+    "devDependencies": {}
 }
