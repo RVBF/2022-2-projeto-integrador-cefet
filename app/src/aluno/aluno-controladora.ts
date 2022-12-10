@@ -58,17 +58,17 @@ export class AlunoController {
     cadastrar = async (): Promise<void> => {
         const aviso = this.alunoVisao.pegarDadosDoFormCadastro();
 
-        // try {
-        //     this.visaoListagem.desabilitaBotao();
-        //     // await this.visaoListagem.cad;
-        //     this.visaoListagem.showSuccessMessage('Usuário cadastrado com sucesso!');
-        //     setTimeout(() => {
-        //         location.href = API'/usuarios';
-        //     }, 2000);
-        // } catch (error: any) {
-        //     this.visaoListagem.habilitaBotao();
-        //     this.visaoListagem.showErrorMessage(error.message);
-        // }
+        try {
+            this.visaoListagem.desabilitaBotao();
+            // await this.visaoListagem.cad;
+            this.visaoListagem.showSuccessMessage('Usuário cadastrado com sucesso!');
+            setTimeout(() => {
+                // location.href = API'/usuarios';
+            }, 2000);
+        } catch (error: any) {
+            this.visaoListagem.habilitaBotao();
+            this.visaoListagem.showErrorMessage(error.message);
+        }
     };
 
     // editar = async (): Promise<void> => {

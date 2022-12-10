@@ -22,7 +22,7 @@ export class AlunoServico {
       return this.AlunoRepositorio.adicionar(Aluno);
    }
 
-   todos(limit: number, offset: number): Promise<Aluno[]> {
+   todos(limit: number | null = null, offset: number | null = null): Promise<Aluno[]> {
       return this.AlunoRepositorio.todos(limit, offset);
    }
 
