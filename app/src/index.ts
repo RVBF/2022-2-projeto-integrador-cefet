@@ -5,9 +5,10 @@ import { AlunoCursoController } from "./aluno-curso/aluno-curso-controladora";
 import { AlunoController } from "./aluno/aluno-controladora";
 import { carregarPagina } from "./utils/carrega-pagina";
 import { DashboardController } from "./dashboard/index-controladora";
+import { FuncionarioControladora } from "./funcionario/funcionario-controladora";
 
 // import { CursoController } from "./curso/curso-controladora";
-// import { FuncionarioControlle } from "./funcionario/fuci-controladora";
+
 // import { switchRouter } from "./routes/app.routes";
 export * from './components/Button';
 export * from './components/Container';
@@ -20,6 +21,7 @@ export * from './components/Tabela';
 const alunoCursoController = new AlunoCursoController();
 const alunoController = new AlunoController();
 const dashboardController = new DashboardController();
+const funcionarioControladora = new FuncionarioControladora();
 // const cursoController = new CursoController();
 // const funcionarioController = new FuncionarioController();
 
@@ -46,13 +48,14 @@ window.addEventListener('load', () => {
     const notasPath = (/^\/notas\/?([^\s]+)?$/i).test(urlAtual);
     const funcionariosPath = (/^\/funcionarios\/?([^\s]+)?$/i).test(urlAtual);
     const alunosPath = (/^\/alunos\/?([^\s]+)?$/i).test(urlAtual);
+
+
     if (proibido) {
         // await carregaProibida();
     } else if (notasPath) {
         alunoCursoController.init();
-    }
-    else if (funcionariosPath) {
-        // funcionarioController.init();
+    } else if (funcionariosPath) {
+        funcionarioControladora.init();
     } else if (alunosPath) {
         alunoController.init();
     }

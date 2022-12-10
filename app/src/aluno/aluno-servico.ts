@@ -2,7 +2,7 @@ import { Aluno } from './aluno';
 import { RepositorioError } from '../repositorio-error';
 import { AlunoRepositorio } from './aluno-repositorio';
 
-export class ServicoAluno {
+export class AlunoServico {
    AlunoRepositorio: AlunoRepositorio;
    constructor() {
       this.AlunoRepositorio = new AlunoRepositorio();
@@ -22,7 +22,7 @@ export class ServicoAluno {
       return this.AlunoRepositorio.adicionar(Aluno);
    }
 
-   todos(limit: number, offset : number): Promise<Aluno[]> {
+   todos(limit: number, offset: number): Promise<Aluno[]> {
       return this.AlunoRepositorio.todos(limit, offset);
    }
 
@@ -37,5 +37,5 @@ export class ServicoAluno {
    async delete(alunoId: number): Promise<Response> {
       return this.AlunoRepositorio.delete(alunoId);
    }
-   
+
 }

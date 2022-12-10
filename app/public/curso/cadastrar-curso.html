@@ -1,27 +1,73 @@
-<div id="menu-principal">
-    <div id="menu-esquerda">
-        <a href="/aluno"><em class="fa-solid fa-circle-plus fa-2x" id="add-aluno"></em></a>
-        <h2 id="titulo-tabela">Cadastro de alunos</h2>
+<div class="row">
+    <div class="col s1">
+        <a href="/cursos" class="indigo darken-4 btn"><span class="material-icons">
+                arrow_back
+            </span>
+        </a>
     </div>
-    <div id="menu-direita">
-        <form id="cadastra-aluno">
 
-            <label for="valor">Código:</label>
-            <input type="text">
-
-            <label for="valor">Nome:</label>
-            <input type="text">
-
-            <label for="valor">Situação:</label>
-            <input type="text">
-
-            <label for="valor">Data iníco:</label>
-            <input type="text">
-
-            <label for="valor">Data fim:</label>
-            <input type="text">
-
-            <input type="submit" value="Cadastrar" />
-        </form>
+    <div class="row">
+        <div class="col s12">
+            <h2>Cadastro de Cursos</h2>
+        </div>
     </div>
+</div>
+
+
+<div class="row">
+    <form class="col s12">
+        <div class="row">
+            <div class="input-field col s6">
+                <input id="codigo" type="text" class="validate" required>
+                <label for="codigo">Código</label>
+            </div>
+
+            <div class="input-field col s6">
+                <input id="nome" type="text" class="validate" required>
+                <label for="nome">Nome</label>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="input-field col s6">
+                <input id="dtInicio" type="date" class="validate" required>
+                <label for="data inicio"> Data de início: </label>
+            </div>
+
+            <div class="input-field col s6">
+                <input id="dtFim" type="date" class="validate" required>
+                <label for="data fim"> Data de fim: </label>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="input-field col s6">
+                <input id="hrInicio" type="time" class="validate" required>
+                <label for="hora inicio"> Hora de início: </label>
+            </div>
+
+            <div class="input-field col s6">
+                <input id="hrFim" type="time" class="validate" required>
+                <label for="hora fim"> Hora de fim: </label>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="input-field col s12">
+                <select required>
+                    <option value="" disabled selected>Situação</option>
+                    <option value="1">Não iniciado</option>
+                    <option value="2">Iniciado</option>
+                    <option value="3">Finalizado</option>
+                </select>
+                <label>Situação</label>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="input-field col s12">
+                <button type="submit" id="cadastrar" class="waves-effect waves-light btn-small">Cadastrar</button>
+            </div>
+        </div>
+    </form>
 </div>

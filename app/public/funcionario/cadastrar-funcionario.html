@@ -1,21 +1,39 @@
-<div id="menu-principal">
-    <div id="menu-esquerda">
-        <a href="/funcionario"><em class="fa-solid fa-circle-plus fa-2x" id="add-funcionario"></em></a>
-        <h2 id="titulo-tabela">Cadastro de funcionários</h2>
+<div class="row">
+    <div class="col s1">
+        <a href="/funcionarios" class="indigo darken-4 btn"><span class="material-icons">
+                arrow_back
+            </span>
+        </a>
     </div>
-    <div id="menu-direita">
-        <form id="cadastra-funcionario">
 
-            <label for="valor">Nome:</label>
-            <input type="text">
-
-            <label for="valor">CPF:</label>
-            <input type="text">
-
-            <label for="valor">Email:</label>
-            <input type="text">
-
-            <input type="submit" value="Cadastrar" />
-        </form>
+    <div class="row">
+        <div class="col s12">
+            <h2>Cadastro de Funcionários</h2>
+        </div>
     </div>
+</div>
+
+<div class="row">
+    <form class="col s12">
+        <div class="row">
+            <div class="input-field col s6">
+                <input id="nome" type="text" class="validate" required>
+                <label for="nome">Nome</label>
+            </div>
+
+            <div class="input-field col s6">
+                <input id="cpf" type="text" class="validate" required>
+                <label for="cpf">CPF</label>
+            </div>
+        </div>
+        <div class="row">
+            <div class="input-field col s12">
+                <input id="email" type="email" class="validate" required>
+                <label for="email">Email</label>
+            </div>
+        </div>
+
+        <a class="waves-effect waves-light btn-small">Cadastrar</a>
+
+    </form>
 </div>

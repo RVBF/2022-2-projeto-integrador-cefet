@@ -1,11 +1,12 @@
 import { AlunoCursoController } from "./src/aluno-curso/aluno-curso-controladora";
 import { AlunoController } from "./src/aluno/aluno-controladora";
 import { carregarPagina } from "./src/utils/carrega-pagina";
-import { DashboardController } from "./src/dashboard/index-controladora";
+import { LoginControladora } from "./src/login/login-controladora";
+import { FuncionarioControladora } from "./src/funcionario/funcionario-controladora";
 import { path } from "./src/utils/caminho-pagina";
 
 // import { CursoController } from "./src/curso/curso-controladora";
-// import { FuncionarioControlle } from "./src/funcionario/fuci-controladora";
+
 // import { switchRouter } from "./src/routes/app.routes";
 export * from './src/components/Button';
 export * from './src/components/Container';
@@ -18,9 +19,10 @@ export * from './src/components/Tabela';
 
 const alunoCursoController = new AlunoCursoController();
 const alunoController = new AlunoController();
-const dashboardController = new DashboardController();
+const loginControladora = new LoginControladora();
+const funcionarioControladora = new FuncionarioControladora();
 // const cursoController = new CursoController();
-// const funcionarioController = new FuncionarioController();
+
 
 window.addEventListener('load', () => {
     const [main] = document.getElementsByTagName('main');
@@ -43,21 +45,24 @@ window.addEventListener('load', () => {
     // const loginPath = !usuario || Number( usuario.expiry ) < new Date()
     //     .getTime();
 
-    const proibido = ( /^\/403\/?$/i ).test( urlAtual );
-    const notasPath = ( /^\/notas\/?([^\s]+)?$/i ).test( urlAtual );
-    const funcionariosPath = ( /^\/funcionarios\/?([^\s]+)?$/i ).test( urlAtual );
-    const alunosPath = ( /^\/alunos\/?([^\s]+)?$/i ).test( urlAtual );
-    if ( proibido ) {
-        // await carregaProibida();
-    } else if ( notasPath ) {
-        alunoCursoController.init();
-    } 
-    else if ( funcionariosPath ) {
-        // funcionarioController.init();
-    } else if ( alunosPath ) {
-        alunoController.init();
-    }
+    const loginPath = (/^\/login\/?([^\s]+)?$/i).test(urlAtual);
+    const proibido = (/^\/403\/?$/i).test(urlAtual);
+    const notasPath = (/^\/notas\/?([^\s]+)?$/i).test(urlAtual);
+    const funcionariosPath = (/^\/funcionarios\/?([^\s]+)?$/i).test(urlAtual);
+    const alunosPath = (/^\/alunos\/?([^\s]+)?$/i).test(urlAtual);
 
+
+    if (proibido) {
+        // await carregaProibida();
+    } else if (notasPath) {
+        alunoCursoController.init();
+    } else if (funcionariosPath) {
+        funcionarioControladora.init();
+    } else if (alunosPath) {
+        alunoController.init();
+    } else if (loginPath) {
+        loginControladora.init();
+    }
     // setTimeout( async () => {
     //     if ( !loginPath && !proibido ) {
     //         await carregarMenu( urlAtual.replace( '/', '' ) );

@@ -12,8 +12,7 @@ export class LoginControladora {
 
     async init(): Promise<void> {
         const [main] = document.getElementsByTagName('main');
-
-        main.innerHTML = await carregarPagina('../../public/login/login.html');
+        main.innerHTML = await carregarPagina('/login/login.html');
         this.loginVisao.aoDispararLogar(this.logar);
     }
 
