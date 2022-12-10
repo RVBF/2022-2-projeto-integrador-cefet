@@ -1,6 +1,6 @@
 import { Aluno } from './aluno';
 import { ServicoAluno } from './aluno-servico';
-import { VisaoListagem } from './aluno-visao';
+import { AlunoVisao } from './aluno-visao';
 import { carregarPagina } from '../utils/carrega-pagina';
 /* eslint-disable-next-line func-style */
 
@@ -12,41 +12,32 @@ async function loadPage(file: string): Promise<string> {
 
 export class AlunoController {
     servicoAluno: ServicoAluno;
-    visaoListagem: VisaoListagem;
+    visaoListagem: AlunoVisao;
 
     constructor() {
         this.servicoAluno = new ServicoAluno();
-        this.visaoListagem = new VisaoListagem();
+        this.visaoListagem = new AlunoVisao();
     }
 
     async init(): Promise<void> {
         const [main] = document.getElementsByTagName('main');
-        console.log(this.visaoListagem.listarAlunoRegex());
 
-        if (document.location.href.search('novo') != -1) {
-
-        }
-        else {
-            main.innerHTML = await carregarPagina("listar-aluno.html");
+        if (this.visaoListagem.listarAlunoRegex()) {
+            console.log('Entrei na listagem de aluno');
+            main.innerHTML = '';
+            main.innerHTML = await carregarPagina("aluno/listar-aluno.html");
 
             await this.insertDataToView();
         }
-        // else if (this.visaoListagem.cadastroAlunoCursoRegex()) {
-        //     main.innerHTML = await carregarPagina('../../public/aluno-curso/aluno-curso-form.html');
+        else if(this.visaoListagem.cadastrosRegex()) {
+            console.log('Entrei no cadastro de aluno');
 
-        //     this.visaoListagem.aoDispararCadastrar(this.cadastrar);
+            main.innerHTML = '';
+            main.innerHTML = await carregarPagina( '/aluno/aluno-cadastro.html' );
+            await this.cadastrar();
 
-        // } 
-        // else if (this.visaoListagem.atualizarAlunoCursoRegex()) {
-        //     main.innerHTML = await carregarPagina(
-        //         '../../public/usuario/aluno-curso-form.html',
-        //     );
 
-        //     const alunoId = this.servicoAlunoCurso.pegarUrlId();
-
-        //     await this.insertDataToViewEdit(alunoId);
-        //     this.visaoListagem.aoDispararEditar(this.editar);
-        // }
+        }
     }
 
     async insertDataToView(): Promise<void> {
@@ -69,21 +60,21 @@ export class AlunoController {
     // }
 
 
-    // cadastrar = async (): Promise<void> => {
-    //     const aviso = this.visaoListagem.pegarDadosDoFormCadastro();
+    cadastrar = async (): Promise<void> => {
+        const aviso = this.visaoListagem.pegarDadosDoFormCadastro();
 
-    //     try {
-    //         this.visaoListagem.desabilitaBotao();
-    //         await this.visaoListagem.cad;
-    //         this.visaoListagem.showSuccessMessage('Usuário cadastrado com sucesso!');
-    //         setTimeout(() => {
-    //             location.href = API'/usuarios';
-    //         }, 2000);
-    //     } catch (error: any) {
-    //         this.visaoListagem.habilitaBotao();
-    //         this.visaoListagem.showErrorMessage(error.message);
-    //     }
-    // };
+        // try {
+        //     this.visaoListagem.desabilitaBotao();
+        //     // await this.visaoListagem.cad;
+        //     this.visaoListagem.showSuccessMessage('Usuário cadastrado com sucesso!');
+        //     setTimeout(() => {
+        //         location.href = API'/usuarios';
+        //     }, 2000);
+        // } catch (error: any) {
+        //     this.visaoListagem.habilitaBotao();
+        //     this.visaoListagem.showErrorMessage(error.message);
+        // }
+    };
 
     // editar = async (): Promise<void> => {
     //     const aviso = this.visaoUsuario.pegarDadosDoFormEditar();
