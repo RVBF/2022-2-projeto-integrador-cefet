@@ -1,58 +1,48 @@
 import { AlunoCurso } from './aluno-curso';
 import { ServicoAlunoCurso } from './aluno-curso-servico';
-import { VisaoListagem } from './aluno-curso-visao';
-import { carregarPagina } from '../utils/carrega-pagina'
-/* eslint-disable-next-line func-style */
-async function loadPage(file: string): Promise<string> {
-    const response = await fetch(file);
-
-    return response.text();
-}
-
+import { VisaoAlunoCurso } from './aluno-curso-visao';
+import { carregarPagina } from './../utils/carrega-pagina';
 export class AlunoCursoController {
     servicoAlunoCurso: ServicoAlunoCurso;
-    visaoListagem: VisaoListagem;
+    visaoAlunoCurso: VisaoAlunoCurso;
 
     constructor() {
         this.servicoAlunoCurso = new ServicoAlunoCurso();
-        this.visaoListagem = new VisaoListagem();
+        this.visaoAlunoCurso = new VisaoAlunoCurso();
     }
 
     async init(): Promise<void> {
-               console.log('entrie');
-
         const [main] = document.getElementsByTagName('main');
-        console.log(this.visaoListagem.listarnotasRegex());
-        console.log(this.visaoListagem.cadastroNotaRegex());
 
-        if ( this.visaoListagem.listarnotasRegex() ) {
-            main.innerHTML = await carregarPagina( 'aluno-curso-table.html' );
+        if ( this.visaoAlunoCurso.listarNotasRegex() ) {
+            main.innerHTML = await carregarPagina( '/aluno-curso/notas.html' );
 
             await this.insertDataToView();
-        } else if ( this.visaoListagem.cadastroNotaRegex() ) {
+        } 
+        else if ( this.visaoAlunoCurso.cadastrosRegex() ) {
+            main.innerHTML = await carregarPagina( '/aluno-curso/nota-cadastro.html' );
 
-            main.innerHTML = await carregarPagina( 'cadastrar-aluno-curso.html' );
+            this.visaoAlunoCurso.aoDispararCadastrar( this.cadastrar );
+        } 
+        // else if ( this.visaoAlunoCurso.atualizarNotaRegex() ) {
+        //     main.innerHTML = await carregarPagina(
+        //         '../../public/usuario/usuarios-cadastro-form.html',
+        //     );
+        //     // const usuarioId = this.servicoUsuario.catchUrlId();
 
-            // this.preencheSelect();
-            // this.visaoListagem.aoDispararCadastrar( this.cadastrar );
-        } else if ( this.visaoListagem.atualizarNotaRegex() ) {
-            main.innerHTML = await carregarPagina(
-                '../../public/usuario/usuarios-cadastro-form.html',
-            );
-            // const usuarioId = this.servicoUsuario.catchUrlId();
-
-            // this.preencheSelect();
-            // await this.insertDataToViewEdit( usuarioId );
-            // this.visaoUsuario.aoDispararEditar( this.editar );
-        }
+        //     // this.preencheSelect();
+        //     // await this.insertDataToViewEdit( usuarioId );
+        //     // this.visaoUsuario.aoDispararEditar( this.editar );
+        // }
     }
 
     async insertDataToView(): Promise<void> {
         try {
             const alunoCurso: AlunoCurso[] = await this.servicoAlunoCurso.todos(10, 1);
-            this.visaoListagem.desenhar(alunoCurso);
+            this.visaoAlunoCurso.desenhar(alunoCurso);
+
         } catch (error: any) {
-            this.visaoListagem.showErrorMessage(error.message);
+            this.visaoAlunoCurso.showErrorMessage(error.message);
         }
     }
 
@@ -67,21 +57,20 @@ export class AlunoCursoController {
     // }
 
 
-    // cadastrar = async (): Promise<void> => {
-    //     const aviso = this.visaoListagem.pegarDadosDoFormCadastro();
+    cadastrar = async (): Promise<void> => {
+        const aviso = this.visaoAlunoCurso.pegarDadosDoFormCadastro();
 
-    //     try {
-    //         this.visaoListagem.desabilitaBotao();
-    //         await this.visaoListagem.cad;
-    //         this.visaoListagem.showSuccessMessage('Usuário cadastrado com sucesso!');
-    //         setTimeout(() => {
-    //             location.href = API'/usuarios';
-    //         }, 2000);
-    //     } catch (error: any) {
-    //         this.visaoListagem.habilitaBotao();
-    //         this.visaoListagem.showErrorMessage(error.message);
-    //     }
-    // };
+        try {
+            this.visaoAlunoCurso.desabilitaBotao();
+            this.visaoAlunoCurso.showSuccessMessage('Usuário cadastrado com sucesso!');
+            // setTimeout(() => {
+            //     location.href = API+'/usuarios';
+            // }, 2000);
+        } catch (error: any) {
+            this.visaoAlunoCurso.habilitaBotao();
+            this.visaoAlunoCurso.showErrorMessage(error.message);
+        }
+    };
 
     // editar = async (): Promise<void> => {
     //     const aviso = this.visaoUsuario.pegarDadosDoFormEditar();

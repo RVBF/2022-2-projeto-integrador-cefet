@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- <link rel="icon" type="image/x-icon" href="src/assets/favicon.ico"> -->
+    <link rel="stylesheet" href="../src/style/global.scss" />
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <script src="./../dist/index.js" type="module" defer></script>
+    <title>Acme Cursos</title>
+</head>
+
+<body>
+    <nav>
+        <a href="#" data-target="slide-out" class="sidenav-trigger write-text text-darken-2">
+            <i class="material-icons">menu</i>
+        </a>
+    </nav>
+
+    <ul id="slide-out" class="sidenav">
+        <li>
+            <div class="user-view">
+                <div class="background">
+                    <img src="./../public/assets/img/dashboard-background.jpg">
+                </div>
+                <a href="#user"><img class="circle" src="./../public/assets/img/dashboard-background.jpg"></a>
+                <a href="#name"><span class="white-text name">John Doe</span></a>
+                <a href="#email"><span class="white-text email">jdandturk@gmail.com</span></a>
+            </div>
+        </li>
+        <li>
+            <a href="alunos"><span class="material-icons">
+                school
+            </span><span class="text-menu">Alunos</span></a></li>
+        <li>
+            <div class="divider"></div>
+        </li>
+        <li>
+            <a href="cursos">
+                <span class="material-icons">
+                    emoji_objects
+                    </span>
+                <span class="text-menu">Cursos</span>
+            </a>
+        </li>
+        <li>
+            <div class="divider"></div>
+        </li>
+        <li>
+            <a href="notas">
+                <span class="material-icons">
+                    science
+                </span> <span class="text-menu">Notas</span>
+            </a>
+        </li>
+        <li>
+            <div class="divider"></div>
+        </li>
+        <li>
+            <a href="funcionarios">
+                <span class="material-icons">
+                    people
+                </span> <span class="text-menu">Funcionários</span>
+            </a>
+        </li>
+        <li>
+            <div class="divider"></div>
+        </li>
+        <li>
+            <a href="sair">
+                <span class="material-icons">
+                logout
+                </span> <span class="text-menu">Sair</span>
+            </a>
+        </li>
+    </ul>
+
+    <main id="root" class="container"></main>
+</body>
+
+</html>

@@ -3,15 +3,14 @@ import { ServicoAlunoCurso } from "./aluno-curso-servico";
 import { path } from "../utils/caminho-pagina";
 import { Aluno } from "../aluno/aluno";
 import { colunaTabela, linhaTabela } from "../components/Tabela/index";
-export class VisaoListagem {
+export class VisaoAlunoCurso {
    servicoAlunoCurso: ServicoAlunoCurso;
    constructor() {
       this.servicoAlunoCurso = new ServicoAlunoCurso();
    }
-   listarnotasRegex = (): boolean => ( /^\/notas\/?$/i ).test( path() );
-   cadastroNotaRegex = (): boolean => ( /^\/notas\/novo\/?$/i ).test( path() );
-   atualizarNotaRegex = (): boolean => ( /^\/notas\/\d+\/edit\/?$/ ).test( path() );
-
+   listarNotasRegex = (): boolean => (/^\/notas\/?$/i).test(path());
+   cadastrosRegex = (): boolean => (/^\/notas\/novo\/?$/i).test(path());
+   atualizarAlunoRegex = (): boolean => (/^\/notas\/\d+\/editar\/?$/).test(path());
    desenhar(alunosCursos: AlunoCurso[]): void {
 
       const tbodyTable = document.querySelector('#aluno-curso > tbody');
@@ -63,14 +62,14 @@ export class VisaoListagem {
    }
 
    aoDispararCadastrar(callback: any): void {
-      const addAvisoButton = this.getValueInputElement('salvar-aluno-curso');
-      const functionToAct = (elem: MouseEvent): void => {
-         elem.preventDefault();
-         callback();
-      };
+      // const addAvisoButton = this.getValueInputElement('salvar-aluno-curso');
+      // const functionToAct = (elem: MouseEvent): void => {
+      //    elem.preventDefault();
+      //    callback();
+      // };
 
-      addAvisoButton.addEventListener('click',
-         functionToAct);
+      // addAvisoButton.addEventListener('click',
+      //    functionToAct);
    }
 
    aoDispararEditar(callback: any): void {
