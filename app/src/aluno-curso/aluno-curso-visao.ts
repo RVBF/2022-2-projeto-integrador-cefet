@@ -3,15 +3,15 @@ import { ServicoAlunoCurso } from "./aluno-curso-servico";
 import { path } from "../utils/caminho-pagina";
 import { Aluno } from "../aluno/aluno";
 import { colunaTabela, linhaTabela } from "../components/Tabela/index";
-import { ServicoAluno } from "../aluno/aluno-servico";
+import { AlunoServico } from "../aluno/aluno-servico";
 import { Curso } from "../curso/curso";
 export class VisaoAlunoCurso {
    servicoAlunoCurso: ServicoAlunoCurso;
-   servicoAluno: ServicoAluno;
-   _this : VisaoAlunoCurso = this;
+   servicoAluno: AlunoServico;
+   _this: VisaoAlunoCurso = this;
    constructor() {
       this.servicoAlunoCurso = new ServicoAlunoCurso();
-      this.servicoAluno = new ServicoAluno();
+      this.servicoAluno = new AlunoServico();
    }
 
    listarNotasRegex = (): boolean => (/^\/notas\/?$/i).test(path());
@@ -62,10 +62,10 @@ export class VisaoAlunoCurso {
       this.preencheSelects(selectInstance);
       this.atualizaSituacao(this);
 
-      document.getElementById('aluno')?.addEventListener('change', function(event) {
+      document.getElementById('aluno')?.addEventListener('change', function (event) {
          const select = document.querySelector('#aluno');
          const matricula = document.querySelector('#matricula');
-         matricula.value =select!.options[select!.selectedIndex].getAttribute('matricula');
+         matricula.value = select!.options[select!.selectedIndex].getAttribute('matricula');
       });
    }
 
@@ -88,9 +88,9 @@ export class VisaoAlunoCurso {
    };
 
    atualizaSituacao = async function (objeto: VisaoAlunoCurso) {
-      document.querySelector('#av1')?.addEventListener('keyup',objeto.processaSituacao);
-      document.querySelector('#av2')?.addEventListener('keyup',objeto.processaSituacao);
-      document.querySelector('#falta')?.addEventListener('keyup',objeto.processaSituacao);
+      document.querySelector('#av1')?.addEventListener('keyup', objeto.processaSituacao);
+      document.querySelector('#av2')?.addEventListener('keyup', objeto.processaSituacao);
+      document.querySelector('#falta')?.addEventListener('keyup', objeto.processaSituacao);
    }
 
    preencheSelects = async (selectInstance: M.FormSelect[]): Promise<void> => {
@@ -141,7 +141,7 @@ export class VisaoAlunoCurso {
          callback();
       };
 
-      addAlunoCursos.addEventListener('click',functionToAct);
+      addAlunoCursos.addEventListener('click', functionToAct);
    }
 
    aoDispararEditar(callback: any): void {
