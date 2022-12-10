@@ -57,8 +57,6 @@ Route::delete('/aluno-curso/{$id}', function () use (&$db) {
 	$controller->delete($request);
 });
 
-
-
 Route::get('/aluno', function () use (&$db) {
 	$controller  = new AlunoController($db);
 	$request = new Request;
