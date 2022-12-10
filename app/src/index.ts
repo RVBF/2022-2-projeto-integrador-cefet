@@ -8,7 +8,6 @@ import { DashboardController } from "./dashboard/index-controladora";
 
 // import { CursoController } from "./curso/curso-controladora";
 // import { FuncionarioControlle } from "./funcionario/fuci-controladora";
-// import { switchRouter } from "./routes/app.routes";
 export * from './components/Button';
 export * from './components/Container';
 export * from './components/Form';
