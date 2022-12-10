@@ -3,7 +3,7 @@
     "version": "1.0.0",
     "description": "",
     "scripts": {
-        "dev:server": "parcel ./*.html",
+        "dev:server": "parcel ./**/*.html",
         "build": "parcel build ./*.html",
         "test": "jest"
     },
