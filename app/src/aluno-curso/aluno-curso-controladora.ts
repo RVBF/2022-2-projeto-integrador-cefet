@@ -14,16 +14,15 @@ export class AlunoCursoController {
     async init(): Promise<void> {
         const [main] = document.getElementsByTagName('main');
 
-        if ( this.visaoAlunoCurso.listarNotasRegex() ) {
-            main.innerHTML = await carregarPagina( '/aluno-curso/notas.html' );
+        if (this.visaoAlunoCurso.listarNotasRegex()) {
+            main.innerHTML = await carregarPagina('/aluno-curso/notas.html');
 
             await this.insertDataToView();
-        } 
-        else if ( this.visaoAlunoCurso.cadastrosRegex() ) {
-            main.innerHTML = await carregarPagina( '/aluno-curso/nota-cadastro.html' );
-
-            this.visaoAlunoCurso.aoDispararCadastrar( this.cadastrar );
-        } 
+        }
+        else if (this.visaoAlunoCurso.cadastrosRegex()) {
+            main.innerHTML = await carregarPagina('/aluno-curso/nota-cadastro.html');
+            await this.cadastrar();
+        }
         // else if ( this.visaoAlunoCurso.atualizarNotaRegex() ) {
         //     main.innerHTML = await carregarPagina(
         //         '../../public/usuario/usuarios-cadastro-form.html',
@@ -58,14 +57,19 @@ export class AlunoCursoController {
 
 
     cadastrar = async (): Promise<void> => {
-        const aviso = this.visaoAlunoCurso.pegarDadosDoFormCadastro();
-
         try {
-            this.visaoAlunoCurso.desabilitaBotao();
-            this.visaoAlunoCurso.showSuccessMessage('Usuário cadastrado com sucesso!');
-            // setTimeout(() => {
-            //     location.href = API+'/usuarios';
-            // }, 2000);
+            this.visaoAlunoCurso.desenharCadastro();
+
+            this.visaoAlunoCurso.aoDispararCadastrar(() => {
+                const aluno = this.visaoAlunoCurso.pegarDadosDoFormCadastro();
+
+                this.servicoAlunoCurso.adicionar(aluno);
+
+                // setTimeout(() => {
+                //     location.href = '/notas';
+                // }, 2000);
+            });
+
         } catch (error: any) {
             this.visaoAlunoCurso.habilitaBotao();
             this.visaoAlunoCurso.showErrorMessage(error.message);
