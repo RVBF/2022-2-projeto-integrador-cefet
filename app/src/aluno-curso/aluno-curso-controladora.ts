@@ -15,12 +15,12 @@ export class AlunoCursoController {
         const [main] = document.getElementsByTagName('main');
 
         if (this.visaoAlunoCurso.listarNotasRegex()) {
-            main.innerHTML = await carregarPagina('/aluno-curso/notas.html');
+            main.innerHTML = await carregarPagina('/aluno-curso/listar-nota.html');
 
             await this.insertDataToView();
         }
         else if (this.visaoAlunoCurso.cadastrosRegex()) {
-            main.innerHTML = await carregarPagina('/aluno-curso/nota-cadastro.html');
+            main.innerHTML = await carregarPagina('/aluno-curso/cadastrar-nota.html');
             await this.cadastrar();
         }
         // else if ( this.visaoAlunoCurso.atualizarNotaRegex() ) {

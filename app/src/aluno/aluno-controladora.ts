@@ -24,7 +24,7 @@ export class AlunoController {
         if (this.alunoVisao.listarAlunoRegex()) {
             console.log('Entrei na listagem de aluno');
             main.innerHTML = '';
-            main.innerHTML = await carregarPagina("/aluno/cadastrar-aluno.html");
+            main.innerHTML = await carregarPagina("/aluno/listar-aluno.html");
 
             await this.insertDataToView();
         }
@@ -59,15 +59,15 @@ export class AlunoController {
         const aviso = this.alunoVisao.pegarDadosDoFormCadastro();
 
         try {
-            this.visaoListagem.desabilitaBotao();
+            this.alunoVisao.desabilitaBotao();
             // await this.visaoListagem.cad;
-            this.visaoListagem.showSuccessMessage('Usuário cadastrado com sucesso!');
+            this.alunoVisao.showSuccessMessage('Usuário cadastrado com sucesso!');
             setTimeout(() => {
                 // location.href = API'/usuarios';
             }, 2000);
         } catch (error: any) {
-            this.visaoListagem.habilitaBotao();
-            this.visaoListagem.showErrorMessage(error.message);
+            this.alunoVisao.habilitaBotao();
+            this.alunoVisao.showErrorMessage(error.message);
         }
     };
 
