@@ -1,21 +1,20 @@
-import M from "materialize-css";
-// import * as style from "./style/_global.scss";
-import "materialize-css/dist/css/materialize.min.css";
-import { AlunoCursoController } from "./aluno-curso/aluno-curso-controladora";
-import { AlunoController } from "./aluno/aluno-controladora";
-import { carregarPagina } from "./utils/carrega-pagina";
-import { DashboardController } from "./dashboard/index-controladora";
+import { AlunoCursoController } from "./src/aluno-curso/aluno-curso-controladora";
+import { AlunoController } from "./src/aluno/aluno-controladora";
+import { carregarPagina } from "./src/utils/carrega-pagina";
+import { DashboardController } from "./src/dashboard/index-controladora";
+import { path } from "./src/utils/caminho-pagina";
 
-// import { CursoController } from "./curso/curso-controladora";
-// import { FuncionarioControlle } from "./funcionario/fuci-controladora";
-// import { switchRouter } from "./routes/app.routes";
-export * from './components/Button';
-export * from './components/Container';
-export * from './components/Form';
-export * from './components/Input';
-export * from './components/List';
-export * from './components/Title';
-export * from './components/Tabela';
+// import { CursoController } from "./src/curso/curso-controladora";
+// import { FuncionarioControlle } from "./src/funcionario/fuci-controladora";
+// import { switchRouter } from "./src/routes/app.routes";
+export * from './src/components/Button';
+export * from './src/components/Container';
+export * from './src/components/Form';
+export * from './src/components/Input';
+export * from './src/components/List';
+export * from './src/components/Title';
+export * from './src/components/Tabela';
+
 
 const alunoCursoController = new AlunoCursoController();
 const alunoController = new AlunoController();
@@ -24,6 +23,8 @@ const dashboardController = new DashboardController();
 // const funcionarioController = new FuncionarioController();
 
 window.addEventListener('load', () => {
+    const [main] = document.getElementsByTagName('main');
+
     // const [main] = document.getElementsByTagName('main');
     // if (document.location.pathname == '/') dashboardController.init();
     // else if (document.location.href.search('dashboard') != -1) dashboardController.init();
@@ -42,18 +43,18 @@ window.addEventListener('load', () => {
     // const loginPath = !usuario || Number( usuario.expiry ) < new Date()
     //     .getTime();
 
-    const proibido = (/^\/403\/?$/i).test(urlAtual);
-    const notasPath = (/^\/notas\/?([^\s]+)?$/i).test(urlAtual);
-    const funcionariosPath = (/^\/funcionarios\/?([^\s]+)?$/i).test(urlAtual);
-    const alunosPath = (/^\/alunos\/?([^\s]+)?$/i).test(urlAtual);
-    if (proibido) {
+    const proibido = ( /^\/403\/?$/i ).test( urlAtual );
+    const notasPath = ( /^\/notas\/?([^\s]+)?$/i ).test( urlAtual );
+    const funcionariosPath = ( /^\/funcionarios\/?([^\s]+)?$/i ).test( urlAtual );
+    const alunosPath = ( /^\/alunos\/?([^\s]+)?$/i ).test( urlAtual );
+    if ( proibido ) {
         // await carregaProibida();
-    } else if (notasPath) {
+    } else if ( notasPath ) {
         alunoCursoController.init();
-    }
-    else if (funcionariosPath) {
+    } 
+    else if ( funcionariosPath ) {
         // funcionarioController.init();
-    } else if (alunosPath) {
+    } else if ( alunosPath ) {
         alunoController.init();
     }
 
@@ -68,10 +69,6 @@ window.addEventListener('load', () => {
     //         } );
     //     }
     // }, 100 );
-
-
-    var elems = document.querySelectorAll('.sidenav');
-    var instances = M.Sidenav.init(elems);
 });
 
 
