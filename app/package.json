@@ -3,8 +3,8 @@
     "version": "1.0.0",
     "description": "",
     "scripts": {
-        "dev:server": "parcel app/publoc/**/*.html --open --https",
-        "build": "parcel build app/publoc/**/*.html --open --https",
+        "dev:server": "parcel app/public/**/*.html --open --https",
+        "build": "parcel build app/public/**/*.html --open --https",
         "test": "jest"
     },
     "source": "public/index.html",
