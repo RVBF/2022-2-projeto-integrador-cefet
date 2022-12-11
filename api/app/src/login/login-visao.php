@@ -1,48 +1,40 @@
 <?php
 
-require 'app/src/pdo/repository-exception.php';
+require_once 'app/src/pdo/repository-exception.php';
 
 class LoginVisao
 {
-  function method()
-  {
+  function method(){
     return $_SERVER['REQUEST_METHOD'];
   }
 
-  function path()
-  {
-    $dir = dirname($_SERVER['PHP_SELF']);
+  function path(){
+    $dir = dirname( $_SERVER['PHP_SELF'] );
     return str_replace([$dir, '/api', '/login'], '', $_SERVER['REQUEST_URI']);
   }
 
-
-  function autenticar()
-  {
+  function autenticar(){
     return preg_match('/^\/autenticar\/?$/i', $this->path()) && $this->method() == 'POST';
   }
 
-  function deslogar()
-  {
+  function deslogar(){
     return preg_match('/^\/deslogar\/?$/i', $this->path()) && $this->method() == 'DELETE';
   }
 
   // DRAWS
 
-  function responseLoginSuccess($dados)
-  {
-    http_response_code(200);
-    echo json_encode($dados);
+  function responseLoginSuccess( $dados ){
+    http_response_code( 200 );
+    echo json_encode( $dados );
   }
 
-  function responseDeslogarSuccess()
-  {
-    http_response_code(200);
+  function responseDeslogarSuccess(){
+    http_response_code( 200 );
     echo 'Usuário deslogado com sucesso!';
   }
 
   // ERRORS
-  function exibirErroAoConectar($message)
-  {
+  function exibirErroAoConectar($message){
     echo $message, PHP_EOL;
     $this->RepositoryException('Ocorreu um erro ao conectar ao banco de dados. Por favor, contate o suporte.');
   }

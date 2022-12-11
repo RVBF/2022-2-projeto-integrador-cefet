@@ -2,7 +2,10 @@
 
 namespace App\Src\AlunoCurso;
 
+use App\Src\Aluno\Aluno;
+use App\Src\Comum\Util;
 use ColecaoException;
+use Curso;
 use PDO;
 
 class RepositorioAlunoCursoEMBDR implements RepositorioAlunoCurso
@@ -32,7 +35,7 @@ class RepositorioAlunoCursoEMBDR implements RepositorioAlunoCurso
 	{
 
 		try {
-			$sql = 'INSERT INTO ' . self::TABELA . '(aluno_id, curso_id, matricula, nota_av1, nota_av2, nota_af, faltas)
+			$sql = "INSERT INTO " . self::TABELA . " (aluno_id, curso_id, matricula, nota_av1, nota_av2, nota_af, faltas)
 		
 			VALUES (
 				:aluno_id,
@@ -43,18 +46,26 @@ class RepositorioAlunoCursoEMBDR implements RepositorioAlunoCurso
 				:nota_av2,
 				:nota_af,
 				:faltas
-			)';
+			)";
+			Util::debug("INSERT INTO `pis-grupo1`.`aluno_curso` (`id`, `numero_matricula`, `nota_av1`, `nota_av2`, `nota_af`, `faltas`, `aluno_id`, `curso_id`) VALUES ('2', '1235', '2', '1', '1', '1', '1', '1');
+			");
+			$preparedStatement = $this->pdow->prepare("INSERT INTO `pis-grupo1`.`aluno_curso` ( `numero_matricula`, `nota_av1`, `nota_av2`, `nota_af`, `faltas`, `aluno_id`, `curso_id`) VALUES ('1235', '2', '1', '1', '1', '1', '1');
+			");
+			$dados = [
+				'aluno_id' => ($alunoCurso->getAluno() instanceof Aluno) ? $alunoCurso->getAluno()->getId() : 2,
+				'curso_id' => ($alunoCurso->getCurso() instanceof Curso) ? $alunoCurso->getCurso()->getId() : 1,
+				'matricula' => $alunoCurso->getmatricula(),
+				'nota_av1' => $alunoCurso->getAv1(),
+				'nota_av2'  => $alunoCurso->getAv2(),
+				'nota_af' => $alunoCurso->getNotaAF(),
+				'faltas' => $alunoCurso->getFaltas()
+			];
+			Util::debug($dados);
+			$preparedStatement->execute($dados);
+			Util::debug($this->pdow->lastInsertId());
+			exit();
 
-			$this->pdoW->execute($sql, [
-				"aluno_id" => $alunoCurso->getAluno(),
-				"curso_id" => $alunoCurso->getCurso(),
-				"nota_av1" => $alunoCurso->getAv1(),
-				"nota_av2" => $alunoCurso->getAv2(),
-				"nota_af" => $alunoCurso->getNotaAF(),
-				"faltas" => $alunoCurso->getFaltas()
-			]);
-
-			$alunoCurso->setId($this->pdoW->lastInsertId());
+			$alunoCurso->setId($this->pdow->lastInsertId());
 		} catch (\PDOException $e) {
 			throw new ColecaoException($e->getMessage(), $e->getCode(), $e);
 		}
@@ -75,7 +86,7 @@ class RepositorioAlunoCursoEMBDR implements RepositorioAlunoCurso
 				faltas = ":faltas"
 			WHERE id = ":id"';
 
-			$this->pdoW->execute($sql, [
+			$this->pdow->execute($sql, [
 				"aluno_id" => $alunoCurso->getAluno(),
 				"curso_id" => $alunoCurso->getCurso(),
 				"nota_av1" => $alunoCurso->getAv1(),
@@ -120,7 +131,7 @@ class RepositorioAlunoCursoEMBDR implements RepositorioAlunoCurso
 	{
 		try
 		{
-			return $this->pdoW->query('DELETE  FROM '.self::TABELA.' WHERE id = $id');
+			return $this->pdow->query('DELETE  FROM '.self::TABELA.' WHERE id = $id');
 		}catch(\PDOException $e)
 		{
 			throw new ColecaoException($e->getMessage(), $e->getCode(), $e);
@@ -131,7 +142,7 @@ class RepositorioAlunoCursoEMBDR implements RepositorioAlunoCurso
 	{
 		try
 		{
-			return $this->pdoW->rowCount(self::TABELA);
+			return $this->pdow->rowCount(self::TABELA);
 		}
 		catch (\Exception $e)
 		{

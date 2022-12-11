@@ -39,6 +39,7 @@ class AlunoCursoController
 
     try {
       $data = $request->all();
+
       $alunoCurso = new AlunoCurso(
         $data["id"],
         $data["matricula"],
@@ -46,13 +47,10 @@ class AlunoCursoController
         $data["av2"],
         $data["notaAF"],
         $data["falta"],
-        $data["aluno"],
-        $data["curso"]
-      );
-
-      // $erros  = $alunoCurso->validar();
-      // if(count($erros)) throw new \Exception("Existe erros de envio de dados!");
-
+        null,
+        null
+      );      
+      
       $alunosCursos = $this->colecaoAlunoCurso->adicionar($alunoCurso);
 
       Util::responseAddSuccess();

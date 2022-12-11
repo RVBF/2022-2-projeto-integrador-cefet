@@ -22,14 +22,12 @@ export class AlunoController {
         const [main] = document.getElementsByTagName('main');
 
         if (this.alunoVisao.listarAlunoRegex()) {
-            console.log('Entrei na listagem de aluno');
             main.innerHTML = '';
             main.innerHTML = await carregarPagina("/aluno/listar-aluno.html");
 
             await this.insertDataToView();
         }
         else if (this.alunoVisao.cadastrosRegex()) {
-            console.log('Entrei no cadastro de aluno');
             main.innerHTML = '';
             main.innerHTML = await carregarPagina("/aluno/cadastrar-aluno.html");
             await this.cadastrar();

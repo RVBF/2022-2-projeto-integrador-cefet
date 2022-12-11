@@ -64,7 +64,7 @@ class Router
 
 	public function resolve($request){
 		
-		$route = $this->find($request->method(), $request->base());
+		$route = $this->find($request->getMethod(), $request->base());
 		if($route)
 		{
 			
