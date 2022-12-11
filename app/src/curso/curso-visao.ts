@@ -75,7 +75,7 @@ export class CursoVisao {
     pegarDadosDoFormCadastro(): Curso {
         return new Curso({
             id: String(this.getValueInputElement('id')),
-            codigo: Number(this.getValueInputElement('codigo')),
+            codigo: String(this.getValueInputElement('codigo')),
             nome: String(this.getValueInputElement('nome')),
             situacao: String(this.getValueInputElement('situacao')),
             inicio: String(this.getValueInputElement('inicio')),
@@ -86,7 +86,7 @@ export class CursoVisao {
     pegarDadosDoFormEditar(): Curso {
         return new Curso({
             id: String(this.getValueInputElement('id')),
-            codigo: Number(this.getValueInputElement('codigo')),
+            codigo: String(this.getValueInputElement('codigo')),
             nome: String(this.getValueInputElement('nome').value),
             situacao: String(this.getValueInputElement('situacao').value),
             inicio: String(this.getValueInputElement('inicio').value),

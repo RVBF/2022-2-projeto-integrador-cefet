@@ -3,9 +3,9 @@
 namespace App\Src\AlunoCurso;
 
 use App\Src\Aluno\Aluno;
+use App\Src\Curso\Curso;
 use App\Src\Comum\Util;
 use ColecaoException;
-use Curso;
 use PDO;
 
 class RepositorioAlunoCursoEMBDR implements RepositorioAlunoCurso
@@ -27,7 +27,7 @@ class RepositorioAlunoCursoEMBDR implements RepositorioAlunoCurso
 			}
 			return $objetos;
 		} catch (\PDOException $e) {
-			throw new ColecaoException( $e->getMessage(), $e->getCode(), $e );
+			throw new ColecaoException($e->getMessage(), $e->getCode(), $e);
 		}
 	}
 
@@ -104,11 +104,11 @@ class RepositorioAlunoCursoEMBDR implements RepositorioAlunoCurso
 	{
 		try {
 			$objetos = [];
-			$result = $this->pdow->query('SELECT * FROM aluno_curso where id = "'.$id.'"')->fetchObject();
+			$result = $this->pdow->query('SELECT * FROM aluno_curso where id = "' . $id . '"')->fetchObject();
 
 			return $this->construirObjeto($result);
 		} catch (\PDOException $e) {
-			throw new ColecaoException( $e->getMessage(), $e->getCode(), $e );
+			throw new ColecaoException($e->getMessage(), $e->getCode(), $e);
 		}
 	}
 
@@ -129,23 +129,18 @@ class RepositorioAlunoCursoEMBDR implements RepositorioAlunoCurso
 
 	function delete($id)
 	{
-		try
-		{
-			return $this->pdow->query('DELETE  FROM '.self::TABELA.' WHERE id = $id');
-		}catch(\PDOException $e)
-		{
+		try {
+			return $this->pdow->query('DELETE  FROM ' . self::TABELA . ' WHERE id = $id');
+		} catch (\PDOException $e) {
 			throw new ColecaoException($e->getMessage(), $e->getCode(), $e);
 		}
 	}
 
 	function contagem()
 	{
-		try
-		{
+		try {
 			return $this->pdow->rowCount(self::TABELA);
-		}
-		catch (\Exception $e)
-		{
+		} catch (\Exception $e) {
 			throw new ColecaoException($e->getMessage(), $e->getCode(), $e);
 		}
 	}

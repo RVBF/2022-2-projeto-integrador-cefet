@@ -1,28 +1,21 @@
 interface CursoDTO {
   id: string;
-  codigo: number;
-  nome: String;
-  situacao: String;
-  inicio: String;
-  termino: String;
+  codigo: string;
+  nome: string;
+  situacao: string;
+  inicio: string;
+  termino: string;
 }
 export class Curso {
   id: string;
-  codigo: number;
-  nome: String;
-  situacao: String;
-  inicio: String;
-  termino: String;
+  codigo: string;
+  nome: string;
+  situacao: string;
+  inicio: string;
+  termino: string;
+
   constructor(
-    {
-      id,
-      codigo,
-      nome,
-      situacao,
-      inicio,
-      termino
-    }: CursoDTO
-  ) {
+    { id, codigo, nome, situacao, inicio, termino }: CursoDTO) {
     this.id = id;
     this.codigo = codigo;
     this.nome = nome;
@@ -31,9 +24,24 @@ export class Curso {
     this.termino = termino;
   }
 
-  validar(): string[] {
-    const erros: string[] = [];
+  validar = (): String[] => {
+    const erros: String[] = [];
 
+    if ( !/^[a-zA-Z]{3}[0-9]{2}$/.test( this.codigo ) ) {
+      erros.push( 'Código inválido' );
+    }
+
+    if ( this.nome == null || this.nome.length < 2 || this.nome.length > 100){
+      erros.push( 'Nome inválido' );
+    }
+
+    if ( this.situacao != 'não iniciado' && this.situacao != 'iniciado' && this.situacao != 'finalizado' ) {
+      erros.push( 'Situação inválida' );
+    }
+
+    if ( this.inicio > this.termino ){
+      erros.push( 'Término deve ser maior que o início' );
+    }
     return erros;
   }
 }
