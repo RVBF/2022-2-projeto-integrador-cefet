@@ -4,48 +4,53 @@ require 'app/src/login/login-visao.php';
 require 'app/src/login/login-repositorio-mysql.php';
 require_once 'app/src/pdo/conexao.php';
 
-class LoginControladora {
+class LoginControladora
+{
   private $visao;
   private $servico;
 
-  public function __construct () {
-    $this->visao = new LoginVisao();    
+  public function __construct()
+  {
+    $this->visao = new LoginVisao();
 
     $pdo = new Conexao();
-    $pdoConn = $pdo->pegaConexao();
-    $this->servico = new LoginRepositorioMysql( $pdoConn );
+    $pdoConn = $pdo->getConnection();
+    $this->servico = new LoginRepositorioMysql($pdoConn);
   }
 
-  public function init() {
-    if( $this->visao->autenticar() ){
+  public function init()
+  {
+    if ($this->visao->autenticar()) {
       $this->autenticar();
-    }elseif( $this->visao->deslogar() ) {
+    } elseif ($this->visao->deslogar()) {
       $this->deslogar();
     }
 
     return true;
   }
 
-  function autenticar() {
+  function autenticar()
+  {
     $dataLogin = $this->visao->dataLogin();
-    try{
-      $dados = $this->servico->autenticar( $dataLogin );
+    try {
+      $dados = $this->servico->autenticar($dataLogin);
       $this->visao->responseLoginSuccess($dados);
-    }catch( PDOException $errorPDO ) {
-      $this->visao->exibirErroAoConectar( $errorPDO );
-    }catch( RepositorioExcecao $error ) {
-      $this->visao->exibirErroAoConsultar( $error );
+    } catch (PDOException $errorPDO) {
+      $this->visao->exibirErroAoConectar($errorPDO);
+    } catch (RepositoryException $error) {
+      $this->visao->exibirErroAoConsultar($error);
     }
   }
 
-  function deslogar() {
-    try{
+  function deslogar()
+  {
+    try {
       $this->servico->deslogar();
       $this->visao->responseDeslogarSuccess();
-    }catch( PDOException $errorPDO ) {
-      $this->visao->exibirErroAoConectar( $errorPDO );
-    }catch( RepositorioExcecao $error ) {
-      $this->visao->exibirErroAoConsultar( $error );
+    } catch (PDOException $errorPDO) {
+      $this->visao->exibirErroAoConectar($errorPDO);
+    } catch (RepositoryException $error) {
+      $this->visao->exibirErroAoConsultar($error);
     }
   }
 }
