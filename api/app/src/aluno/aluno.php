@@ -27,50 +27,62 @@ class Aluno
         $this->email = $email;
     }
 
-    public function setId($id){
+    public function setId($id)
+    {
         $this->id = $id;
     }
 
-    public function getId(){
+    public function getId()
+    {
         return $this->id;
     }
-    public function setMatricula($matricula){
+    public function setMatricula($matricula)
+    {
         $this->matricula = $matricula;
     }
 
-    public function getMatricula(){
+    public function getMatricula()
+    {
         return $this->matricula;
     }
 
-    public function setNome($nome){
+    public function setNome($nome)
+    {
         $this->nome = $nome;
     }
 
-    public function getNome(){
+    public function getNome()
+    {
         return $this->nome;
     }
 
-    public function setCpf($cpf){
+    public function setCpf($cpf)
+    {
         $this->cpf = $cpf;
     }
 
-    public function getCpf(){
+    public function getCpf()
+    {
         return $this->cpf;
     }
 
-    public function setTelefone($telefone){
+    public function setTelefone($telefone)
+    {
         $this->telefone = $telefone;
     }
 
-    public function getTelefone(){
+    public function getTelefone()
+    {
         return $this->telefone;
     }
 
-    public function setEmail($email){
+    public function setEmail($email)
+    {
         $this->email = $email;
     }
 
-    public function getEmail(){
+    public function getEmail()
+    {
         return $this->email;
     }
 
@@ -139,14 +151,15 @@ class Aluno
         return $this->validateAll($allErrors);
     }
 
-    public function toArray(){
-        return [ 
+    public function toArray()
+    {
+        return [
             'id' => $this->id,
             'matricula' => $this->matricula,
             'nome' => $this->nome,
             'cpf' => $this->cpf,
             'telefone' => $this->telefone,
-            'email' => $this->email,   
+            'email' => $this->email,
         ];
     }
 }
