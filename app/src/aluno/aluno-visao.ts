@@ -1,11 +1,11 @@
 import { Aluno } from "./aluno";
-import { AlunoServico } from "./aluno-servico";
+import { ServicoAluno } from "./aluno-servico";
 import { path } from "../utils/caminho-pagina";
 
 export class AlunoVisao {
-   servicoAluno: AlunoServico;
+   servicoAluno: ServicoAluno;
    constructor() {
-      this.servicoAluno = new AlunoServico();
+      this.servicoAluno = new ServicoAluno();
    }
    listarAlunoRegex = (): boolean => (/^\/alunos\/?$/i).test(path());
    cadastrosRegex = (): boolean => (/^\/alunos\/novo\/?$/i).test(path());

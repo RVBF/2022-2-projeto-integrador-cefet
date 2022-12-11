@@ -36,7 +36,7 @@ export class AlunoRepositorio {
       return response.json();
    }
 
-   async todos(limit: number|null, offset: number|null): Promise<Aluno[]> {
+   async todos(limit: number = 10, offset: number = 1): Promise<Aluno[]> {
       console.log('entrei');
       const response = await fetch(`${API_ALUNO}`, {
          method: 'GET',

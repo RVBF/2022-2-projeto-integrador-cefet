@@ -24,7 +24,7 @@ export class AlunoCurso {
       av2,
       notaAF,
       falta,
-      aluno
+      aluno,
     }: AlunoCursoDTO
   ) {
     this.id = id;
