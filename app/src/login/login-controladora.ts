@@ -5,6 +5,7 @@ import { LoginVisao } from './login-visao';
 export class LoginControladora {
     loginServico: LoginServico;
     loginVisao: LoginVisao;
+
     constructor() {
         this.loginServico = new LoginServico();
         this.loginVisao = new LoginVisao();

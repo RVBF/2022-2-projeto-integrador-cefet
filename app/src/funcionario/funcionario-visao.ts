@@ -21,8 +21,6 @@ export class FuncionarioVisao {
         }
 
         funcionarios.forEach((funcionario) => {
-            // const conteudoLinha: Array<string> = [aluno.matricula.toString(), aluno!.nome, aluno.cpf.toString(), aluno.telefone.toString(), aluno.email.toString()]
-            // tbodyTable?.append(linhaTabela(conteudoLinha, [], []));
         });
     }
 

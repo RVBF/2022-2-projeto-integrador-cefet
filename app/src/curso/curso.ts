@@ -1,34 +1,34 @@
 interface CursoDTO {
-  id: number;
+  id: string;
   codigo: number;
   nome: String;
-  siuacao: String;
-  inicio: Date;
-  termino: Date;
+  situacao: String;
+  inicio: String;
+  termino: String;
 }
 export class Curso {
-   id: number;
-   codigo: number;
-   nome: String;
-   siuacao: String;
-   inicio: Date;
-   termino: Date;
+  id: string;
+  codigo: number;
+  nome: String;
+  situacao: String;
+  inicio: String;
+  termino: String;
   constructor(
     {
       id,
       codigo,
       nome,
-      siuacao,
+      situacao,
       inicio,
       termino
     }: CursoDTO
   ) {
-      this.id = id;
-      this.codigo = Number(codigo);
-      this.nome = nome;
-      this.siuacao = siuacao;
-      this.inicio = inicio;
-      this.termino = termino;
+    this.id = id;
+    this.codigo = codigo;
+    this.nome = nome;
+    this.situacao = situacao;
+    this.inicio = inicio;
+    this.termino = termino;
   }
 
   validar(): string[] {

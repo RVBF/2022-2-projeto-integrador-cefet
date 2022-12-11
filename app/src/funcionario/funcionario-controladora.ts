@@ -86,6 +86,6 @@ export class FuncionarioControladora {
     // };
 
     showErrorMessage(): Promise<void> {
-        throw new Error('Alunos não encontrados.');
+        throw new Error('Funcionários não encontrados.');
     }
 }
