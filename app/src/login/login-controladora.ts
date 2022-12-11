@@ -5,6 +5,7 @@ import { LoginVisao } from './login-visao';
 export class LoginControladora {
     loginServico: LoginServico;
     loginVisao: LoginVisao;
+
     constructor() {
         this.loginServico = new LoginServico();
         this.loginVisao = new LoginVisao();
@@ -12,8 +13,7 @@ export class LoginControladora {
 
     async init(): Promise<void> {
         const [main] = document.getElementsByTagName('main');
-
-        main.innerHTML = await carregarPagina('../../public/login/login.html');
+        main.innerHTML = await carregarPagina('/login/login.html');
         this.loginVisao.aoDispararLogar(this.logar);
     }
 
