@@ -1,5 +1,5 @@
 import { Aluno } from './aluno';
-import { ServicoAluno } from './aluno-servico';
+import { AlunoServico } from './aluno-servico';
 import { AlunoVisao } from './aluno-visao';
 import { carregarPagina } from '../utils/carrega-pagina';
 /* eslint-disable-next-line func-style */
@@ -9,43 +9,39 @@ async function loadPage(file: string): Promise<string> {
 
     return response.text();
 }
-
 export class AlunoController {
-    servicoAluno: ServicoAluno;
-    visaoListagem: AlunoVisao;
+    alunoServico: AlunoServico;
+    alunoVisao: AlunoVisao;
 
     constructor() {
-        this.servicoAluno = new ServicoAluno();
-        this.visaoListagem = new AlunoVisao();
+        this.alunoServico = new AlunoServico();
+        this.alunoVisao = new AlunoVisao();
     }
 
     async init(): Promise<void> {
         const [main] = document.getElementsByTagName('main');
 
-        if (this.visaoListagem.listarAlunoRegex()) {
+        if (this.alunoVisao.listarAlunoRegex()) {
             console.log('Entrei na listagem de aluno');
             main.innerHTML = '';
-            main.innerHTML = await carregarPagina("aluno/listar-aluno.html");
+            main.innerHTML = await carregarPagina("/aluno/listar-aluno.html");
 
             await this.insertDataToView();
         }
-        else if(this.visaoListagem.cadastrosRegex()) {
+        else if (this.alunoVisao.cadastrosRegex()) {
             console.log('Entrei no cadastro de aluno');
-
             main.innerHTML = '';
-            main.innerHTML = await carregarPagina( '/aluno/aluno-cadastro.html' );
+            main.innerHTML = await carregarPagina("/aluno/cadastrar-aluno.html");
             await this.cadastrar();
-
-
         }
     }
 
     async insertDataToView(): Promise<void> {
         try {
-            const aluno: Aluno[] = await this.servicoAluno.todos(10, 1);
-            this.visaoListagem.desenhar(aluno);
+            const aluno: Aluno[] = await this.alunoServico.todos(10, 1);
+            this.alunoVisao.desenhar(aluno);
         } catch (error: any) {
-            this.visaoListagem.showErrorMessage(error.message);
+            this.alunoVisao.showErrorMessage(error.message);
         }
     }
 
@@ -59,21 +55,20 @@ export class AlunoController {
     //     }
     // }
 
-
     cadastrar = async (): Promise<void> => {
-        const aviso = this.visaoListagem.pegarDadosDoFormCadastro();
+        const aviso = this.alunoVisao.pegarDadosDoFormCadastro();
 
-        // try {
-        //     this.visaoListagem.desabilitaBotao();
-        //     // await this.visaoListagem.cad;
-        //     this.visaoListagem.showSuccessMessage('Usuário cadastrado com sucesso!');
-        //     setTimeout(() => {
-        //         location.href = API'/usuarios';
-        //     }, 2000);
-        // } catch (error: any) {
-        //     this.visaoListagem.habilitaBotao();
-        //     this.visaoListagem.showErrorMessage(error.message);
-        // }
+        try {
+            this.alunoVisao.desabilitaBotao();
+            // await this.visaoListagem.cad;
+            this.alunoVisao.showSuccessMessage('Usuário cadastrado com sucesso!');
+            setTimeout(() => {
+                // location.href = API'/usuarios';
+            }, 2000);
+        } catch (error: any) {
+            this.alunoVisao.habilitaBotao();
+            this.alunoVisao.showErrorMessage(error.message);
+        }
     };
 
     // editar = async (): Promise<void> => {
