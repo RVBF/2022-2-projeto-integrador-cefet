@@ -1,5 +1,32 @@
-<form id="formulario-login">
-	<label>Login:</label><input type="text" name="login" id="login" /><br />
-	<label>Senha:</label><input type="password" name="senha" id="senha" /><br />
-	<button type="submit" class="logar" name="logar" id="logar">Entrar</button><br />
-</form>
+<div class='row'>
+	<div class='col s12 indigo darken-4 white-text'>
+		<h3>Login</h3>
+	</div>
+</div>
+
+<div class='row'>
+	<div class=" col s12 form-field">
+		<input class='validate' type="text" name='usuario' id='usuario' required />
+		<label for='usuario'>Usuário</label>
+	</div>
+
+	<div class=" col s12 form-field">
+		<input class='validate' type="text" name='senha' id='senha' required />
+		<label for='senha'>Senha</label>
+	</div>
+</div>
+
+<div class="row">
+	<div class="form-field">
+		<label for="lembrar">
+			<input type="checkbox" class="filled-in" name="lembrar" id="lembrar" />
+			<span>Lembrar-me </span>
+		</label>
+	</div>
+</div>
+
+<div class="row">
+	<div class="form-field">
+		<button class="btn-large waves-effect waves dark indigo darken-4" style="width: 50%;">Entrar</button>
+	</div>
+</div>
