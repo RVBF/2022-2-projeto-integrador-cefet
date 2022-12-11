@@ -2,6 +2,8 @@
 
 namespace App;
 
+use App\Src\Comum\Util;
+
 class Request
 {
 
@@ -31,16 +33,15 @@ class Request
 		switch($this->method)
 		{
 			case 'post':
-			$this->data = $_POST;
+			$this->data = json_decode(file_get_contents('php://input'),true);
 			break;
 			case 'get':
-			$this->data = $_GET;
+			$this->data = json_decode(file_get_contents('php://input'),true);
 			break;
 			case 'head':
 			case 'put':
 			case 'delete':
 			case 'options':
-			parse_str(file_get_contents('php://input'), $this->data);
 		}
 	}
 
@@ -55,7 +56,7 @@ class Request
 		return $this->base;
 	}
 
-	public function method(){
+	public function getMethod(){
 		
 		return $this->method;
 	}

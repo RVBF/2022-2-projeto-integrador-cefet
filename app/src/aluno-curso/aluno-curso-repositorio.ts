@@ -24,9 +24,15 @@ export class AlunoCursoRepositorio {
       return response;
    }
 
-   async adicionar(AlunoCurso: AlunoCurso): Promise<Response> {
+   async adicionar(alunoCurso: AlunoCurso): Promise<Response> {
+
       const response = await fetch(`${API_ALUNOCURSO}`, {
-         method: 'POST',
+         method: "POST",
+         body: JSON.stringify(alunoCurso),
+         headers: {
+            "Content-Type": "application/json;application/x-www-form-urlencoded;charset=UTF-8",
+         },
+       
       });
 
       if (!response.ok) {

@@ -160,14 +160,20 @@ export class VisaoAlunoCurso {
    }
 
    pegarDadosDoFormCadastro(): AlunoCurso {
+      const  campoMatricula = document.getElementById('matricula') as HTMLInputElement;
+      const  campoAV1 = document.getElementById('av1') as HTMLInputElement;
+      const  campoAV2 = document.getElementById('av2') as HTMLInputElement;
+      const  campoAvaliacaoFinal = document.getElementById('avaliacaoFinal') as HTMLInputElement;
+      const  campoFalta = document.getElementById('falta') as HTMLInputElement;
+      const  campoAluno = document.getElementById('aluno') as HTMLInputElement;
       return new AlunoCurso({
          id: 0,
-         matricula: Number(this.getValueInputElement('matricula')),
-         av1: Number(this.getValueInputElement('nota_av1')),
-         av2: Number(this.getValueInputElement('nota_av2')),
-         notaAF: Number(this.getValueInputElement('nota_AF')),
-         falta: Number(this.getValueInputElement('falta')),
-         aluno: new Aluno({ id: Number(this.getValueInputElement('aluno_id')), matricula: 0, nome: '', cpf: '', telefone: '', email: '' })
+         matricula: Number(campoMatricula.value),
+         av1: Number(campoAV1.value),
+         av2:  Number(campoAV2.value),
+         notaAF: Number(campoAvaliacaoFinal.value),
+         falta: Number(campoFalta.value),
+         aluno: new Aluno({ id: Number(campoAluno.value), matricula: Number(campoMatricula.value), nome: '', cpf: '', telefone: '', email: '' })
       })
    };
 

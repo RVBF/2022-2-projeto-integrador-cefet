@@ -62,7 +62,6 @@ export class AlunoCursoController {
 
             this.visaoAlunoCurso.aoDispararCadastrar(() => {
                 const aluno = this.visaoAlunoCurso.pegarDadosDoFormCadastro();
-
                 this.servicoAlunoCurso.adicionar(aluno);
 
                 // setTimeout(() => {
