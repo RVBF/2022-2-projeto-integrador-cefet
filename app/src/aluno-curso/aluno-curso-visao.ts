@@ -63,17 +63,17 @@ export class VisaoAlunoCurso {
       this.atualizaSituacao(this);
 
       document.getElementById('aluno')?.addEventListener('change', function (event) {
-         const select = document.querySelector('#aluno');
-         const matricula = document.querySelector('#matricula');
-         matricula.value = select!.options[select!.selectedIndex].getAttribute('matricula');
+         const select = (document.querySelector('#aluno') as HTMLSelectElement);
+         const matricula = (document.querySelector('#matricula') as HTMLInputElement);
+         matricula.value = String(select.options[select.selectedIndex].getAttribute('matricula'));
       });
    }
 
    processaSituacao(): void {
-      const nota_av1 = document.getElementById('av1');
-      const nota_av2 = document.getElementById('av2');
-      const faltas = document.getElementById('falta');
-      const situacao = document.getElementById('situacao');
+      const nota_av1 = (document.getElementById('av1') as HTMLInputElement);
+      const nota_av2 = (document.getElementById('av2') as HTMLInputElement);
+      const faltas = (document.getElementById('falta') as HTMLInputElement);
+      const situacao = (document.getElementById('situacao') as HTMLInputElement);
       const alunoCurso = new AlunoCurso({
          id: 0,
          matricula: 0,
@@ -111,7 +111,7 @@ export class VisaoAlunoCurso {
 
       allAlunos.forEach((aluno) => {
          const novaOpcao = document.createElement('option');
-         novaOpcao.setAttribute('matricula', aluno.matricula)
+         novaOpcao.setAttribute('matricula', String(aluno.matricula))
          novaOpcao.innerHTML = aluno.nome;
          novaOpcao.value = String(aluno.id);
          selectaluno?.append(novaOpcao);

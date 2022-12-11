@@ -31,7 +31,7 @@ export class FuncionarioServico {
     }
 
     async porAluno(funcionarioId: number): Promise<Funcionario[]> {
-        return this.FuncionarioRepositorio.buscarPorAluno(funcionarioId);
+        return this.FuncionarioRepositorio.buscarPorFuncionario(funcionarioId);
     }
 
     async delete(funcionarioId: number): Promise<Response> {
