@@ -2,6 +2,7 @@ import { Aluno } from './aluno';
 import { AlunoServico } from './aluno-servico';
 import { AlunoVisao } from './aluno-visao';
 import { carregarPagina } from '../utils/carrega-pagina';
+import { AlunoError } from './aluno-error';
 /* eslint-disable-next-line func-style */
 
 async function loadPage(file: string): Promise<string> {
@@ -43,48 +44,44 @@ export class AlunoController {
         }
     }
 
-    // async insertDataToViewEdit(usuarioId: number): Promise<void> {
-    //     try {
-    //         const usuario = await this.servicoUsuario.pegaUsuario(usuarioId);
-
-    //         this.visaoUsuario.drawEdit(usuario);
-    //     } catch (error: any) {
-    //         this.visaoUsuario.showErrorMessage(error.message);
-    //     }
-    // }
-
     cadastrar = async (): Promise<void> => {
-        const aviso = this.alunoVisao.pegarDadosDoFormCadastro();
+        this.alunoVisao.desenharCadastro();
+        
+        
+        try {
+            this.alunoVisao.aoDispararCadastrar(() => {
+                const aluno = this.alunoVisao.pegarDadosDoFormCadastro();
+                this.alunoServico.adicionar(aluno);
+
+                // setTimeout(() => {
+                //     location.href = '/aluno';
+                // }, 2000);
+            });
+        } catch (error: any) {
+            console.error(error);
+            // this.alunoVisao.habilitaBotao();
+            this.alunoVisao.showErrorMessage(error);
+        }
+    };
+
+    editar = async (): Promise<void> => {
+        const aluno = this.alunoVisao.pegarDadosDoFormEditar();
 
         try {
-            this.alunoVisao.desabilitaBotao();
-            // await this.visaoListagem.cad;
-            this.alunoVisao.showSuccessMessage('Usuário cadastrado com sucesso!');
-            setTimeout(() => {
-                // location.href = API'/usuarios';
-            }, 2000);
+            this.alunoVisao.aoDispararEditar(() =>{
+                this.alunoVisao.desabilitaBotao();
+                this.alunoServico.atualizar(aluno);
+    
+                this.alunoVisao.showSuccessMessage('Aluno atualizado com sucesso!');
+                // setTimeout(() => {
+                //     location.href = '/aluno';
+                // }, 2000);
+            })
         } catch (error: any) {
             this.alunoVisao.habilitaBotao();
             this.alunoVisao.showErrorMessage(error.message);
         }
     };
-
-    // editar = async (): Promise<void> => {
-    //     const aviso = this.visaoUsuario.pegarDadosDoFormEditar();
-
-    //     try {
-    //         this.visaoUsuario.desabilitaBotao();
-    //         await this.servicoUsuario.atualizarUsuario(aviso);
-
-    //         this.visaoUsuario.showSuccessMessage('Usuário atualizado com sucesso!');
-    //         setTimeout(() => {
-    //             location.href = '/usuarios';
-    //         }, 2000);
-    //     } catch (error: any) {
-    //         this.visaoUsuario.habilitaBotao();
-    //         this.visaoUsuario.showErrorMessage(error.message);
-    //     }
-    // };
 
     showErrorMessage(): Promise<void> {
         throw new Error('Alunos não encontrados.');

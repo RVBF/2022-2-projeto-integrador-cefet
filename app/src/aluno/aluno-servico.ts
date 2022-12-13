@@ -18,7 +18,7 @@ export class AlunoServico {
       return Number(id);
    }
 
-   adicionar(Aluno: Aluno): Promise<Response> {
+   async adicionar(Aluno: Aluno): Promise<Response> {
       return this.AlunoRepositorio.adicionar(Aluno);
    }
 

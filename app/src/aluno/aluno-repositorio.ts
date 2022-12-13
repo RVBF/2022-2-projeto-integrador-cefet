@@ -1,6 +1,6 @@
 import { appConfig } from '../config/config';
 import { Aluno } from './aluno';
-import { RepositorioError } from '../repositorio-error';
+import { AlunoError } from './aluno-error';
 
 const API_ALUNO = `${appConfig.api}/aluno`;
 
@@ -14,26 +14,31 @@ export class AlunoRepositorio {
             'content-type': 'application/json',
          },
       });
+      const responseData = await response.json();
 
-      if (!response.ok) {
-         throw new RepositorioError(
-            `Erro ao atualizar ID : ${Aluno.id} : ${response.statusText}`,
-         );
-      }
-
-      return response;
+      if ( !response.ok ) {
+         throw new AlunoError( responseData.error );
+     }
+      return responseData;
    }
 
    async adicionar(Aluno: Aluno): Promise<Response> {
       const response = await fetch(`${API_ALUNO}`, {
          method: 'POST',
+         body: JSON.stringify(Aluno),
+         headers: {
+            "Content-Type": "application/json;application/x-www-form-urlencoded;charset=UTF-8",
+         },
       });
 
-      if (!response.ok) {
-         throw new RepositorioError(`Erro ao adicionar aluno.`);
+      const responseData = await response.json();
+
+      if (!responseData.ok) {
+         console.log(responseData);
+         throw new AlunoError(String(responseData));
       }
 
-      return response.json();
+      return responseData;
    }
 
    async todos(limit: number|null, offset: number|null): Promise<Aluno[]> {
@@ -47,7 +52,7 @@ export class AlunoRepositorio {
       });
 
       if (!response.ok) {
-         throw new RepositorioError(`Erro ao buscar os alunos: ${response.statusText}`);
+         throw new AlunoError(`Erro ao buscar os alunos: ${response.statusText}`);
       }
 
       return response.json();
@@ -63,7 +68,7 @@ export class AlunoRepositorio {
       });
 
       if (!response.ok) {
-         throw new RepositorioError(
+         throw new AlunoError(
             `Erro ao buscar "aluno" ID : ${alunoId} : ${response.statusText}`,
          );
       }
@@ -81,7 +86,7 @@ export class AlunoRepositorio {
       });
 
       if (!response.ok) {
-         throw new RepositorioError(
+         throw new AlunoError(
             `Erro ao deletar "aluno" ID : ${alunoId} : ${response.statusText}`,
          );
       }

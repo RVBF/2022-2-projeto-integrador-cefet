@@ -8,7 +8,7 @@ use App\Src\Comum\Util;
 use ColecaoException;
 use PDO;
 
-class RepositorioAlunoCursoEMBDR implements RepositorioAlunoCurso
+class AlunoCursoRepositorioEmBDR implements AlunoCursoRepositorio
 {
 	private $pdow = null;
 	const TABELA = 'aluno_curso';
@@ -35,37 +35,35 @@ class RepositorioAlunoCursoEMBDR implements RepositorioAlunoCurso
 	{
 
 		try {
-			$sql = "INSERT INTO " . self::TABELA . " (aluno_id, curso_id, matricula, nota_av1, nota_av2, nota_af, faltas)
-		
+			$sql = "INSERT INTO " . self::TABELA . " (`numero_matricula`, `nota_av1`, `nota_av2`, `nota_af`, `faltas`, `aluno_id`, `curso_id`)		
 			VALUES (
-				:aluno_id,
-				:curso_id,
-				:curso_id,
-				:matricula,
-				:nota_av1,
-				:nota_av2,
-				:nota_af,
+				:numero_matricula
+				:nota_av1
+				:nota_av2
+				:nota_af
 				:faltas
+				:aluno_id
+				:curso_id
 			)";
-			Util::debug("INSERT INTO `pis-grupo1`.`aluno_curso` (`id`, `numero_matricula`, `nota_av1`, `nota_av2`, `nota_af`, `faltas`, `aluno_id`, `curso_id`) VALUES ('2', '1235', '2', '1', '1', '1', '1', '1');
-			");
-			$preparedStatement = $this->pdow->prepare("INSERT INTO `pis-grupo1`.`aluno_curso` ( `numero_matricula`, `nota_av1`, `nota_av2`, `nota_af`, `faltas`, `aluno_id`, `curso_id`) VALUES ('1235', '2', '1', '1', '1', '1', '1');
-			");
+
+
 			$dados = [
-				'aluno_id' => ($alunoCurso->getAluno() instanceof Aluno) ? $alunoCurso->getAluno()->getId() : 2,
-				'curso_id' => ($alunoCurso->getCurso() instanceof Curso) ? $alunoCurso->getCurso()->getId() : 1,
-				'matricula' => $alunoCurso->getmatricula(),
+				'numero_matricula' => $alunoCurso->getmatricula(),
 				'nota_av1' => $alunoCurso->getAv1(),
 				'nota_av2'  => $alunoCurso->getAv2(),
 				'nota_af' => $alunoCurso->getNotaAF(),
-				'faltas' => $alunoCurso->getFaltas()
+				'faltas' => $alunoCurso->getFaltas(),
+				'aluno_id' => ($alunoCurso->getAluno() instanceof Aluno) ? $alunoCurso->getAluno()->getId() : 2,
+				'curso_id' => ($alunoCurso->getCurso() instanceof Curso) ? $alunoCurso->getCurso()->getId() : 1,
 			];
-			Util::debug($dados);
-			$preparedStatement->execute($dados);
-			Util::debug($this->pdow->lastInsertId());
-			exit();
+			$preparedStatement = $this->pdow->prepare($sql);
+			$preparedStatement->execute($dados);	
+			
 
 			$alunoCurso->setId($this->pdow->lastInsertId());
+			Util::debug($this->pdow->lastInsertId());
+
+			Util::debug($alunoCurso);
 		} catch (\PDOException $e) {
 			throw new ColecaoException($e->getMessage(), $e->getCode(), $e);
 		}
