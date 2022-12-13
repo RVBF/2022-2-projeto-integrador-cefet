@@ -1,0 +1,29 @@
+* {
+    margin: 0 auto;
+    padding: 0;
+    .btn {
+        padding: 5px !important;
+        margin-top: 1em !important;
+    }
+    .text-menu {
+        padding: 1em;
+        margin-top: 1em !important;
+    }
+}
+
+.container {
+    padding: 2rem;
+    text-align: center;
+    background-size: 100%;
+    width: 80%;
+    margin-left: 10%;
+    margin-right: 10%;
+}
+
+nav {
+    background-color: #1d1b31 !important;
+    .sidenav-trigger {
+        display: block !important;
+        position: relative !important;
+    }
+}
