@@ -74,23 +74,23 @@ export class CursoVisao {
 
     pegarDadosDoFormCadastro(): Curso {
         return new Curso({
-            id: String(this.getValueInputElement('id')),
-            codigo: String(this.getValueInputElement('codigo')),
-            nome: String(this.getValueInputElement('nome')),
-            situacao: String(this.getValueInputElement('situacao')),
-            inicio: String(this.getValueInputElement('inicio')),
-            termino: String(this.getValueInputElement('termino'))
+            id: Number(this.getValueInputElement('id').value),
+            codigo: String(this.getValueInputElement('codigo').value),
+            nome: String(this.getValueInputElement('nome').value),
+            situacao: String(this.getValueInputElement('situacao').value),
+            inicio: new Date(this.getValueInputElement('inicio').value),
+            termino: new Date(this.getValueInputElement('termino').value)
         })
     };
 
     pegarDadosDoFormEditar(): Curso {
         return new Curso({
-            id: String(this.getValueInputElement('id')),
+            id: Number(this.getValueInputElement('id')),
             codigo: String(this.getValueInputElement('codigo')),
             nome: String(this.getValueInputElement('nome').value),
             situacao: String(this.getValueInputElement('situacao').value),
-            inicio: String(this.getValueInputElement('inicio').value),
-            termino: String(this.getValueInputElement('termino').value)
+            inicio: new Date(this.getValueInputElement('inicio').value),
+            termino: new Date(this.getValueInputElement('termino').value)
         })
     }
 
