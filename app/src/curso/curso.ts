@@ -1,18 +1,18 @@
 interface CursoDTO {
-  id: string;
+  id: number;
   codigo: string;
   nome: string;
   situacao: string;
-  inicio: string;
-  termino: string;
+  inicio: Date;
+  termino: Date;
 }
 export class Curso {
-  id: string;
+  id: number;
   codigo: string;
   nome: string;
   situacao: string;
-  inicio: string;
-  termino: string;
+  inicio: Date;
+  termino: Date;
 
   constructor(
     { id, codigo, nome, situacao, inicio, termino }: CursoDTO) {
