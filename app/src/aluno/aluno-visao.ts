@@ -39,20 +39,22 @@ export class AlunoVisao {
       email.value = String(aluno.id);
    }
 
+   desenharCadastro(): void {}
+
    habilitaBotao(): void {
-      const buttonEdit = this.getValueInputElement('salvar-aluno');
+      const buttonEdit = this.getValueInputElement('cadastrar');
 
       buttonEdit.disabled = false;
    }
 
    desabilitaBotao(): void {
-      const buttonEdit = this.getValueInputElement('salvar-aluno');
+      const buttonEdit = this.getValueInputElement('cadastrar');
 
       buttonEdit.disabled = true;
    }
 
    aoDispararCadastrar(callback: any): void {
-      const addAlunoButton = this.getValueInputElement('salvar-aluno');
+      const addAlunoButton = this.getValueInputElement('cadastrar');
       const functionToAct = (elem: MouseEvent): void => {
          elem.preventDefault();
          callback();
@@ -67,7 +69,7 @@ export class AlunoVisao {
          callback();
       };
 
-      const saveAlunoButton = this.getValueInputElement('salvar-aluno');
+      const saveAlunoButton = this.getValueInputElement('cadastrar');
 
       saveAlunoButton.addEventListener('click', functionToAct);
    }
@@ -77,15 +79,22 @@ export class AlunoVisao {
    }
 
    pegarDadosDoFormCadastro(): Aluno {
+      const  campoMatricula = document.getElementById('matricula') as HTMLInputElement;
+      const  campoNome = document.getElementById('nome') as HTMLInputElement;
+      const  campoCPF= document.getElementById('cpf') as HTMLInputElement;
+      const  campoTelefone = document.getElementById('telefone') as HTMLInputElement;
+      const  campoEmail = document.getElementById('email') as HTMLInputElement;
+     
       return new Aluno({
          id: 0,
-         matricula: Number(this.getValueInputElement('matricula')),
-         nome: String(this.getValueInputElement('nome')),
-         cpf: String(this.getValueInputElement('cpf')),
-         telefone: String(this.getValueInputElement('telefone')),
-         email: String(this.getValueInputElement('email'))
+         matricula: Number(campoMatricula.value),
+         nome: String(campoNome.value),
+         cpf:  String(campoCPF.value),
+         telefone: String(campoTelefone.value),
+         email: String(campoEmail.value)
       })
    };
+
 
    pegarDadosDoFormEditar(): Aluno {
       return new Aluno({

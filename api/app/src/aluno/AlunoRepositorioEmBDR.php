@@ -2,10 +2,12 @@
 
 namespace App\Src\Aluno;
 
-use ColecaoException;
+use App\RepositorioExcecao;
+use App\Src\Comum\Util;
 use PDO;
+use PDOException;
 
-class RepositorioAlunoEMBDR
+class AlunoRepositorioEmBDR implements AlunoRepositorio
 {
    private $pdow = null;
    const TABELA = 'aluno';
@@ -18,13 +20,13 @@ class RepositorioAlunoEMBDR
    {
       try {
          $objetos = [];
-         $result = $this->pdow->query('SELECT *, aluno_curso.numero_matricula as matricula FROM aluno JOIN aluno_curso on aluno_curso.aluno_id = aluno.id')->fetchAll();
+         $result = $this->pdow->query('SELECT  *, aluno_curso.numero_matricula as matricula FROM aluno RIGHT JOIN aluno_curso on aluno_curso.aluno_id = aluno.id' )->fetchAll();
          foreach ($result as $row) {
             $objetos[] = $this->construirObjeto($row)->toArray();
          }
          return $objetos;
       } catch (\PDOException $e) {
-         throw new ColecaoException($e->getMessage(), $e->getCode(), $e);
+         throw new PDOException($e->getMessage(), $e->getCode(), $e);
       }
    }
 
@@ -33,26 +35,30 @@ class RepositorioAlunoEMBDR
       try {
          $erros = $aluno->validateAll([]);
 
-         $sql = 'INSERT INTO ' . self::TABELA . '(matricula, nome, cpf, telefone, email)
+         if(count($erros) > 0) throw new RepositorioExcecao("Existem erros que precisa ser corrigidos!");
+         
+         $sql = "INSERT INTO " . self::TABELA . " (`nome`, `cpf`, `telefone`, `email`)
          VALUES (
-         	:matricula,
          	:nome,
          	:cpf,
          	:telefone,
-         	:email,
-         )';
+         	:email
+         )";
+			$preparedStatement = $this->pdow->prepare($sql);
 
-         $this->pdoW->execute($sql, [
-            'matricula' => $aluno->getMatricula(':matricula'),
-            'nome' => $aluno->getNome(':nome'),
-            'cpf' => $aluno->getCpf(':cpf'),
-            'telefone' => $aluno->getTelefone(':telefone'),
-            'email' => $aluno->getEmail(':email'),
+         $preparedStatement->execute([
+            'nome' => $aluno->getNome(),
+            'cpf' => $aluno->getCpf(),
+            'telefone' => $aluno->getTelefone(),
+            'email' => $aluno->getEmail()
          ]);
 
-         $aluno->setId($this->pdoW->lastInsertId());
+         $aluno->setId($this->pdow->lastInsertId());
       } catch (\PDOException $e) {
-         throw new ColecaoException($e->getMessage(), $e->getCode(), $e);
+         throw new PDOException($e->getMessage(), $e->getCode(), $e);
+      }
+      catch(RepositorioExcecao $e){
+         throw new RepositorioExcecao($e->getMessage(), $e->getCode(), $e);
       }
    }
 
@@ -76,7 +82,7 @@ class RepositorioAlunoEMBDR
             'id' => $aluno->getId()
          ]);
       } catch (\PDOException $e) {
-         throw new ColecaoException($e->getMessage(), $e->getCode(), $e);
+         throw new RepositorioExcecao($e->getMessage(), $e->getCode(), $e);
       }
    }
 
@@ -88,7 +94,7 @@ class RepositorioAlunoEMBDR
 
 			return $this->construirObjeto($result);
 		} catch (\PDOException $e) {
-			throw new ColecaoException( $e->getMessage(), $e->getCode(), $e );
+			throw new RepositorioExcecao( $e->getMessage(), $e->getCode(), $e );
 		}
 	}
 
@@ -99,7 +105,7 @@ class RepositorioAlunoEMBDR
 			return $this->pdoW->query('DELETE  FROM '.self::TABELA.' WHERE id = $id');
 		}catch(\PDOException $e)
 		{
-			throw new ColecaoException($e->getMessage(), $e->getCode(), $e);
+			throw new RepositorioExcecao($e->getMessage(), $e->getCode(), $e);
 		}
    }
 
@@ -111,7 +117,7 @@ class RepositorioAlunoEMBDR
 		}
 		catch (\Exception $e)
 		{
-			throw new ColecaoException($e->getMessage(), $e->getCode(), $e);
+			throw new RepositorioExcecao($e->getMessage(), $e->getCode(), $e);
 		}
    }
 

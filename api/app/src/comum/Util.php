@@ -64,10 +64,11 @@ abstract class Util
       self::erroDoServidor('Ocorreu um erro ao conectar ao banco de dados. Por favor, contate o suporte.');
    }
 
-   static function exibirErroAoConsultar(Exception $e)
+   static function exibirErroAoConsultar($erro)
    {
-      http_response_code(500);
-      die('Erro ao consultar o banco de dados: ' . $e->getMessage());
+      http_response_code(422);
+      // self::erroDoCliente($erro);
+      die(json_encode('Erro ao consultar o banco de dados: ' . $erro->getMessage()));
    }
 
    static function erroDoServidor($mensagem, $codigo = 500)
@@ -83,7 +84,7 @@ abstract class Util
    static function erro($mensagem, $codigo)
    {
       http_response_code($codigo);
-      echo $mensagem;
+      echo json_decode($mensagem, true);
       die();
    }
 }

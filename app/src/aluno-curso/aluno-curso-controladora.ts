@@ -63,6 +63,7 @@ export class AlunoCursoController {
             this.visaoAlunoCurso.aoDispararCadastrar(() => {
                 const aluno = this.visaoAlunoCurso.pegarDadosDoFormCadastro();
                 this.servicoAlunoCurso.adicionar(aluno);
+                // this.servicoAlunoCurso.showSuccessMessage('Notas  atualizada com sucesso!');
 
                 // setTimeout(() => {
                 //     location.href = '/notas';

@@ -1,3 +1,6 @@
 export class AlunoError extends Error {
-    name = 'AlunoError';
+    constructor(message: string) {
+        super(`${message}`);
+        this.name = 'AlunoError';
+    }
 }

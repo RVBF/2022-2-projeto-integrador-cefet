@@ -7,7 +7,7 @@ use App\Src\Comum\Util;
 use PDOException;
 use RepositoryException;
 
-class AlunoCursoController
+class AlunoCursoControladora
 {
   private $conexao = null;
   private $colecaoAlunoCurso;
@@ -15,7 +15,7 @@ class AlunoCursoController
   public function __construct(&$db)
   {
     $this->conexao = $db;
-    $this->colecaoAlunoCurso = new RepositorioAlunoCursoEMBDR($this->conexao);
+    $this->colecaoAlunoCurso = new AlunoCursoRepositorioEmBDR($this->conexao);
   }
 
   public function listar(Request $request)

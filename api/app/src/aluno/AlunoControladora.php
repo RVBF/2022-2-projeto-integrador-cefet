@@ -2,12 +2,14 @@
 
 namespace App\Src\Aluno;
 
+use App\RepositorioExcecao;
 use App\Request;
+use App\Src\AlunoCurso\AlunoCursoRepositorioEmBDR;
 use App\Src\Comum\Util;
 use PDOException;
 use RepositoryException;
 
-class AlunoController
+class AlunoControladora
 {
   private $conexao = null;
   private $colecaoAluno;
@@ -15,7 +17,7 @@ class AlunoController
   public function __construct(&$db)
   {
     $this->conexao = $db;
-    $this->colecaoAluno = new RepositorioAlunoEMBDR($this->conexao);
+    $this->colecaoAluno = new AlunoRepositorioEmBDR($this->conexao);
   }
 
   public function listar(Request $request)
@@ -35,9 +37,9 @@ class AlunoController
 
   function cadastrar(Request $request)
   {
-
     try {
       $data = $request->all();
+
       $aluno = new aluno(
         $data["id"],
         $data["matricula"],
@@ -52,7 +54,7 @@ class AlunoController
       Util::responseAddSuccess();
     } catch (PDOException $errorPDO) {
       Util::exibirErroAoConectar($errorPDO);
-    } catch (RepositoryException $error) {
+    } catch (RepositorioExcecao $error) {
       Util::exibirErroAoConsultar($error);
     }
   }
@@ -100,7 +102,7 @@ class AlunoController
 
     try {
 
-    $aluno = $this->colecaoAluno->comId($id);
+      $aluno = $this->colecaoAluno->comId($id);
 
       Util::responseAddSuccess($aluno->toArray());
     } catch (PDOException $errorPDO) {
