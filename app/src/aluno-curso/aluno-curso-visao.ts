@@ -119,7 +119,6 @@ export class VisaoAlunoCurso {
    }
 
    preencheSelectCursos(allCuros: Curso[]): void {
-      console.log(allCuros);
    }
 
    habilitaBotao(): void {

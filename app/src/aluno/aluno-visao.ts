@@ -1,60 +1,85 @@
 import { Aluno } from "./aluno";
 import { AlunoServico } from "./aluno-servico";
 import { path } from "../utils/caminho-pagina";
+import { colunaTabela, linhaTabela } from "../components/Tabela";
+import { Link } from "../components/Ancora";
+import { Button } from "../components";
+
 
 export class AlunoVisao {
    servicoAluno: AlunoServico;
    constructor() {
       this.servicoAluno = new AlunoServico();
    }
+   
    listarAlunoRegex = (): boolean => (/^\/alunos\/?$/i).test(path());
    cadastrosRegex = (): boolean => (/^\/alunos\/novo\/?$/i).test(path());
    atualizarAlunoRegex = (): boolean => (/^\/alunos\/\d+\/editar\/?$/).test(path());
 
    desenhar(alunos: Aluno[]): void {
-      const tbodyTable = document.querySelector('#aluno > tbody');
-
+      const tbodyTable = document.querySelector('#alunos > tbody');
       if (!alunos) {
          this.showSuccessMessage('Nenhum dado cadastrado!');
          return;
       }
 
       alunos.forEach((aluno) => {
-         // const conteudoLinha: Array<string> = [aluno.matricula.toString(), aluno!.nome, aluno.cpf.toString(), aluno.telefone.toString(), aluno.email.toString()]
-         // tbodyTable?.append(linhaTabela(conteudoLinha, [], []));
+         const conteudoLinha: Array<HTMLTableCellElement> = [
+            colunaTabela(aluno.matricula),
+            colunaTabela(aluno!.nome),
+            colunaTabela(aluno.cpf),
+            colunaTabela(aluno.telefone),
+            colunaTabela(aluno.email),
+            colunaTabela(Link('atualizar', `/alunos/${aluno.id}/editar`, '<span class="material-icons">edit </span>', 'btn') as HTMLElement),
+            colunaTabela(Link('visualizar', `/alunos/${aluno.id}/visualizar`, '<span class="material-icons">visibility</span>', 'btn') as HTMLElement),
+            colunaTabela(Button('remover', '<span class="material-icons">delete_outline</span>', 'btn') as HTMLElement),
+         ];
+         tbodyTable?.append(linhaTabela(conteudoLinha));
       });
    }
 
    desenharEdit(aluno: Aluno): void {
+      const id = this.getValueInputElement('id');
       const matricula = this.getValueInputElement('matricula');
       const nome = this.getValueInputElement('nome');
       const cpf = this.getValueInputElement('cpf');
       const telefone = this.getValueInputElement('telefone');
       const email = this.getValueInputElement('email');
+      const titulo = document.querySelector('h2');
 
-      matricula.value = aluno.matricula.toString();
-      nome.value = aluno.nome.toString();
-      cpf.value = aluno.cpf.toString();
-      telefone.value = aluno.telefone.toString();
-      email.value = String(aluno.id);
+      titulo!.innerText = 'Editar Aluno';
+
+
+      id.value = String(aluno.id);
+      id.focus();
+      matricula.value = String(aluno.id);
+      matricula.focus();
+      nome.value = String(aluno.nome);
+      nome.focus();
+      cpf.value = String(aluno.cpf);
+      cpf.focus();
+      telefone.value = String(aluno.telefone);
+      telefone.focus();
+      email.value = aluno.email;
+      email.focus();
    }
 
-   desenharCadastro(): void {}
+   desenharCadastro(): void { }
 
    habilitaBotao(): void {
-      const buttonEdit = this.getValueInputElement('cadastrar');
+      const buttonEdit = this.getValueInputElement('salvar');
 
       buttonEdit.disabled = false;
    }
 
    desabilitaBotao(): void {
-      const buttonEdit = this.getValueInputElement('cadastrar');
+      const buttonEdit = this.getValueInputElement('salvar');
 
       buttonEdit.disabled = true;
    }
 
    aoDispararCadastrar(callback: any): void {
-      const addAlunoButton = this.getValueInputElement('cadastrar');
+      const addAlunoButton = this.getValueInputElement('salvar');
       const functionToAct = (elem: MouseEvent): void => {
          elem.preventDefault();
          callback();
@@ -69,7 +94,7 @@ export class AlunoVisao {
          callback();
       };
 
-      const saveAlunoButton = this.getValueInputElement('cadastrar');
+      const saveAlunoButton = this.getValueInputElement('salvar');
 
       saveAlunoButton.addEventListener('click', functionToAct);
    }
@@ -79,48 +104,53 @@ export class AlunoVisao {
    }
 
    pegarDadosDoFormCadastro(): Aluno {
-      const  campoMatricula = document.getElementById('matricula') as HTMLInputElement;
-      const  campoNome = document.getElementById('nome') as HTMLInputElement;
-      const  campoCPF= document.getElementById('cpf') as HTMLInputElement;
-      const  campoTelefone = document.getElementById('telefone') as HTMLInputElement;
-      const  campoEmail = document.getElementById('email') as HTMLInputElement;
-     
+      const campoMatricula = document.getElementById('matricula') as HTMLInputElement;
+      const campoNome = document.getElementById('nome') as HTMLInputElement;
+      const campoCPF = document.getElementById('cpf') as HTMLInputElement;
+      const campoTelefone = document.getElementById('telefone') as HTMLInputElement;
+      const campoEmail = document.getElementById('email') as HTMLInputElement;
+
       return new Aluno({
          id: 0,
          matricula: Number(campoMatricula.value),
          nome: String(campoNome.value),
-         cpf:  String(campoCPF.value),
+         cpf: String(campoCPF.value),
          telefone: String(campoTelefone.value),
          email: String(campoEmail.value)
-      })
+      });
    };
 
-
    pegarDadosDoFormEditar(): Aluno {
+      const campoId = document.getElementById('id') as HTMLInputElement;
+      const campoMatricula = document.getElementById('matricula') as HTMLInputElement;
+      const campoNome = document.getElementById('nome') as HTMLInputElement;
+      const campoCPF = document.getElementById('cpf') as HTMLInputElement;
+      const campoTelefone = document.getElementById('telefone') as HTMLInputElement;
+      const campoEmail = document.getElementById('email') as HTMLInputElement;
+
       return new Aluno({
-         id: 0,
-         matricula: Number(this.getValueInputElement('matricula').value),
-         nome: String(this.getValueInputElement('nome').value),
-         cpf: String(this.getValueInputElement('cpf').value),
-         telefone: String(this.getValueInputElement('telefone').value),
-         email: String(this.getValueInputElement('email').value)
-      })
+         id: Number(campoId.value),
+         matricula: Number(campoMatricula.value),
+         nome: String(campoNome.value),
+         cpf: String(campoCPF.value),
+         telefone: String(campoTelefone.value),
+         email: String(campoEmail.value)
+      });
    }
 
    showSuccessMessage(message: string): void {
       const successMessage = document.getElementById('sucessBar');
 
-      successMessage!.innerText = message;
+      successMessage!.innerHTML = message;
       successMessage!.className = 'show';
       setTimeout(() => {
          successMessage!.className = successMessage!.className.replace('show', '');
       }, 2000);
    }
 
-   showErrorMessage(message: string): void {
+   showErrorMessage(message: String): void {
       const errorMessage = document.getElementById('errorBar');
-
-      errorMessage!.innerText = message;
+      errorMessage!.innerHTML = String(message);
       errorMessage!.className = 'show';
       setTimeout(() => {
          errorMessage!.className = errorMessage!.className.replace('show', '');

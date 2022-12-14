@@ -6,6 +6,7 @@ use App\RepositorioExcecao;
 use App\Request;
 use App\Src\AlunoCurso\AlunoCursoRepositorioEmBDR;
 use App\Src\Comum\Util;
+use JsonSerializable;
 use PDOException;
 use RepositoryException;
 
@@ -55,16 +56,14 @@ class AlunoControladora
     } catch (PDOException $errorPDO) {
       Util::exibirErroAoConectar($errorPDO);
     } catch (RepositorioExcecao $error) {
-      Util::exibirErroAoConsultar($error);
+      Util::erroDoCliente(json_encode(explode('|',$error->getMessage())), 422);
     }
   }
 
-  function update(Request $request)
+  function atualizar(Request $request)
   {
-
     try {
       $data = $request->all();
-
       $aluno = $this->colecaoAluno->comId($data['id']);
       $aluno->setMatricula($data["matricula"]);
       $aluno->setNome($data["nome"]);
@@ -72,7 +71,7 @@ class AlunoControladora
       $aluno->setTelefone($data["telefone"]);
       $aluno->setEmail($data["email"]);
 
-      $this->colecaoAluno->adicionar($aluno);
+      $this->colecaoAluno->atualizar($aluno);
 
       Util::responseUpdateSuccess();
     } catch (PDOException $errorPDO) {
@@ -97,14 +96,14 @@ class AlunoControladora
     }
   }
 
-  function comId($id)
+  function comId($request)
   {
 
     try {
+      $urlQuebrada  = explode('/', $request->base());
 
-      $aluno = $this->colecaoAluno->comId($id);
-
-      Util::responseAddSuccess($aluno->toArray());
+      $aluno = $this->colecaoAluno->comId($urlQuebrada[2]);
+      Util::responsePegaTodosSuccess($aluno->toArray());
     } catch (PDOException $errorPDO) {
       Util::exibirErroAoConectar($errorPDO);
     } catch (RepositoryException $error) {

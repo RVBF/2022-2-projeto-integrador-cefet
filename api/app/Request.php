@@ -22,30 +22,37 @@ class Request
 		$this->protocol = isset($_SERVER["HTTPS"]) ? 'https' : 'http';
 		$this->setData();
 
-		if(count($_FILES) > 0) {
+		if (count($_FILES) > 0) {
 			$this->setFiles();
 		}
-
 	}
 
 	protected function setData()
 	{
-		switch($this->method)
-		{
+		switch ($this->method) {
 			case 'post':
-			$this->data = json_decode(file_get_contents('php://input'),true);
-			break;
+				$this->data = json_decode(file_get_contents('php://input'), true);
+				break;
 			case 'get':
-			$this->data = json_decode(file_get_contents('php://input'),true);
-			break;
+				$this->data = json_decode(file_get_contents('php://input'), true);
+				break;
 			case 'head':
+				$this->data = json_decode(file_get_contents('php://input'), true);
+				break;
 			case 'put':
+				$this->data = json_decode(file_get_contents('php://input'), true);
+				break;
 			case 'delete':
+				$this->data = json_decode(file_get_contents('php://input'), true);
+				break;
 			case 'options':
+				$this->data = json_decode(file_get_contents('php://input'), true);
+				break;
 		}
 	}
 
-	protected function setFiles() {
+	protected function setFiles()
+	{
 		foreach ($_FILES as $key => $value) {
 			$this->files[$key] = $value;
 		}
@@ -56,12 +63,14 @@ class Request
 		return $this->base;
 	}
 
-	public function getMethod(){
-		
+	public function getMethod()
+	{
+
 		return $this->method;
 	}
 
-	public function uri(){
+	public function uri()
+	{
 		return $this->uri;
 	}
 
@@ -77,21 +86,21 @@ class Request
 
 	public function __get($key)
 	{
-		if(isset($this->data[$key])) 
-		{
+		if (isset($this->data[$key])) {
 			return $this->data[$key];
 		}
 	}
 
-	public function hasFile($key) {
+	public function hasFile($key)
+	{
 
 		return isset($this->files[$key]);
 	}
 
-	public function file($key){
+	public function file($key)
+	{
 
-		if(isset($this->files[$key])) 
-		{
+		if (isset($this->files[$key])) {
 			return $this->files[$key];
 		}
 	}
