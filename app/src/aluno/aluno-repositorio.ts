@@ -31,18 +31,14 @@ export class AlunoRepositorio {
          },
       });
 
-      const responseData = await response.json();
-
-      if (!responseData.ok) {
-         console.log(responseData);
-         throw new AlunoError(String(responseData));
-      }
-
-      return responseData;
+      if ( !response.ok ) {
+         console.log(response);
+         throw new AlunoError( `Erro ao cadastrar ${Aluno.nome} : ${response.statusText}` );
+     }
+      return response.json();
    }
 
    async todos(limit: number|null, offset: number|null): Promise<Aluno[]> {
-      console.log('entrei');
       const response = await fetch(`${API_ALUNO}`, {
          method: 'GET',
          headers: {
@@ -58,22 +54,16 @@ export class AlunoRepositorio {
       return response.json();
    }
 
-   async buscarPorAluno(alunoId: Number): Promise<Aluno[]> {
-      const response = await fetch(`${API_ALUNO}/${alunoId}/show`, {
+   async buscarPorAluno(alunoId: Number): Promise<Aluno> {
+      const response = await fetch( `${API_ALUNO}/${alunoId}/show`, {
          method: 'GET',
-         body: JSON.stringify(alunoId),
-         headers: {
-            'content-type': 'application/json',
-         },
-      });
+     } );
 
-      if (!response.ok) {
-         throw new AlunoError(
-            `Erro ao buscar "aluno" ID : ${alunoId} : ${response.statusText}`,
-         );
-      }
+     if ( !response.ok ) {
+         throw new AlunoError( `Erro ao buscar aviso ${alunoId} : ${response.statusText}` );
+     }
 
-      return response.json();
+     return response.json();
    }
 
    async delete(alunoId: number): Promise<Response> {

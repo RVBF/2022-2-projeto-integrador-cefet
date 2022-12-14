@@ -37,7 +37,6 @@ export class FuncionarioRepositorio {
     }
 
     async todos(limit: number = 10, offset: number = 1): Promise<Funcionario[]> {
-        console.log('entrei');
         const response = await fetch(`${API_FUNCIONARIO}`, {
             method: 'GET',
             headers: {

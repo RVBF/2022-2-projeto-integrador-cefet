@@ -66,8 +66,7 @@ abstract class Util
 
    static function exibirErroAoConsultar($erro)
    {
-      http_response_code(422);
-      // self::erroDoCliente($erro);
+      http_response_code(400);
       die(json_encode('Erro ao consultar o banco de dados: ' . $erro->getMessage()));
    }
 
@@ -84,7 +83,7 @@ abstract class Util
    static function erro($mensagem, $codigo)
    {
       http_response_code($codigo);
-      echo json_decode($mensagem, true);
+      echo $mensagem;
       die();
    }
 }

@@ -15,6 +15,7 @@ export * from './components/Input';
 export * from './components/List';
 export * from './components/Title';
 export * from './components/Tabela';
+export  *  from "./components/Ancora";
 
 const loginControladora = new LoginControladora();
 const alunoCursoController = new AlunoCursoController();

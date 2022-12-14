@@ -37,7 +37,6 @@ export class CursoRepositorio {
     }
 
     async todos(limit: number = 10, offset: number = 1): Promise<Curso[]> {
-        console.log('entrei');
         const response = await fetch(`${API_CURSO}`, {
             method: 'GET',
             headers: {

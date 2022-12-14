@@ -5,6 +5,7 @@ namespace App;
 use App\Request;
 use App\Dispacher;
 use App\RouteCollection;
+use App\Src\Comum\Util;
 
 class Router 
 {
@@ -79,24 +80,20 @@ class Router
 
 	protected function getValues($pattern, $positions)
 	{
-
-
 		$result = [];
 
 		$pattern = array_filter(explode('/', $pattern));
 
 		foreach($pattern as $key => $value)
 		{
-
-			if(in_array(($key+1), $positions)) {
-				$result[array_search(($key+1), ($positions+1))] = $value;
+			if(in_array($key, $positions)) {
+				$result[array_search($key, $positions)] = $value;
 			}
 		}
 
 		return $result;
 		
 	}
-
 	public function translate($name, $params)
 	{
 		$pattern = $this->route_collection->isThereAnyHow($name);

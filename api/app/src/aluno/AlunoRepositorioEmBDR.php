@@ -20,7 +20,7 @@ class AlunoRepositorioEmBDR implements AlunoRepositorio
    {
       try {
          $objetos = [];
-         $result = $this->pdow->query('SELECT  *, aluno_curso.numero_matricula as matricula FROM aluno RIGHT JOIN aluno_curso on aluno_curso.aluno_id = aluno.id' )->fetchAll();
+         $result = $this->pdow->query('SELECT  `aluno`.*, `aluno_curso`.numero_matricula as matricula FROM `aluno` LEFT JOIN `aluno_curso` on aluno_curso.aluno_id = aluno.id')->fetchAll();
          foreach ($result as $row) {
             $objetos[] = $this->construirObjeto($row)->toArray();
          }
@@ -34,9 +34,8 @@ class AlunoRepositorioEmBDR implements AlunoRepositorio
    {
       try {
          $erros = $aluno->validateAll([]);
+         if (count($erros) > 0) throw new RepositorioExcecao(implode('|', $erros));
 
-         if(count($erros) > 0) throw new RepositorioExcecao("Existem erros que precisa ser corrigidos!");
-         
          $sql = "INSERT INTO " . self::TABELA . " (`nome`, `cpf`, `telefone`, `email`)
          VALUES (
          	:nome,
@@ -44,7 +43,7 @@ class AlunoRepositorioEmBDR implements AlunoRepositorio
          	:telefone,
          	:email
          )";
-			$preparedStatement = $this->pdow->prepare($sql);
+         $preparedStatement = $this->pdow->prepare($sql);
 
          $preparedStatement->execute([
             'nome' => $aluno->getNome(),
@@ -56,69 +55,76 @@ class AlunoRepositorioEmBDR implements AlunoRepositorio
          $aluno->setId($this->pdow->lastInsertId());
       } catch (\PDOException $e) {
          throw new PDOException($e->getMessage(), $e->getCode(), $e);
-      }
-      catch(RepositorioExcecao $e){
+      } catch (RepositorioExcecao $e) {
          throw new RepositorioExcecao($e->getMessage(), $e->getCode(), $e);
       }
    }
 
-   function update(Aluno &$aluno)
+   function atualizar(Aluno &$aluno)
    {
       try {
-         $sql = 'UPDATE ' . self::TABELA . ' SET
-                  matricula = :matricula,
+
+         $sql = 'UPDATE `aluno` SET
                   nome = :nome,
                   cpf = :cpf,
                   telefone = :telefone,
-                  email = :email,			 	
-            WHERE id = :id"';
+                  email = :email 			 	
+            WHERE id = :id';
+         $preparedStatement = $this->pdow->prepare($sql);
 
-         $this->pdoW->execute($sql, [
-            'matricula' => $aluno->getMatricula(),
+         $executou = $preparedStatement->execute([
             'nome' => $aluno->getNome(),
             'cpf' => $aluno->getCpf(),
             'telefone' => $aluno->getTelefone(),
             'email' => $aluno->getEmail(),
             'id' => $aluno->getId()
          ]);
+         Util::debug($executou);
       } catch (\PDOException $e) {
+         throw new RepositorioExcecao($e->getMessage(), $e->getCode(), $e);
+      }
+      catch (RepositorioExcecao $e) {
          throw new RepositorioExcecao($e->getMessage(), $e->getCode(), $e);
       }
    }
 
    public function comId($id)
-	{
-		try {
-			$objetos = [];
-			$result = $this->pdow->query('SELECT * FROM aluno where id = "'.$id.'"')->fetchObject();
+   {
+      try {
+         $sql ='SELECT `aluno`.* , `aluno_curso`.numero_matricula as `matricula` FROM `aluno` LEFT JOIN `aluno_curso` on `aluno_curso`.aluno_id = `aluno`.id WHERE `aluno`.id = :id';
+         $preparedStatement = $this->pdow->prepare($sql);
+         $preparedStatement->execute(['id' => $id]);
 
-			return $this->construirObjeto($result);
-		} catch (\PDOException $e) {
-			throw new RepositorioExcecao( $e->getMessage(), $e->getCode(), $e );
-		}
-	}
+         if ($preparedStatement->rowCount() < 1) {
+            return null;
+         }
+
+         $result = $preparedStatement->fetch();
+
+         return $this->construirObjeto($result);
+      } catch (\PDOException $e) {
+         Util::debug($e->getMessage());
+         exit();
+         throw new PDOException($e->getMessage(), $e->getCode(), $e);
+      }
+   }
 
    function delete($id)
    {
-      try
-		{
-			return $this->pdoW->query('DELETE  FROM '.self::TABELA.' WHERE id = $id');
-		}catch(\PDOException $e)
-		{
-			throw new RepositorioExcecao($e->getMessage(), $e->getCode(), $e);
-		}
+      try {
+         return $this->pdoW->query('DELETE  FROM ' . self::TABELA . ' WHERE id = $id');
+      } catch (\PDOException $e) {
+         throw new RepositorioExcecao($e->getMessage(), $e->getCode(), $e);
+      }
    }
 
    function contagem()
    {
-   	try
-		{
-			return $this->pdoW->rowCount(self::TABELA);
-		}
-		catch (\Exception $e)
-		{
-			throw new RepositorioExcecao($e->getMessage(), $e->getCode(), $e);
-		}
+      try {
+         return $this->pdoW->rowCount(self::TABELA);
+      } catch (\Exception $e) {
+         throw new RepositorioExcecao($e->getMessage(), $e->getCode(), $e);
+      }
    }
 
    function construirObjeto(array $row)

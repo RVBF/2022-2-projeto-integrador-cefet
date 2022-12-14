@@ -61,9 +61,6 @@ class AlunoCursoRepositorioEmBDR implements AlunoCursoRepositorio
 			
 
 			$alunoCurso->setId($this->pdow->lastInsertId());
-			Util::debug($this->pdow->lastInsertId());
-
-			Util::debug($alunoCurso);
 		} catch (\PDOException $e) {
 			throw new ColecaoException($e->getMessage(), $e->getCode(), $e);
 		}

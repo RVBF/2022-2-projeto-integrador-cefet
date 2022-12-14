@@ -1,15 +1,15 @@
-export function Button(id: string, name: string, containerClass: string) {
-  const container = document.createElement('div');
+export function Button(id: string, name: string, containerClass: string) : HTMLButtonElement {
+  // const container = document.createElement('div');
 
-  container.setAttribute('class', containerClass);
+  // container.setAttribute('class', containerClass);
 
   const button = document.createElement('button');
 
-  button.append(name);
-  button.setAttribute('class', 'button');
+  button.innerHTML = name;
+  button.setAttribute('class', containerClass);
   button.setAttribute('id', id);
 
-  container.appendChild(button);
+  // container.appendChild(button);
 
-  return { container, button };
+  return button;
 }

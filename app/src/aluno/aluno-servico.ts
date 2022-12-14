@@ -1,11 +1,13 @@
 import { Aluno } from './aluno';
 import { RepositorioError } from '../repositorio-error';
 import { AlunoRepositorio } from './aluno-repositorio';
+import { AlunoError } from './aluno-error';
 
 export class AlunoServico {
-   AlunoRepositorio: AlunoRepositorio;
+
+   alunoRepositorio: AlunoRepositorio;
    constructor() {
-      this.AlunoRepositorio = new AlunoRepositorio();
+      this.alunoRepositorio = new AlunoRepositorio();
    }
 
    pegarUrlId(): number {
@@ -18,24 +20,39 @@ export class AlunoServico {
       return Number(id);
    }
 
-   async adicionar(Aluno: Aluno): Promise<Response> {
-      return this.AlunoRepositorio.adicionar(Aluno);
-   }
+   async adicionar( aluno: Aluno ): Promise<any> {
+      const todosErrosNoAluno = aluno.validateAll();
+      // if ( todosErrosNoAluno.length > 0 ) {
+      //     throw new AlunoError( todosErrosNoAluno.join( '<br>' ) );
+      // }
+
+      return this.alunoRepositorio.adicionar( aluno );
+  }
 
    todos(limit: number | null = null, offset: number | null = null): Promise<Aluno[]> {
-      return this.AlunoRepositorio.todos(limit, offset);
+      return this.alunoRepositorio.todos(limit, offset);
    }
 
    atualizar(Aluno: Aluno): Promise<Response> {
-      return this.AlunoRepositorio.atualizar(Aluno);
+      return this.alunoRepositorio.atualizar(Aluno);
    }
 
-   async porAluno(alunoId: number): Promise<Aluno[]> {
-      return this.AlunoRepositorio.buscarPorAluno(alunoId);
+   async porAluno(alunoId: number): Promise<any> {
+      return this.alunoRepositorio.buscarPorAluno(alunoId);
    }
 
    async delete(alunoId: number): Promise<Response> {
-      return this.AlunoRepositorio.delete(alunoId);
+      return this.alunoRepositorio.delete(alunoId);
    }
+
+   catchUrlId(): number {
+      const [ , , id ] = location.pathname.split( '/' );
+
+      if ( !id ) {
+          throw new AlunoError( 'Não foi possível pegar o id do aluno!' );
+      }
+
+      return parseInt( id );
+  }
 
 }
