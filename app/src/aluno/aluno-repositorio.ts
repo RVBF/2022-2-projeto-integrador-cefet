@@ -72,7 +72,7 @@ export class AlunoRepositorio {
       });
 
       if (!response.ok) {
-         throw new AlunoError(`Erro ao buscar aviso ${alunoId} : ${response.statusText}`);
+         throw new AlunoError(`Erro ao buscar aluno ${alunoId} : ${response.statusText}`);
       }
 
       return response.json();

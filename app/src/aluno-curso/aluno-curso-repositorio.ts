@@ -1,6 +1,6 @@
 import { appConfig } from '../config/config';
 import { AlunoCurso } from './aluno-curso';
-import { RepositorioError } from '../repositorio-error';
+import { AlunoCursoError } from './aluno-curso-error';
 
 const API_ALUNOCURSO = `${appConfig.api}/aluno-curso`;
 
@@ -14,35 +14,34 @@ export class AlunoCursoRepositorio {
             'content-type': 'application/json',
          },
       });
+      const responseData = await response.json();
 
       if (!response.ok) {
-         throw new RepositorioError(
-            `Erro ao atualizar ID : ${AlunoCurso.id} : ${response.statusText}`,
-         );
+         throw new AlunoCursoError(responseData.error);
       }
-
-      return response;
+      return responseData;
    }
 
    async adicionar(alunoCurso: AlunoCurso): Promise<Response> {
-
-      const response = await fetch(`${API_ALUNOCURSO}`, {
-         method: "POST",
-         body: JSON.stringify(alunoCurso),
+      return  await fetch(`${API_ALUNOCURSO}`, {
+         method: 'POST',
+         body: JSON.stringify(AlunoCurso),
          headers: {
             "Content-Type": "application/json;application/x-www-form-urlencoded;charset=UTF-8",
          },
-       
-      });
+      }).then(function (response) {
 
       if (!response.ok) {
-         throw new RepositorioError(`Erro ao adicionar uma nota.`);
       }
-
-      return response.json();
+      return response.json();  
+   })
+     .catch(err =>{
+      console.log(err);
+         throw new Error(err.join('<br>'));
+     });
    }
 
-   async todos(limit: number = 10, offset: number = 1): Promise<AlunoCurso[]> {
+   async todos(limit: number | null, offset: number | null): Promise<AlunoCurso[]> {
       const response = await fetch(`${API_ALUNOCURSO}`, {
          method: 'GET',
          headers: {
@@ -51,25 +50,19 @@ export class AlunoCursoRepositorio {
          // body: JSON.stringify({limit : limit, offset: offset})
       });
       if (!response.ok) {
-         throw new RepositorioError(`Erro ao buscar as notas: ${response.statusText}`);
+         throw new AlunoCursoError(`Erro ao buscar as notas: ${response.statusText}`);
       }
 
       return response.json();
    }
 
-   async buscarPorAluno(alunoId: Number): Promise<AlunoCurso[]> {
+   async buscarPorAlunoCurso(alunoId: Number): Promise<AlunoCurso[]> {
       const response = await fetch(`${API_ALUNOCURSO}/${alunoId}/show`, {
          method: 'GET',
-         body: JSON.stringify(alunoId),
-         headers: {
-            'content-type': 'application/json',
-         },
       });
 
       if (!response.ok) {
-         throw new RepositorioError(
-            `Erro ao buscar "aluno-curso" ID : ${alunoId} : ${response.statusText}`,
-         );
+         throw new AlunoCursoError(`Erro ao buscar aluno-curso ${alunoId} : ${response.statusText}`);
       }
 
       return response.json();
@@ -85,7 +78,7 @@ export class AlunoCursoRepositorio {
       });
 
       if (!response.ok) {
-         throw new RepositorioError(
+         throw new AlunoCursoError(
             `Erro ao deletar aluno-curso ID : ${alunoId} : ${response.statusText}`,
          );
       }

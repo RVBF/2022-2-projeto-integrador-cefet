@@ -70,7 +70,7 @@ export class AlunoCurso {
     } else return 'Reprovado';
   }
 
-  validar(): string[] {
+  validateAll(): string[] {
     const erros: string[] = [];
 
     if (typeof this.av1 !== 'number') erros.push('A nota informada não é um tipo númerico válido.');

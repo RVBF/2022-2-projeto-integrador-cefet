@@ -1,3 +1,6 @@
 export class AlunoCursoError extends Error {
-    name = 'AlunoCursoError';
+    constructor(message: string) {
+        super(`${message}`);
+        this.name = 'NotasError';
+    }
 }

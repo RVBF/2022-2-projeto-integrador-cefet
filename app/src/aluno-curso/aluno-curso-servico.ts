@@ -1,6 +1,7 @@
 import { AlunoCurso } from './aluno-curso';
 import { RepositorioError } from '../repositorio-error';
 import { AlunoCursoRepositorio } from './aluno-curso-repositorio';
+import { AlunoCursoError } from './aluno-curso-error';
 
 export class ServicoAlunoCurso {
    AlunoCursoRepositorio: AlunoCursoRepositorio;
@@ -19,23 +20,34 @@ export class ServicoAlunoCurso {
    }
 
    adicionar(AlunoCurso: AlunoCurso): Promise<Response> {
+      const todosErrosNoAluno = AlunoCurso.validateAll();
+
       return this.AlunoCursoRepositorio.adicionar(AlunoCurso);
    }
 
-   todos(limit: number, offset : number): Promise<AlunoCurso[]> {
+   todos(limit: number | null = null, offset: number | null = null): Promise<AlunoCurso[]> {
       return this.AlunoCursoRepositorio.todos(limit, offset);
    }
 
-   atualizar(AlunoCurso: AlunoCurso): Promise<Response> {
-      return this.AlunoCursoRepositorio.atualizar(AlunoCurso);
+   atualizar(Aluno: AlunoCurso): Promise<Response> {
+      return this.AlunoCursoRepositorio.atualizar(Aluno);
    }
 
-   async porAluno(alunoId: number): Promise<AlunoCurso[]> {
-      return this.AlunoCursoRepositorio.buscarPorAluno(alunoId);
+   porAluno(alunoId: number): Promise<any> {
+      return this.AlunoCursoRepositorio.buscarPorAlunoCurso(alunoId);
    }
 
-   async delete(alunoId: number): Promise<Response> {
+   delete(alunoId: number): Promise<Response> {
       return this.AlunoCursoRepositorio.delete(alunoId);
    }
-   
+
+   catchUrlId(): number {
+      const [ , , id ] = location.pathname.split( '/' );
+
+      if ( !id ) {
+          throw new AlunoCursoError( 'Não foi possível pegar o id da nota!' );
+      }
+
+      return parseInt( id );
+  }
 }
