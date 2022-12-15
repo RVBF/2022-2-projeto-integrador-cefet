@@ -25,21 +25,21 @@ export class AlunoController {
         }
         else if (this.alunoVisao.cadastrosRegex()) {
             main.innerHTML = '';
-            main.innerHTML = await carregarPagina("/aluno/cadastrar-aluno.html");
+            main.innerHTML = await carregarPagina("/aluno/formulario-aluno.html");
             await this.alunoVisao.desenharCadastro();
             this.alunoVisao.aoDispararCadastrar(this.cadastrar);
         }
         else if (this.alunoVisao.atualizarAlunoRegex()) {
-            main.innerHTML = await carregarPagina("/aluno/cadastrar-aluno.html");
+            main.innerHTML = await carregarPagina("/aluno/formulario-aluno.html");
 
-            const alunoId = this.alunoServico.catchUrlId();
+            const alunoId = this.alunoServico.pegaUrlId();
             await this.insereDadosNaViewEdit(alunoId);
             this.alunoVisao.aoDispararEditar(this.editar);
         }
         else if (this.alunoVisao.visualizarAlunoRegex()) {
-            main.innerHTML = await carregarPagina("/aluno/cadastrar-aluno.html");
+            main.innerHTML = await carregarPagina("/aluno/formulario-aluno.html");
 
-            const alunoId = this.alunoServico.catchUrlId();
+            const alunoId = this.alunoServico.pegaUrlId();
             await this.insereDadosNaViewVisualiza(alunoId);
             this.alunoVisao.configuraVisualizacao();
             this.alunoVisao.aoDispararVoltar(this.voltar);

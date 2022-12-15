@@ -20,14 +20,14 @@ export class AlunoCursoController {
             await this.insertDataToView();
         }
         else if (this.visaoAlunoCurso.cadastrosRegex()) {
-            main.innerHTML = await carregarPagina('/aluno-curso/cadastrar-nota.html');
+            main.innerHTML = await carregarPagina('/aluno-curso/formulario-nota.html');
             await this.cadastrar();
         }
         // else if ( this.visaoAlunoCurso.atualizarNotaRegex() ) {
         //     main.innerHTML = await carregarPagina(
         //         '../../public/usuario/usuarios-cadastro-form.html',
         //     );
-        //     // const usuarioId = this.servicoUsuario.catchUrlId();
+        //     // const usuarioId = this.servicoUsuario.pegaUrlId();
 
         //     // this.preencheSelect();
         //     // await this.insertDataToViewEdit( usuarioId );
