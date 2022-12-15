@@ -5,6 +5,8 @@ import { Aluno } from "../aluno/aluno";
 import { colunaTabela, linhaTabela } from "../components/Tabela/index";
 import { AlunoServico } from "../aluno/aluno-servico";
 import { Curso } from "../curso/curso";
+import { Link } from "../components/Ancora";
+import { Button } from "../components";
 
 
 export class VisaoAlunoCurso {
@@ -31,38 +33,54 @@ export class VisaoAlunoCurso {
          return;
       }
 
-      alunosCursos.forEach((alunoCurso: AlunoCurso) => {
-         const objAlunoCurso = new AlunoCurso({ id: alunoCurso.id, matricula: alunoCurso.matricula, av1: alunoCurso.av1, av2: alunoCurso.av2, notaAF: alunoCurso.notaAF, falta: alunoCurso.falta, aluno: alunoCurso.aluno });
-         tbodyTable?.append(linhaTabela([
-            colunaTabela(objAlunoCurso!.matricula),
+      alunosCursos.forEach((alunoCurso) => {
+         const conteudoLinha: Array<HTMLTableCellElement> = [
+            colunaTabela(alunoCurso!.matricula),
             colunaTabela('Rafael Barros'),
-            colunaTabela(objAlunoCurso!.av1),
-            colunaTabela(objAlunoCurso!.av2),
-            colunaTabela(objAlunoCurso.calcularMedia()),
-            colunaTabela(objAlunoCurso!.notaAF),
-            colunaTabela(objAlunoCurso.calcularMediaFinal())]
-         ));
+            colunaTabela(alunoCurso!.av1),
+            colunaTabela(alunoCurso!.av2),
+            colunaTabela(alunoCurso.calcularMedia()),
+            colunaTabela(alunoCurso!.notaAF),
+            colunaTabela(alunoCurso.calcularMediaFinal()),
+            colunaTabela(Link('atualizar', `/aluno-curso/${alunoCurso.id}/editar`, '<span class="material-icons">edit </span>', 'btn') as HTMLElement),
+            colunaTabela(Button('remover', '<span class="material-icons">delete_outline</span>', 'btn', [{ 'name': 'IdAluno', 'valor': String(alunoCurso.id) }]) as HTMLElement),
+         ];
+         tbodyTable?.append(linhaTabela(conteudoLinha));
       });
    }
 
    desenharEdit(alunoCurso: AlunoCurso): void {
+      const id = this.getValueInputElement('id');
       const matricula = this.getValueInputElement('matricula');
       const av1 = this.getValueInputElement('nota_av1');
       const av2 = this.getValueInputElement('nota_av2');
       const notaAF = this.getValueInputElement('nota_AF');
       const alunoID = this.getValueInputElement('aluno_id');
+      const titulo = document.querySelector('h2');
 
-      matricula.value = alunoCurso.matricula.toFixed(2);
-      av1.value = alunoCurso.av1.toFixed(2);
-      av2.value = alunoCurso.av2.toFixed(2);
-      notaAF.value = alunoCurso.notaAF.toFixed(2);
+      titulo!.innerText = 'Editar Notas';
+
+      id.value = String(alunoCurso.id);
+      id.focus();
+
+      matricula.value = String(alunoCurso.id);
+      matricula.focus();
+
+      av1.value = String(alunoCurso.id);
+      av1.focus();
+
+      av2.value = String(alunoCurso.id);
+      av2.focus();
+
+      notaAF.value = String(alunoCurso.id);
+      notaAF.focus();
+
       alunoID.value = String(alunoCurso!.aluno!.id);
    }
 
    desenharCadastro(): void {
       var select = document.querySelectorAll('select');
       var selectInstance = M.FormSelect.init(select);
-      this.preencheSelects(selectInstance);
       this.atualizaSituacao(this);
 
       document.getElementById('aluno')?.addEventListener('change', function (event) {
@@ -72,66 +90,14 @@ export class VisaoAlunoCurso {
       });
    }
 
-   processaSituacao(): void {
-      const nota_av1 = (document.getElementById('av1') as HTMLInputElement);
-      const nota_av2 = (document.getElementById('av2') as HTMLInputElement);
-      const faltas = (document.getElementById('falta') as HTMLInputElement);
-      const situacao = (document.getElementById('situacao') as HTMLInputElement);
-      const alunoCurso = new AlunoCurso({
-         id: 0,
-         matricula: 0,
-         av1: parseFloat(nota_av1.value),
-         av2: parseFloat(nota_av2.value),
-         notaAF: 0.00,
-         falta: 0,
-         aluno: null
-      });
-
-      situacao!.value = String(alunoCurso.situacaoAluno());
-   };
-
-   atualizaSituacao = async function (objeto: VisaoAlunoCurso) {
-      document.querySelector('#av1')?.addEventListener('keyup', objeto.processaSituacao);
-      document.querySelector('#av2')?.addEventListener('keyup', objeto.processaSituacao);
-      document.querySelector('#falta')?.addEventListener('keyup', objeto.processaSituacao);
-   }
-
-   preencheSelects = async (selectInstance: M.FormSelect[]): Promise<void> => {
-      const allAlunos = await this.servicoAluno.todos();
-      // const allCursos = await this.servicoC.todos();
-      this.preencheSelectAlunos(allAlunos);
-      // this.preencheSelectAlunos( allCursos );
-      var select = document.querySelectorAll('select');
-      var selectInstance = M.FormSelect.init(select);
-   };
-
-   preencheSelectAlunos(allAlunos: Aluno[]): void {
-      const selectaluno = document.querySelector('#aluno');
-
-      while (selectaluno?.firstChild) {
-         selectaluno.firstChild.remove();
-      }
-
-      allAlunos.forEach((aluno) => {
-         const novaOpcao = document.createElement('option');
-         novaOpcao.setAttribute('matricula', String(aluno.matricula))
-         novaOpcao.innerHTML = aluno.nome;
-         novaOpcao.value = String(aluno.id);
-         selectaluno?.append(novaOpcao);
-      });
-   }
-
-   preencheSelectCursos(allCuros: Curso[]): void {
-   }
-
    habilitaBotao(): void {
-      const buttonEdit = this.getValueInputElement('salvar-aluno-curso');
+      const buttonEdit = this.getValueInputElement('salvar');
 
       buttonEdit.disabled = false;
    }
 
    desabilitaBotao(): void {
-      const buttonEdit = this.getValueInputElement('salvar-aluno-curso');
+      const buttonEdit = this.getValueInputElement('salvar');
 
       buttonEdit.disabled = true;
    }
@@ -155,6 +121,31 @@ export class VisaoAlunoCurso {
       const saveAlunoCurso = this.getValueInputElement('salvar');
 
       saveAlunoCurso.addEventListener('click', functionToAct);
+   }
+
+   aoDispararVoltar(callback: any): void {
+      const functionToAct = (elem: MouseEvent): void => {
+         elem.preventDefault();
+         callback();
+      };
+
+      const voltaAlunoBotao = this.getValueInputElement('voltar');
+
+      voltaAlunoBotao.addEventListener('click', functionToAct);
+   }
+
+   aoDispararRemover(callback: any): void {
+      const functionToAct = (elem: MouseEvent): void => {
+         elem.preventDefault();
+         const botao = elem.target as HTMLButtonElement;
+
+         console.log(botao.getAttribute('idNota'));
+         callback(botao.getAttribute('nota-id'));
+      };
+
+      const voltaNotaBotao = this.getValueInputElement('remover');
+
+      voltaNotaBotao.addEventListener('click', functionToAct);
    }
 
    getValueInputElement(key: string): HTMLInputElement {
@@ -189,6 +180,30 @@ export class VisaoAlunoCurso {
          falta: Number(this.getValueInputElement('falta').value),
          aluno: new Aluno({ id: Number(this.getValueInputElement('aluno_id').value), matricula: 0, nome: '', cpf: '', telefone: '', email: '' })
       })
+   }
+
+   processaSituacao(): void {
+      const nota_av1 = (document.getElementById('av1') as HTMLInputElement);
+      const nota_av2 = (document.getElementById('av2') as HTMLInputElement);
+      const faltas = (document.getElementById('falta') as HTMLInputElement);
+      const situacao = (document.getElementById('situacao') as HTMLInputElement);
+      const alunoCurso = new AlunoCurso({
+         id: 0,
+         matricula: 0,
+         av1: parseFloat(nota_av1.value),
+         av2: parseFloat(nota_av2.value),
+         notaAF: 0.00,
+         falta: 0,
+         aluno: null
+      });
+
+      situacao!.value = String(alunoCurso.situacaoAluno());
+   };
+
+   atualizaSituacao = async function (objeto: VisaoAlunoCurso) {
+      document.querySelector('#av1')?.addEventListener('keyup', objeto.processaSituacao);
+      document.querySelector('#av2')?.addEventListener('keyup', objeto.processaSituacao);
+      document.querySelector('#falta')?.addEventListener('keyup', objeto.processaSituacao);
    }
 
    showSuccessMessage(message: string): void {
