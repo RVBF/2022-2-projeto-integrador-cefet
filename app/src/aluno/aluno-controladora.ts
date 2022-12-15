@@ -21,6 +21,7 @@ export class AlunoController {
             main.innerHTML = await carregarPagina("/aluno/listar-aluno.html");
 
             await this.insereDadosNaView();
+            this.alunoVisao.aoDispararRemover(this.remover);
         }
         else if (this.alunoVisao.cadastrosRegex()) {
             main.innerHTML = '';
@@ -34,6 +35,14 @@ export class AlunoController {
             const alunoId = this.alunoServico.catchUrlId();
             await this.insereDadosNaViewEdit(alunoId);
             this.alunoVisao.aoDispararEditar(this.editar);
+        }
+        else if (this.alunoVisao.visualizarAlunoRegex()) {
+            main.innerHTML = await carregarPagina("/aluno/cadastrar-aluno.html");
+
+            const alunoId = this.alunoServico.catchUrlId();
+            await this.insereDadosNaViewVisualiza(alunoId);
+            this.alunoVisao.configuraVisualizacao();
+            this.alunoVisao.aoDispararVoltar(this.voltar);
         }
     }
 
@@ -54,6 +63,10 @@ export class AlunoController {
         } catch (error: any) {
             this.alunoVisao.showErrorMessage(error.message);
         }
+    }
+    
+    async insereDadosNaViewVisualiza(alunoId: number): Promise<void> {
+        await this.insereDadosNaViewEdit(alunoId);
     }
 
     cadastrar = async (): Promise<void> => {
@@ -88,17 +101,28 @@ export class AlunoController {
     };
 
     remover = async ( idAluno: string ): Promise<void> => {
+        const idAlunoForm = idAluno;
+
+        try {
+            await this.alunoServico.delete( Number( idAlunoForm ) );
+            this.alunoVisao.showSuccessMessage( 'Aluno removido com sucesso!' );
+            // setTimeout( () => {
+            //     location.reload();
+            // }, 2000 );
+        } catch ( error: any ) {
+            // this.alunoVisao.habilitaBotao( idAluno );
+            this.alunoVisao.showErrorMessage( error.message );
+        }
+    };
+
+    voltar = async ( idAluno: string ): Promise<void> => {
         const idAlunoForm = idAluno.replace( 'del-', '' );
 
         try {
-            // this.alunoVisao.desabilitaBotao( idAluno );
-            await this.alunoServico.delete( Number( idAlunoForm ) );
-            this.alunoVisao.showSuccessMessage( 'Aluno removido com sucesso!' );
             setTimeout( () => {
-                location.reload();
+                location.href = '/alunos';
             }, 2000 );
         } catch ( error: any ) {
-            // this.alunoVisao.habilitaBotao( idAluno );
             this.alunoVisao.showErrorMessage( error.message );
         }
     };
