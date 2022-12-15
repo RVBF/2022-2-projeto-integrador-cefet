@@ -14,13 +14,8 @@ try {
 	print $e->getMessage();
 }
 
-Route::get('/aluno-curso', function () use (&$db) {
 
-	$controladora  = new AlunoCursoControladora($db);
-	$request = new Request;
-	$controladora->listar($request);
-});
-Route::get('/aluno-curso/{limit}/{offset}', function () use (&$db) {
+Route::get('/aluno-curso', function () use (&$db) {
 
 	$controladora  = new AlunoCursoControladora($db);
 	$request = new Request;
@@ -42,7 +37,7 @@ Route::post('/aluno-curso', function () use (&$db) {
 Route::put('/aluno-curso/{id}', function () use (&$db) {
 	$controladora  = new AlunoCursoControladora($db);
 	$request = new Request;
-	$controladora->update($request);
+	$controladora->atualizar($request);
 });
 
 Route::put('/aluno-curso/{id}/show', function () use (&$db) {

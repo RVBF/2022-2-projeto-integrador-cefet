@@ -23,7 +23,7 @@ export class AlunoRepositorio {
    }
 
    async adicionar(Aluno: Aluno): Promise<Response> {
-      return  await fetch(`${API_ALUNO}`, {
+      return await fetch(`${API_ALUNO}`, {
          method: 'POST',
          body: JSON.stringify(Aluno),
          headers: {
@@ -31,24 +31,13 @@ export class AlunoRepositorio {
          },
       }).then(function (response) {
 
-      if (response.status >= 400 && response.status <= 499) {
-         throw new AlunoError(`Erro ao cadastrar ${Aluno.nome} : ${response}`);
-      }
+         if (response.status >= 400 && response.status <= 499) {
+            console.log(response);
+            throw new AlunoError(`Erro ao cadastrar ${Aluno.nome} : ${response.json()}`);
+         }
 
-      return response.json();  
-   })
-     .catch(err =>{
-      console.log(err);
-         throw new Error(err.join('<br>'));
-     });
-
-      // if (!response.ok) {
-      //    const erros = await response.json();
-      //    throw new AlunoError(`Erro ao cadastrar ${Aluno.nome} : ${erros.join('<br>')}`);
-      // }
-      // else {
-      //    return (response.status == 201) ? response.json() : null;
-      // }
+         return response.json();
+      });
    }
 
    async todos(limit: number | null, offset: number | null): Promise<Aluno[]> {

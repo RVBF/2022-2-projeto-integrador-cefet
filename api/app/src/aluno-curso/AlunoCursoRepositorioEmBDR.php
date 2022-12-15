@@ -114,8 +114,7 @@ class AlunoCursoRepositorioEmBDR implements AlunoCursoRepositorio
 
 			return $this->construirObjeto($result);
 		} catch (\PDOException $e) {
-			Util::debug($e->getMessage());
-			exit();
+
 			throw new PDOException($e->getMessage(), $e->getCode(), $e);
 		}
 	}

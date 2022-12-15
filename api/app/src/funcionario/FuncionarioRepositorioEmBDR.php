@@ -84,7 +84,7 @@ class FuncionarioRepositorioEmBDR implements FuncionarioRepositorio
             'e_administrador' => $funcionario->getEAdministrador(),
             'id' => $funcionario->getId()
          ]);
-         Util::debug($executou);
+
       } catch (\PDOException $e) {
          throw new RepositorioExcecao($e->getMessage(), $e->getCode(), $e);
       }

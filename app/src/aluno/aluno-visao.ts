@@ -114,10 +114,9 @@ export class AlunoVisao {
    aoDispararRemover(callback: any): void {
       const functionToAct = (elem: MouseEvent): void => {
          elem.preventDefault();
-         const botao = elem.target as HTMLButtonElement;
+         const botao = (elem.target as HTMLButtonElement).parentNode as HTMLButtonElement;
 
-         console.log(botao.getAttribute('idaluno'));
-         callback(botao.getAttribute('aluno-id'));
+         callback(botao.getAttribute('idaluno'));
       };
 
       const voltaAlunoBotao = this.getValueInputElement('remover');

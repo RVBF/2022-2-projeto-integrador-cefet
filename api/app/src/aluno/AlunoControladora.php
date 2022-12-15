@@ -81,12 +81,12 @@ class AlunoControladora
     }
   }
 
-  function delete($id)
+  function delete(Request $request)
   {
 
     try {
-
-      $this->colecaoAluno->delete($id);
+      $urlQuebrada  = explode('/', $request->base());
+      $this->colecaoAluno->delete($urlQuebrada[2]);
 
       Util::responseDeleteSuccess();
     } catch (PDOException $errorPDO) {
