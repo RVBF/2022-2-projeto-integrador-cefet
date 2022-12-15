@@ -5,18 +5,21 @@ import { Aluno } from "../aluno/aluno";
 import { colunaTabela, linhaTabela } from "../components/Tabela/index";
 import { AlunoServico } from "../aluno/aluno-servico";
 import { Curso } from "../curso/curso";
+
+
 export class VisaoAlunoCurso {
    servicoAlunoCurso: ServicoAlunoCurso;
    servicoAluno: AlunoServico;
    _this: VisaoAlunoCurso = this;
+
    constructor() {
       this.servicoAlunoCurso = new ServicoAlunoCurso();
       this.servicoAluno = new AlunoServico();
    }
 
    listarNotasRegex = (): boolean => (/^\/notas\/?$/i).test(path());
-   cadastrosRegex = (): boolean => (/^\/notas\/novo\/?$/i).test(path());
-   atualizarAlunoRegex = (): boolean => (/^\/notas\/\d+\/editar\/?$/).test(path());
+   cadastroNotasRegex = (): boolean => (/^\/notas\/novo\/?$/i).test(path());
+   atualizarNotasRegex = (): boolean => (/^\/notas\/\d+\/editar\/?$/).test(path());
 
    desenhar(alunosCursos: AlunoCurso[]): void {
 
@@ -149,9 +152,9 @@ export class VisaoAlunoCurso {
          callback();
       };
 
-      const saveAvisoButton = this.getValueInputElement('salvar-usuario');
+      const saveAlunoCurso = this.getValueInputElement('salvar');
 
-      saveAvisoButton.addEventListener('click', functionToAct);
+      saveAlunoCurso.addEventListener('click', functionToAct);
    }
 
    getValueInputElement(key: string): HTMLInputElement {

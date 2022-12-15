@@ -2,6 +2,8 @@ import { AlunoCurso } from './aluno-curso';
 import { ServicoAlunoCurso } from './aluno-curso-servico';
 import { VisaoAlunoCurso } from './aluno-curso-visao';
 import { carregarPagina } from './../utils/carrega-pagina';
+/* eslint-disable-next-line func-style */
+
 export class AlunoCursoController {
     servicoAlunoCurso: ServicoAlunoCurso;
     visaoAlunoCurso: VisaoAlunoCurso;
@@ -15,85 +17,91 @@ export class AlunoCursoController {
         const [main] = document.getElementsByTagName('main');
 
         if (this.visaoAlunoCurso.listarNotasRegex()) {
+            main.innerHTML = '';
             main.innerHTML = await carregarPagina('/aluno-curso/listar-nota.html');
 
-            await this.insertDataToView();
+            await this.insereDadosNaView();
         }
-        else if (this.visaoAlunoCurso.cadastrosRegex()) {
+        else if (this.visaoAlunoCurso.cadastroNotasRegex()) {
+            main.innerHTML = '';
             main.innerHTML = await carregarPagina('/aluno-curso/cadastrar-nota.html');
-            await this.cadastrar();
+            await this.visaoAlunoCurso.desenharCadastro();
+            this.visaoAlunoCurso.aoDispararCadastrar(this.cadastrar);
         }
-        // else if ( this.visaoAlunoCurso.atualizarNotaRegex() ) {
-        //     main.innerHTML = await carregarPagina(
-        //         '../../public/usuario/usuarios-cadastro-form.html',
-        //     );
-        //     // const usuarioId = this.servicoUsuario.catchUrlId();
-
-        //     // this.preencheSelect();
-        //     // await this.insertDataToViewEdit( usuarioId );
-        //     // this.visaoUsuario.aoDispararEditar( this.editar );
-        // }
+        else if ( this.visaoAlunoCurso.atualizarNotasRegex() ) {
+            main.innerHTML = await carregarPagina('/aluno-curso/cadastrar-nota.html');
+            const alunoId = this.servicoAlunoCurso.catchUrlId();
+            await this.insereDadosNaViewEdit(alunoId);
+            this.visaoAlunoCurso.aoDispararEditar(this.editar);
+        }
     }
 
-    async insertDataToView(): Promise<void> {
+    async insereDadosNaView(): Promise<void> {
         try {
-            const alunoCurso: AlunoCurso[] = await this.servicoAlunoCurso.todos(10, 1);
-            this.visaoAlunoCurso.desenhar(alunoCurso);
-
+            const aluno: AlunoCurso[] = await this.servicoAlunoCurso.todos(null, null);
+            this.visaoAlunoCurso.desenhar(aluno);
         } catch (error: any) {
             this.visaoAlunoCurso.showErrorMessage(error.message);
         }
     }
 
-    // async insertDataToViewEdit(usuarioId: number): Promise<void> {
-    //     try {
-    //         const usuario = await this.servicoUsuario.pegaUsuario(usuarioId);
+    async insereDadosNaViewEdit(alunoId: number): Promise<void> {
+        try {
+            const aluno = await this.servicoAlunoCurso.porAluno(alunoId);
 
-    //         this.visaoUsuario.drawEdit(usuario);
-    //     } catch (error: any) {
-    //         this.visaoUsuario.showErrorMessage(error.message);
-    //     }
-    // }
-
+            this.visaoAlunoCurso.desenharEdit(aluno);
+        } catch (error: any) {
+            this.visaoAlunoCurso.showErrorMessage(error.message);
+        }
+    }
 
     cadastrar = async (): Promise<void> => {
         try {
-            this.visaoAlunoCurso.desenharCadastro();
+            const nota = this.visaoAlunoCurso.pegarDadosDoFormCadastro();
+            await this.servicoAlunoCurso.adicionar(nota);
+            this.visaoAlunoCurso.showSuccessMessage('Nota Cadastrada com sucesso!');
 
-            this.visaoAlunoCurso.aoDispararCadastrar(() => {
-                const aluno = this.visaoAlunoCurso.pegarDadosDoFormCadastro();
-                this.servicoAlunoCurso.adicionar(aluno);
-                // this.servicoAlunoCurso.showSuccessMessage('Notas  atualizada com sucesso!');
-
-                // setTimeout(() => {
-                //     location.href = '/notas';
-                // }, 2000);
-            });
-
+            setTimeout(() => {
+                location.href = '/aluno-curso';
+            }, 2000);
         } catch (error: any) {
             this.visaoAlunoCurso.habilitaBotao();
-            this.visaoAlunoCurso.showErrorMessage(error.message);
+            this.visaoAlunoCurso.showErrorMessage(error);
         }
     };
 
-    // editar = async (): Promise<void> => {
-    //     const aviso = this.visaoUsuario.pegarDadosDoFormEditar();
+    editar = async (): Promise<void> => {
+        try {
+            const nota = this.visaoAlunoCurso.pegarDadosDoFormEditar();
+            this.servicoAlunoCurso.atualizar(nota);
 
-    //     try {
-    //         this.visaoUsuario.desabilitaBotao();
-    //         await this.servicoUsuario.atualizarUsuario(aviso);
+            this.visaoAlunoCurso.showSuccessMessage('Nota editada com sucesso!');
 
-    //         this.visaoUsuario.showSuccessMessage('Usuário atualizado com sucesso!');
-    //         setTimeout(() => {
-    //             location.href = '/usuarios';
-    //         }, 2000);
-    //     } catch (error: any) {
-    //         this.visaoUsuario.habilitaBotao();
-    //         this.visaoUsuario.showErrorMessage(error.message);
-    //     }
-    // };
+            setTimeout(() => {
+                location.href = '/alunos';
+            }, 2000);
+        } catch (error: any) {
+            this.visaoAlunoCurso.habilitaBotao();
+            this.visaoAlunoCurso.showErrorMessage(error);
+        }
+    };
+
+    remover = async ( idNota: string ): Promise<void> => {
+        const idNotaForm = idNota.replace( 'del-', '' );
+
+        try {
+            await this.servicoAlunoCurso.delete( Number( idNotaForm ) );
+            this.visaoAlunoCurso.showSuccessMessage( 'Nota removida com sucesso!' );
+            setTimeout( () => {
+                location.reload();
+            }, 2000 );
+        } catch ( error: any ) {
+            this.visaoAlunoCurso.showErrorMessage( error.message );
+        }
+    };
+
 
     showErrorMessage(): Promise<void> {
-        throw new Error('Avisos não encontrados.');
+        throw new Error('Notas não encontradas.');
     }
 }
