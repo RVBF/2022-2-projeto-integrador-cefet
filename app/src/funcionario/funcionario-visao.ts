@@ -1,6 +1,9 @@
 import { Funcionario } from "./funcionario";
 import { FuncionarioServico } from "./funcionario-servico";
 import { path } from "../utils/caminho-pagina";
+import { colunaTabela, linhaTabela } from "../components/Tabela";
+import { Link } from "../components/Ancora";
+import { Button } from "../components";
 
 export class FuncionarioVisao {
     funcionarioServico: FuncionarioServico;
@@ -11,6 +14,7 @@ export class FuncionarioVisao {
     listarFuncionariosRegex = (): boolean => (/^\/funcionarios\/?$/i).test(path());
     cadastrarFuncionariosRegex = (): boolean => (/^\/funcionarios\/novo\/?$/i).test(path());
     atualizarFuncionariosRegex = (): boolean => (/^\/funcionarios\/\d+\/editar\/?$/).test(path());
+    visualizarFuncionariosRegex = (): boolean => (/^\/funcionarios\/\d+\/visualizar\/?$/).test(path());
 
     desenhar(funcionarios: Funcionario[]): void {
         const tbodyTable = document.querySelector('#funcionario > tbody');
@@ -21,31 +25,53 @@ export class FuncionarioVisao {
         }
 
         funcionarios.forEach((funcionario) => {
+            const conteudoLinha: Array<HTMLTableCellElement> = [
+                colunaTabela(funcionario!.nome),
+                colunaTabela(funcionario.cpf),
+                colunaTabela(funcionario.email),
+                colunaTabela(Link('atualizar', `/funcionarios/${funcionario.id}/editar`, '<span class="material-icons">edit </span>', 'btn') as HTMLElement),
+                colunaTabela(Link('visualizar', `/funcionarios/${funcionario.id}/visualizar`, '<span class="material-icons">visibility</span>', 'btn') as HTMLElement),
+                colunaTabela(Button('remover', '<span class="material-icons">delete_outline</span>', 'btn') as HTMLElement),
+            ];
+            tbodyTable?.append(linhaTabela(conteudoLinha));
         });
     }
 
     desenharEdit(funcionario: Funcionario): void {
+        const id = this.getValueInputElement('id');
         const nome = this.getValueInputElement('nome');
         const cpf = this.getValueInputElement('cpf');
         const email = this.getValueInputElement('email');
+        const eAdministrador = this.getValueInputElement('e_administrador');
+        const titulo = document.querySelector('h2');
 
-        nome.value = funcionario.nome.toString();
-        cpf.value = funcionario.cpf.toString();
-        email.value = funcionario.email.toString();
+        titulo!.innerText = 'Editar Funcionário';
+
+
+        id.value = String(funcionario.id);
+        id.focus();
+        nome.value = String(funcionario.nome);
+        nome.focus();
+        cpf.value = String(funcionario.cpf);
+        cpf.focus();
+        eAdministrador.value = String(funcionario.eAdministrador);
+        eAdministrador.focus();
+        email.value = funcionario.email;
+        email.focus();
     }
 
     habilitaBotao(): void {
-        const buttonEdit = this.getValueInputElement('salvar-funcionario');
+        const buttonEdit = this.getValueInputElement('salvar');
         buttonEdit.disabled = false;
     }
 
     desabilitaBotao(): void {
-        const buttonEdit = this.getValueInputElement('salvar-funcionario');
+        const buttonEdit = this.getValueInputElement('salvar');
         buttonEdit.disabled = true;
     }
 
     aoDispararCadastrar(callback: any): void {
-        const addFuncionarioButton = this.getValueInputElement('salvar-funcionario');
+        const addFuncionarioButton = this.getValueInputElement('salvar');
         const functionToAct = (elem: MouseEvent): void => {
             elem.preventDefault();
             callback();
@@ -60,7 +86,7 @@ export class FuncionarioVisao {
             callback();
         };
 
-        const saveFuncionarioButton = this.getValueInputElement('salvar-funcionario');
+        const saveFuncionarioButton = this.getValueInputElement('salvar');
         saveFuncionarioButton.addEventListener('click', functionToAct);
     }
 
@@ -69,22 +95,41 @@ export class FuncionarioVisao {
     }
 
     pegarDadosDoFormCadastro(): Funcionario {
+        const campoNome = document.getElementById('nome') as HTMLInputElement;
+        const campoCPF = document.getElementById('cpf') as HTMLInputElement;
+        const campoEmail = document.getElementById('email') as HTMLInputElement;
+        const campoEAdministrador = document.getElementById('eAdministrador') as HTMLInputElement;
+        const campoSenha = document.getElementById('senha') as HTMLInputElement;
+  
+  
         return new Funcionario({
-            id: String(this.getValueInputElement('id')),
-            nome: String(this.getValueInputElement('nome')),
-            cpf: String(this.getValueInputElement('cpf')),
-            email: String(this.getValueInputElement('email'))
-        })
-    };
-
-    pegarDadosDoFormEditar(): Funcionario {
+           id: 0,
+           nome: String(campoNome.value),
+           cpf: String(campoCPF.value),
+           email: String(campoEmail.value),
+           eAdministrador: Boolean(campoEAdministrador.value),
+           senha : String(campoSenha.value)
+        });
+     };
+  
+     pegarDadosDoFormEditar(): Funcionario {
+        const campoId = document.getElementById('id') as HTMLInputElement;
+        const campoNome = document.getElementById('nome') as HTMLInputElement;
+        const campoCPF = document.getElementById('cpf') as HTMLInputElement;
+        const campoEmail = document.getElementById('email') as HTMLInputElement;
+        const campoEAdministrador = document.getElementById('eAdministrador') as HTMLInputElement;
+        const campoSenha = document.getElementById('senha') as HTMLInputElement;
+  
+  
         return new Funcionario({
-            id: String(this.getValueInputElement('id')),
-            nome: String(this.getValueInputElement('nome').value),
-            cpf: String(this.getValueInputElement('cpf').value),
-            email: String(this.getValueInputElement('email').value)
-        })
-    }
+           id: Number(campoId.value),
+           nome: String(campoNome.value),
+           cpf: String(campoCPF.value),
+           email: String(campoEmail.value),
+           eAdministrador: Boolean(campoEAdministrador.value),
+           senha : null
+        });
+     }
 
     showSuccessMessage(message: string): void {
         const successMessage = document.getElementById('sucessBar');

@@ -57,8 +57,15 @@ Route::delete('/aluno-curso/{id}', function () use (&$db) {
 	$controladora->delete($request);
 });
 
+//alunos
 Route::get('/aluno', function () use (&$db) {
 	$controladora  = new AlunoControladora($db);
+	$request = new Request;
+	$controladora->listar($request);
+});
+Route::get('/aluno/{limit}/{offset}', function () use (&$db) {
+
+	$controladora  = new AlunoCursoControladora($db);
 	$request = new Request;
 	$controladora->listar($request);
 });
@@ -75,14 +82,45 @@ Route::put('/aluno/{id}/edit', function () use (&$db) {
 	$controladora->atualizar($request);
 });
 
-Route::get('/aluno/{limit}/{offset}', function () use (&$db) {
+Route::post('/aluno', function () use (&$db) {
+	$controladora  = new AlunoControladora($db);
+	$request = new Request;
+	$controladora->cadastrar($request);
+});
+
+Route::delete('/aluno/{id}', function() use (&$db){
+	$controladora  = new AlunoControladora($db);
+	$request = new Request;
+	$controladora->delete($request);
+});
+
+//funcionarios
+Route::get('/funcionario', function () use (&$db) {
 	$controladora  = new AlunoControladora($db);
 	$request = new Request;
 	$controladora->listar($request);
 });
 
-Route::post('/aluno', function () use (&$db) {
+Route::get('/funcionario/{id}/show', function () use (&$db) {
+	$controladora  = new AlunoControladora($db);
+	$request = new Request;
+	$controladora->comId($request);
+});
+
+Route::put('/funcionario/{id}/edit', function () use (&$db) {
+	$controladora  = new AlunoControladora($db);
+	$request = new Request;
+	$controladora->atualizar($request);
+});
+
+Route::post('/funcionario', function () use (&$db) {
 	$controladora  = new AlunoControladora($db);
 	$request = new Request;
 	$controladora->cadastrar($request);
+});
+
+Route::delete('/funcionario/{id}', function() use (&$db){
+	$controladora  = new AlunoControladora($db);
+	$request = new Request;
+	$controladora->delete($request);
 });

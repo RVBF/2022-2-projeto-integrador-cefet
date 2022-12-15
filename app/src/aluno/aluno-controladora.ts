@@ -4,11 +4,6 @@ import { AlunoVisao } from './aluno-visao';
 import { carregarPagina } from '../utils/carrega-pagina';
 /* eslint-disable-next-line func-style */
 
-async function loadPage(file: string): Promise<string> {
-    const response = await fetch(file);
-
-    return response.text();
-}
 export class AlunoController {
     alunoServico: AlunoServico;
     alunoVisao: AlunoVisao;
@@ -25,7 +20,7 @@ export class AlunoController {
             main.innerHTML = '';
             main.innerHTML = await carregarPagina("/aluno/listar-aluno.html");
 
-            await this.insertDataToView();
+            await this.insereDadosNaView();
         }
         else if (this.alunoVisao.cadastrosRegex()) {
             main.innerHTML = '';
@@ -37,12 +32,12 @@ export class AlunoController {
             main.innerHTML = await carregarPagina("/aluno/cadastrar-aluno.html");
 
             const alunoId = this.alunoServico.catchUrlId();
-            await this.insertDataToViewEdit(alunoId);
+            await this.insereDadosNaViewEdit(alunoId);
             this.alunoVisao.aoDispararEditar(this.editar);
         }
     }
 
-    async insertDataToView(): Promise<void> {
+    async insereDadosNaView(): Promise<void> {
         try {
             const aluno: Aluno[] = await this.alunoServico.todos(null, null);
             this.alunoVisao.desenhar(aluno);
@@ -51,7 +46,7 @@ export class AlunoController {
         }
     }
 
-    async insertDataToViewEdit(alunoId: number): Promise<void> {
+    async insereDadosNaViewEdit(alunoId: number): Promise<void> {
         try {
             const aluno = await this.alunoServico.porAluno(alunoId);
 
@@ -65,7 +60,6 @@ export class AlunoController {
         try {
             const aluno = this.alunoVisao.pegarDadosDoFormCadastro();
             await this.alunoServico.adicionar(aluno);
-
             this.alunoVisao.showSuccessMessage('Aluno Cadastrado com sucesso!');
 
             setTimeout(() => {

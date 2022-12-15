@@ -1,9 +1,11 @@
 import { Funcionario } from './funcionario';
 import { RepositorioError } from '../repositorio-error';
 import { FuncionarioRepositorio } from './funcionario-repositorio';
+import { FuncionarioError } from './funcionario-error';
 
 export class FuncionarioServico {
     FuncionarioRepositorio: FuncionarioRepositorio;
+   
     constructor() {
         this.FuncionarioRepositorio = new FuncionarioRepositorio();
     }
@@ -12,25 +14,25 @@ export class FuncionarioServico {
         const [, , id] = location.pathname.split('/');
 
         if (!id) {
-            throw new RepositorioError('Id não foi localizado!');
+            throw new FuncionarioError('Id não foi localizado!');
         }
 
         return Number(id);
     }
 
-    adicionar(Funcionario: Funcionario): Promise<Response> {
-        return this.FuncionarioRepositorio.adicionar(Funcionario);
+    adicionar(funcionario: Funcionario): Promise<Response> {
+        return this.FuncionarioRepositorio.adicionar(funcionario);
     }
 
     todos(limit: number, offset: number): Promise<Funcionario[]> {
         return this.FuncionarioRepositorio.todos(limit, offset);
     }
 
-    atualizar(Funcionario: Funcionario): Promise<Response> {
-        return this.FuncionarioRepositorio.atualizar(Funcionario);
+    atualizar(funcionario: Funcionario): Promise<Response> {
+        return this.FuncionarioRepositorio.atualizar(funcionario);
     }
 
-    async porAluno(funcionarioId: number): Promise<Funcionario[]> {
+    async pegaFuncionario(funcionarioId: number): Promise<Funcionario> {
         return this.FuncionarioRepositorio.buscarPorFuncionario(funcionarioId);
     }
 
