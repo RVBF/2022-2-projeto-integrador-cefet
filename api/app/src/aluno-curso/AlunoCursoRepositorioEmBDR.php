@@ -4,9 +4,11 @@ namespace App\Src\AlunoCurso;
 
 use App\Src\Aluno\Aluno;
 use App\Src\Curso\Curso;
+use App\RepositorioExcecao;
 use App\Src\Comum\Util;
 use ColecaoException;
 use PDO;
+use PDOException;
 
 class AlunoCursoRepositorioEmBDR implements AlunoCursoRepositorio
 {
@@ -27,7 +29,7 @@ class AlunoCursoRepositorioEmBDR implements AlunoCursoRepositorio
 			}
 			return $objetos;
 		} catch (\PDOException $e) {
-			throw new ColecaoException($e->getMessage(), $e->getCode(), $e);
+			throw new PDOException($e->getMessage(), $e->getCode(), $e);
 		}
 	}
 
@@ -57,16 +59,16 @@ class AlunoCursoRepositorioEmBDR implements AlunoCursoRepositorio
 				'curso_id' => ($alunoCurso->getCurso() instanceof Curso) ? $alunoCurso->getCurso()->getId() : 1,
 			];
 			$preparedStatement = $this->pdow->prepare($sql);
-			$preparedStatement->execute($dados);	
-			
+			$preparedStatement->execute($dados);
+
 
 			$alunoCurso->setId($this->pdow->lastInsertId());
 		} catch (\PDOException $e) {
-			throw new ColecaoException($e->getMessage(), $e->getCode(), $e);
+			throw new PDOException($e->getMessage(), $e->getCode(), $e);
 		}
 	}
 
-	function update(AlunoCurso &$alunoCurso)
+	function atualizar(AlunoCurso &$alunoCurso)
 	{
 
 		try {
@@ -80,8 +82,9 @@ class AlunoCursoRepositorioEmBDR implements AlunoCursoRepositorio
 				nota_af = ":nota_af",
 				faltas = ":faltas"
 			WHERE id = ":id"';
+			$preparedStatement = $this->pdow->prepare($sql);
 
-			$this->pdow->execute($sql, [
+			$executou = $preparedStatement->execute([
 				"aluno_id" => $alunoCurso->getAluno(),
 				"curso_id" => $alunoCurso->getCurso(),
 				"nota_av1" => $alunoCurso->getAv1(),
@@ -91,19 +94,47 @@ class AlunoCursoRepositorioEmBDR implements AlunoCursoRepositorio
 				"id" => $alunoCurso->getId()
 			]);
 		} catch (\PDOException $e) {
-			throw new ColecaoException($e->getMessage(), $e->getCode(), $e);
+			throw new RepositorioExcecao($e->getMessage(), $e->getCode(), $e);
+		} catch (RepositorioExcecao $e) {
+			throw new RepositorioExcecao($e->getMessage(), $e->getCode(), $e);
 		}
 	}
 
 	public function comId($id)
 	{
 		try {
-			$objetos = [];
-			$result = $this->pdow->query('SELECT * FROM aluno_curso where id = "' . $id . '"')->fetchObject();
+			$sql = 'SELECT * FROM aluno_curso where id = "' . $id . '"';
+			$preparedStatement = $this->pdow->prepare($sql);
+			$preparedStatement->execute(['id' => $id]);
+			if ($preparedStatement->rowCount() < 1) {
+				return null;
+			}
+
+			$result = $preparedStatement->fetch();
 
 			return $this->construirObjeto($result);
 		} catch (\PDOException $e) {
-			throw new ColecaoException($e->getMessage(), $e->getCode(), $e);
+			Util::debug($e->getMessage());
+			exit();
+			throw new PDOException($e->getMessage(), $e->getCode(), $e);
+		}
+	}
+
+	function delete($id)
+	{
+		try {
+			return $this->pdow->query('DELETE  FROM ' . self::TABELA . ' WHERE id = $id');
+		} catch (\PDOException $e) {
+			throw new PDOException($e->getMessage(), $e->getCode(), $e);
+		}
+	}
+
+	function contagem()
+	{
+		try {
+			return $this->pdow->rowCount(self::TABELA);
+		} catch (\Exception $e) {
+			throw new PDOException($e->getMessage(), $e->getCode(), $e);
 		}
 	}
 
@@ -119,24 +150,5 @@ class AlunoCursoRepositorioEmBDR implements AlunoCursoRepositorio
 			$row['aluno_id'],
 			$row['curso_id']
 		);
-	}
-
-
-	function delete($id)
-	{
-		try {
-			return $this->pdow->query('DELETE  FROM ' . self::TABELA . ' WHERE id = $id');
-		} catch (\PDOException $e) {
-			throw new ColecaoException($e->getMessage(), $e->getCode(), $e);
-		}
-	}
-
-	function contagem()
-	{
-		try {
-			return $this->pdow->rowCount(self::TABELA);
-		} catch (\Exception $e) {
-			throw new ColecaoException($e->getMessage(), $e->getCode(), $e);
-		}
 	}
 }
