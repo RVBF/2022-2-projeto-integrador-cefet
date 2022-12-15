@@ -82,7 +82,7 @@ class AlunoRepositorioEmBDR implements AlunoRepositorio
             'email' => $aluno->getEmail(),
             'id' => $aluno->getId()
          ]);
-         Util::debug($executou);
+
       } catch (\PDOException $e) {
          throw new RepositorioExcecao($e->getMessage(), $e->getCode(), $e);
       }

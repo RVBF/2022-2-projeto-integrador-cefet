@@ -33,7 +33,7 @@ export class AlunoVisao {
             colunaTabela(aluno.email),
             colunaTabela(Link('atualizar', `/alunos/${aluno.id}/editar`, '<span class="material-icons">edit </span>', 'btn') as HTMLElement),
             colunaTabela(Link('visualizar', `/alunos/${aluno.id}/visualizar`, '<span class="material-icons">visibility</span>', 'btn') as HTMLElement),
-            colunaTabela(Button('remover', '<span class="material-icons">delete_outline</span>', 'btn') as HTMLElement),
+            colunaTabela(Button('remover', '<span class="material-icons">delete_outline</span>', 'btn', [{'name' : 'IdAluno', 'valor' : String(aluno.id)}]) as HTMLElement),
          ];
          tbodyTable?.append(linhaTabela(conteudoLinha));
       });
@@ -100,6 +100,31 @@ export class AlunoVisao {
       saveAlunoButton.addEventListener('click', functionToAct);
    }
 
+   aoDispararVoltar(callback: any): void {
+      const functionToAct = (elem: MouseEvent): void => {
+         elem.preventDefault();
+         callback();
+      };
+
+      const voltaAlunoBotao = this.getValueInputElement('voltar');
+
+      voltaAlunoBotao.addEventListener('click', functionToAct);
+   }
+
+   aoDispararRemover(callback: any): void {
+      const functionToAct = (elem: MouseEvent): void => {
+         elem.preventDefault();
+         const botao = elem.target as HTMLButtonElement;
+
+         console.log(botao.getAttribute('idaluno'));
+         callback(botao.getAttribute('aluno-id'));
+      };
+
+      const voltaAlunoBotao = this.getValueInputElement('remover');
+
+      voltaAlunoBotao.addEventListener('click', functionToAct);
+   }
+
    getValueInputElement(key: string): HTMLInputElement {
       return document.getElementById(`${key}`) as HTMLInputElement;
    }
@@ -119,6 +144,28 @@ export class AlunoVisao {
          telefone: String(campoTelefone.value),
          email: String(campoEmail.value)
       });
+   };
+
+   configuraVisualizacao() : void{
+      const campoId = document.getElementById('id') as HTMLInputElement;
+      const campoMatricula = document.getElementById('matricula') as HTMLInputElement;
+      const campoNome = document.getElementById('nome') as HTMLInputElement;
+      const campoCPF = document.getElementById('cpf') as HTMLInputElement;
+      const campoTelefone = document.getElementById('telefone') as HTMLInputElement;
+      const campoEmail = document.getElementById('email') as HTMLInputElement;
+      const salvaAlunoBotao = this.getValueInputElement('salvar');
+      const cancelarAlunoBotao = this.getValueInputElement('cancelar');
+      const titulo = document.querySelector('h2');
+
+      titulo!.innerText = 'Visualizar Aluno';
+      campoId.disabled = true;
+      campoMatricula.disabled = true;
+      campoNome.disabled = true;
+      campoCPF.disabled = true;
+      campoTelefone.disabled = true;
+      campoEmail.disabled = true;
+      salvaAlunoBotao.remove();
+      cancelarAlunoBotao.remove();
    };
 
    pegarDadosDoFormEditar(): Aluno {
