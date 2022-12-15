@@ -106,8 +106,7 @@ class AlunoRepositorioEmBDR implements AlunoRepositorio
 
          return $this->construirObjeto($result);
       } catch (\PDOException $e) {
-         Util::debug($e->getMessage());
-         exit();
+
          throw new PDOException($e->getMessage(), $e->getCode(), $e);
       }
    }
@@ -115,7 +114,10 @@ class AlunoRepositorioEmBDR implements AlunoRepositorio
    function delete($id)
    {
       try {
-         return $this->pdow->query('DELETE  FROM ' . self::TABELA . ' WHERE id = $id');
+         $sql ='DELETE  FROM ' . self::TABELA . ' WHERE id = :id';
+         $preparedStatement = $this->pdow->prepare($sql);
+         $preparedStatement->execute(['id' => $id]);
+
       } catch (\PDOException $e) {
          throw new RepositorioExcecao($e->getMessage(), $e->getCode(), $e);
       }

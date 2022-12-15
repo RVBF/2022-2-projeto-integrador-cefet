@@ -97,7 +97,6 @@ class CursoRepositorioEMBDR implements RepositorioCurso
 				'professor_id' => ($curso->getProfessor() instanceof Funcionario) ? $curso->getProfessor()->getid() : 0,
 				'id' => $curso->getId()
 			]);
-			Util::debug($executou);
 		} catch (\PDOException $e) {
 			throw new RepositorioExcecao($e->getMessage(), $e->getCode(), $e);
 		} catch (RepositorioExcecao $e) {
@@ -120,7 +119,6 @@ class CursoRepositorioEMBDR implements RepositorioCurso
 
 			return $this->construirObjeto($result);
 		} catch (\PDOException $e) {
-			Util::debug($e->getMessage());
 			exit();
 			throw new PDOException($e->getMessage(), $e->getCode(), $e);
 		}

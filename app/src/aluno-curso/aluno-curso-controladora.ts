@@ -24,12 +24,12 @@ export class AlunoCursoController {
         }
         else if (this.visaoAlunoCurso.cadastroNotasRegex()) {
             main.innerHTML = '';
-            main.innerHTML = await carregarPagina('/aluno-curso/cadastrar-nota.html');
+            main.innerHTML = await carregarPagina('/aluno-curso/formulario-nota.html');
             await this.visaoAlunoCurso.desenharCadastro();
             this.visaoAlunoCurso.aoDispararCadastrar(this.cadastrar);
         }
         else if ( this.visaoAlunoCurso.atualizarNotasRegex() ) {
-            main.innerHTML = await carregarPagina('/aluno-curso/cadastrar-nota.html');
+            main.innerHTML = await carregarPagina('/aluno-curso/formulario-nota.html');
             const alunoId = this.servicoAlunoCurso.catchUrlId();
             await this.insereDadosNaViewEdit(alunoId);
             this.visaoAlunoCurso.aoDispararEditar(this.editar);
