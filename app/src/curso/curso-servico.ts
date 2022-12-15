@@ -1,28 +1,28 @@
 import { Curso } from './curso';
-import { RepositorioError } from '../repositorio-error';
 import { CursoRepositorio } from './curso-repositorio';
+import { CursoError } from './curso-error';
 
 export class CursoServico {
     CursoRepositorio: CursoRepositorio;
     constructor() {
         this.CursoRepositorio = new CursoRepositorio();
     }
-
-    pegarUrlId(): number {
-        const [, , id] = location.pathname.split('/');
-
-        if (!id) {
-            throw new RepositorioError('Id não foi localizado!');
+    pegaUrlId(): number {
+        const [ , , id ] = location.pathname.split( '/' );
+  
+        if ( !id ) {
+            throw new CursoError( 'Não foi possível pegar o id do curso!' );
         }
-
-        return Number(id);
+  
+        return parseInt( id );
     }
+  
 
     adicionar(Curso: Curso): Promise<Response> {
         return this.CursoRepositorio.adicionar(Curso);
     }
 
-    todos(limit: number, offset: number): Promise<Curso[]> {
+    todos(limit: number |null, offset: number|null): Promise<Curso[]> {
         return this.CursoRepositorio.todos(limit, offset);
     }
 
@@ -30,7 +30,7 @@ export class CursoServico {
         return this.CursoRepositorio.atualizar(Curso);
     }
 
-    async porAluno(cursoId: number): Promise<Curso[]> {
+    async porCurso(cursoId: number): Promise<Curso> {
         return this.CursoRepositorio.buscarPorCurso(cursoId);
     }
 

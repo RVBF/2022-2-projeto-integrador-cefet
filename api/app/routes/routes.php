@@ -63,12 +63,6 @@ Route::get('/aluno', function () use (&$db) {
 	$request = new Request;
 	$controladora->listar($request);
 });
-Route::get('/aluno/{limit}/{offset}', function () use (&$db) {
-
-	$controladora  = new AlunoCursoControladora($db);
-	$request = new Request;
-	$controladora->listar($request);
-});
 
 Route::get('/aluno/{id}/show', function () use (&$db) {
 	$controladora  = new AlunoControladora($db);

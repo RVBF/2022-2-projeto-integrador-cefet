@@ -6,9 +6,7 @@ use App\RepositorioExcecao;
 use App\Request;
 use App\Src\Curso\CursoRepositorioEmBDR;
 use App\Src\Comum\Util;
-use JsonSerializable;
 use PDOException;
-use RepositoryException;
 
 class CursoControladora
 {
@@ -31,7 +29,7 @@ class CursoControladora
             Util::responseUpdateSuccess();
         } catch (PDOException $errorPDO) {
             Util::exibirErroAoConectar($errorPDO);
-        } catch (RepositoryException $error) {
+        } catch (RepositorioExcecao $error) {
             Util::exibirErroAoConsultar($error);
         }
     }
@@ -42,14 +40,13 @@ class CursoControladora
             $data = $request->all();
 
             $curso = new curso(
-                $data["id"],
-                $data["codigo"],
-                $data["nome"],
-                $data["situacao"],
-                $data["dataInicio"],
-                $data["dataFim"],
-                $data["horaInicio"],
-                $data["horaFim"]
+                'id',
+                'codigo',
+                'nome',
+                'situacao',
+                'dataInicio',
+                'dataFim',
+                'professor_id'
             );
 
             $cursos = $this->colecaoAluno->adicionar($curso);
@@ -67,20 +64,20 @@ class CursoControladora
         try {
             $data = $request->all();
             $curso = $this->colecaoCurso->comId($data['id']);
+            $curso->setId($data["id"]);
             $curso->setCodigo($data["codigo"]);
             $curso->setNome($data["nome"]);
             $curso->setSituacao($data["situacao"]);
             $curso->setDataInicio($data["dataInicio"]);
             $curso->setDataFim($data["dataFim"]);
-            $curso->setHoraInicio($data["horaInicio"]);
-            $curso->setHoraFim($data["horaFim"]);
+            $curso->setProfessor($data["professor"]);
 
             $this->colecaoCurso->atualizar($curso);
 
             Util::responseUpdateSuccess();
         } catch (PDOException $errorPDO) {
             Util::exibirErroAoConectar($errorPDO);
-        } catch (RepositoryException $error) {
+        } catch (RepositorioExcecao $error) {
             Util::exibirErroAoConsultar($error);
         }
     }
@@ -92,7 +89,7 @@ class CursoControladora
             Util::responseDeleteSuccess();
         } catch (PDOException $errorPDO) {
             Util::exibirErroAoConectar($errorPDO);
-        } catch (RepositoryException $error) {
+        } catch (RepositorioExcecao $error) {
             Util::exibirErroAoConsultar($error);
         }
     }
@@ -105,7 +102,7 @@ class CursoControladora
             Util::responsePegaTodosSuccess($curso->toArray());
         } catch (PDOException $errorPDO) {
             Util::exibirErroAoConectar($errorPDO);
-        } catch (RepositoryException $error) {
+        } catch (RepositorioExcecao $error) {
             Util::exibirErroAoConsultar($error);
         }
     }

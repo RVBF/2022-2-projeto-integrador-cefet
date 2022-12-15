@@ -2,18 +2,16 @@
 
 namespace App\Src\Curso;
 
-//require '../aluno-curso/AlunoCurso.php';
 
 class Curso
 {
-    public $id;
-    public $codigo;
-    public $nome;
-    public $situacao;
-    public $dataInicio;
-    public $dataFim;
-    public $horaInicio;
-    public $horaFim;
+    private $id;
+    private $codigo;
+    private $nome;
+    private $situacao;
+    private $dataInicio;
+    private $dataFim;
+    private $professor;
 
     public function __construct(
         $id,
@@ -22,8 +20,7 @@ class Curso
         $situacao,
         $dataInicio,
         $dataFim,
-        $horaInicio,
-        $horaFim
+        $professor
     ) {
         $this->id = $id;
         $this->codigo = $codigo;
@@ -31,8 +28,7 @@ class Curso
         $this->situacao = $situacao;
         $this->dataInicio = $dataInicio;
         $this->dataFim = $dataFim;
-        $this->horaInicio =  $horaInicio;
-        $this->horaFim =  $horaFim;
+        $this->professor =  $professor;
     }
 
     public function setId($id)
@@ -95,25 +91,16 @@ class Curso
         return $this->dataFim;
     }
 
-    public function setHoraInicio($horaInicio)
+    public function setProfessor($professor)
     {
-        $this->horaInicio = $horaInicio;
+        $this->professor = $professor;
     }
 
-    public function getHoraInicio()
+    public function getProfessor()
     {
-        return $this->horaInicio;
+        return $this->professor;
     }
-
-    public function setHoraFim($horaFim)
-    {
-        $this->horaFim = $horaFim;
-    }
-
-    public function getHoraFim()
-    {
-        return $this->horaFim;
-    }
+    
 
     public function calculatePresenca($numeroAulas, $presenca)
     {
@@ -153,5 +140,18 @@ class Curso
         // $nota = new Nota(10, 6, 0, 0, 0);
         // if ($this->calculatePresenca(100, 75) >= 75 && $nota->calculateMediaDeAvaliacoes(10, 6) === 'Aprovado') return 'Aprovado';
         // else return 'Reprovado';
+    }
+
+    public function toArray()
+    {
+        return [
+            'id' => $this->id,
+            'codigo' => $this->codigo,
+            'nome' => $this->nome,
+            'situacao' => $this->situacao,
+            'dataInicio' => $this->dataInicio,
+            'dataFim' => $this->dataFim,
+            'professor' =>  $this->professor,
+        ];
     }
 }

@@ -4,6 +4,7 @@ namespace App\Src\Curso;
 
 use App\RepositorioExcecao;
 use App\Src\Comum\Util;
+use App\Src\Funcionario\Funcionario;
 use PDO;
 use PDOException;
 
@@ -22,7 +23,12 @@ class CursoRepositorioEMBDR implements RepositorioCurso
 	{
 		try {
 			$objetos = [];
-			$result = $this->pdow->query('SELECT * FROM `curso`')->fetchAll();
+
+			$sql = 'SELECT * FROM `curso`';
+			$preparedStatement = $this->pdow->prepare($sql);
+			$preparedStatement->execute();
+			$result = $preparedStatement->fetchAll(PDO::FETCH_ASSOC);
+
 			foreach ($result as $row) {
 				$objetos[] = $this->construirObjeto($row)->toArray();
 			}
@@ -39,15 +45,14 @@ class CursoRepositorioEMBDR implements RepositorioCurso
 			$erros = $curso->validate();
 			if (count($erros)) throw new RepositorioExcecao(implode('|', $erros));
 
-			$sql = "INSERT INTO " . self::TABELA . " (`codigo`, `nome`, `situacao`, `dataInicio`, `dataFim`, `horaInicio`, `horaFim`)
+			$sql = "INSERT INTO " . self::TABELA . " (`codigo`, `nome`, `situacao`, `inicio`, `termino`, `professor_id`)
 			VALUES (
 				:codigo,
 				:nome,
 				:situacao,
-				:dataInicio,
-				:dataFim,
-				:horaInicio,
-				:horaFim
+				:inicio,
+				:fim,
+				:professor_id
 			)";
 
 			$preparedStatement = $this->pdow->prepare($sql);
@@ -56,10 +61,9 @@ class CursoRepositorioEMBDR implements RepositorioCurso
 				'codigo' => $curso->getCodigo(),
 				'nome' => $curso->getNome(),
 				'situacao' => $curso->getSituacao(),
-				'dataInicio' => $curso->getDataInicio(),
-				'dataFim' => $curso->getDataFim(),
-				'horaInicio' => $curso->getHoraInicio(),
-				'horaFim' => $curso->getHoraFim()
+				'inicio' => $curso->getDataInicio(),
+				'fim' => $curso->getDataFim(),
+				'professor_id' => ($curso->getProfessor() instanceof Funcionario) ? $curso->getProfessor()->getid() : 0
 			]);
 
 			$curso->setId($this->pdoW->lastInsertId());
@@ -76,23 +80,22 @@ class CursoRepositorioEMBDR implements RepositorioCurso
 
 			$sql = 'UPDATE `curso` SET
 				codigo = :codigo,
-                nome = :nome,
-                situacao = :situacao,
-                dataInicio = :dataInicio,
-				dataFim = :dataFim,
-				horaInicio = :horaInicio,
-                email = :email 			 	
+				nome = :nome,
+				situacao = :situacao,
+				inicio = :inicio,
+				termino = :fim,
+				professor_id = :professor_id
             WHERE id = :id';
 			$preparedStatement = $this->pdow->prepare($sql);
 
 			$executou = $preparedStatement->execute([
-				'codigo' => $curso->getNome(),
+				'codigo' => $curso->getCodigo(),
 				'nome' => $curso->getNome(),
 				'situacao' => $curso->getSituacao(),
-				'dataInicio' => $curso->getDataInicio(),
-				'dataFim' => $curso->getDataFim(),
-				'horaInicio' => $curso->getHoraInicio(),
-				'horaFim' => $curso->getHoraFim()
+				'inicio' => $curso->getDataInicio(),
+				'fim' => $curso->getDataFim(),
+				'professor_id' => ($curso->getProfessor() instanceof Funcionario) ? $curso->getProfessor()->getid() : 0,
+				'id' => $curso->getId()
 			]);
 			Util::debug($executou);
 		} catch (\PDOException $e) {
@@ -148,10 +151,9 @@ class CursoRepositorioEMBDR implements RepositorioCurso
 			$row['codigo'],
 			$row['nome'],
 			$row['situacao'],
-			$row['dataInicio'],
-			$row['dataFim'],
-			$row['horaInicio'],
-			$row['dataFim'],
+			$row['inicio'],
+			$row['termino'],
+			new Funcionario($row['professor_id'], '', '','', false),
 		);
 	}
 }
