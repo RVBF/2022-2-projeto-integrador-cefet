@@ -49,8 +49,8 @@ class AlunoCursoControladora
         $data["falta"],
         null,
         null
-      );      
-      
+      );
+
       $alunosCursos = $this->colecaoAlunoCurso->adicionar($alunoCurso);
 
       Util::responseAddSuccess();
@@ -61,7 +61,7 @@ class AlunoCursoControladora
     }
   }
 
-  function update(Request $request)
+  function atualizar(Request $request)
   {
 
     try {

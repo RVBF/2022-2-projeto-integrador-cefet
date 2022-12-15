@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Src\Funcionario;
 
 class Funcionario
@@ -24,56 +25,69 @@ class Funcionario
         $this->eAdministrador = $eAdministrador;
     }
 
-    public function setId($id) {
+    public function setId($id)
+    {
         $this->id = $id;
     }
 
-    public function getId(){
+    public function getId()
+    {
         return $this->id;
     }
 
-    public function setNome($nome) {
+    public function setNome($nome)
+    {
         $this->nome = $nome;
     }
 
-    public function getNome(){
+    public function getNome()
+    {
         return $this->nome;
     }
 
-    public function setCPF($cpf) {
+    public function setCPF($cpf)
+    {
         $this->cpf = $cpf;
     }
 
-    public function getCPF(){
+    public function getCPF()
+    {
         return $this->cpf;
     }
 
-    public function setEmail($email) {
+    public function setEmail($email)
+    {
         $this->email = $email;
     }
 
-    public function getEmail(){
+    public function getEmail()
+    {
         return $this->email;
     }
 
-    public function getEAdministrador(){
+    public function getEAdministrador()
+    {
         return $this->eAdministrador;
     }
 
-    public function setEAdministrador($eAdministrador) {
+    public function setEAdministrador($eAdministrador)
+    {
         $this->eAdministrador = $eAdministrador;
     }
- 
-    public function getSenha(){
+
+    public function getSenha()
+    {
         return $this->senha;
     }
 
-    public function setSenha($senha) {
+    public function setSenha($senha)
+    {
         $this->senha = $senha;
     }
 
-    public function validateAll($allErrors)
+    public function validateAll()
     {
+        $allErrors = [];
 
         if (empty($this->nome) || strlen($this->nome) < 2 || strlen($this->nome) > 100) {
             $allErrors[] = 'Nome inválido';
