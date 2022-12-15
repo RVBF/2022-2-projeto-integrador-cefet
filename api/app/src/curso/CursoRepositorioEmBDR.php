@@ -2,19 +2,17 @@
 
 namespace App\Src\Curso;
 
+use App\RepositorioExcecao;
 use App\Src\Comum\Util;
-use ColecaoException;
 use PDO;
+use PDOException;
 
 require_once './Curso.php';
-/**
- * PHPDOC 
- * JSDOC
- */
-class RepositorioCursoEMBDR implements RepositorioCurso
+
+class CursoRepositorioEMBDR implements RepositorioCurso
 {
 	private $pdow = null;
-	const TABELA = 'aluno_curos';
+	const TABELA = 'curso';
 	function __construct(PDO &$pdow)
 	{
 		$this->pdow = $pdow;
@@ -23,10 +21,14 @@ class RepositorioCursoEMBDR implements RepositorioCurso
 	public function todos($tamanho = 0, $salto = 0)
 	{
 		try {
-			$sql = "SELECT * FROM {self::TABELA} LIMIT $tamanho, $salto";
-			return $this->pdoW->queryObjects([$this, 'construirObjeto'], $sql);
+			$objetos = [];
+			$result = $this->pdow->query('SELECT * FROM `curso`')->fetchAll();
+			foreach ($result as $row) {
+				$objetos[] = $this->construirObjeto($row)->toArray();
+			}
+			return $objetos;
 		} catch (\PDOException $e) {
-			throw new ColecaoException($e->getMessage(), $e->getCode(), $e);
+			throw new PDOException($e->getMessage(), $e->getCode(), $e);
 		}
 	}
 
@@ -34,64 +36,108 @@ class RepositorioCursoEMBDR implements RepositorioCurso
 	{
 
 		try {
-			//   $erros = $curso->validate();
+			$erros = $curso->validate();
+			if (count($erros)) throw new RepositorioExcecao(implode('|', $erros));
 
-			//   if(count($erros)) throw new ColecaoException("Erro ao adicionar curso!");
-
-			$sql = 'INSERT INTO ' . self::TABELA . '(codigo, nome, situacao, inicio termino)
+			$sql = "INSERT INTO " . self::TABELA . " (`codigo`, `nome`, `situacao`, `dataInicio`, `dataFim`, `horaInicio`, `horaFim`)
 			VALUES (
 				:codigo,
 				:nome,
 				:situacao,
-				:inicio,
-				:termino,
-			)';
+				:dataInicio,
+				:dataFim,
+				:horaInicio,
+				:horaFim
+			)";
 
-			$this->pdoW->execute($sql, [
+			$preparedStatement = $this->pdow->prepare($sql);
+
+			$preparedStatement->execute([
 				'codigo' => $curso->getCodigo(),
 				'nome' => $curso->getNome(),
 				'situacao' => $curso->getSituacao(),
-				'inicio' => $curso->getDataInicio(),
-				'termino' => $curso->getDataFim(),
+				'dataInicio' => $curso->getDataInicio(),
+				'dataFim' => $curso->getDataFim(),
+				'horaInicio' => $curso->getHoraInicio(),
+				'horaFim' => $curso->getHoraFim()
 			]);
 
 			$curso->setId($this->pdoW->lastInsertId());
 		} catch (\PDOException $e) {
-			throw new ColecaoException($e->getMessage(), $e->getCode(), $e);
+			throw new PDOException($e->getMessage(), $e->getCode(), $e);
+		} catch (RepositorioExcecao $e) {
+			throw new RepositorioExcecao($e->getMessage(), $e->getCode(), $e);
 		}
 	}
 
-	public function update(Curso &$curso)
+	function atualizar(Curso &$curso)
 	{
 		try {
-			$sql = "UPDATE {self::TABELA} SET
-                  codigo = :codigo,
-                  nome = :nome,
-                  situacao = :situacao,
-                  inicio = :inicio,
-                  termino = :termino,			 	
-            WHERE id = :id";
 
-			$this->pdoW->execute($sql, [
-				'codigo' => $curso->getCodigo(),
+			$sql = 'UPDATE `curso` SET
+				codigo = :codigo,
+                nome = :nome,
+                situacao = :situacao,
+                dataInicio = :dataInicio,
+				dataFim = :dataFim,
+				horaInicio = :horaInicio,
+                email = :email 			 	
+            WHERE id = :id';
+			$preparedStatement = $this->pdow->prepare($sql);
+
+			$executou = $preparedStatement->execute([
+				'codigo' => $curso->getNome(),
 				'nome' => $curso->getNome(),
 				'situacao' => $curso->getSituacao(),
-				'inicio' => $curso->getDataInicio(),
-				'termino' => $curso->getDataFim(),
-				'id' => $curso->getId()
+				'dataInicio' => $curso->getDataInicio(),
+				'dataFim' => $curso->getDataFim(),
+				'horaInicio' => $curso->getHoraInicio(),
+				'horaFim' => $curso->getHoraFim()
 			]);
-
-			return true;
+			Util::debug($executou);
 		} catch (\PDOException $e) {
-			throw new ColecaoException($e->getMessage(), $e->getCode(), $e);
+			throw new RepositorioExcecao($e->getMessage(), $e->getCode(), $e);
+		} catch (RepositorioExcecao $e) {
+			throw new RepositorioExcecao($e->getMessage(), $e->getCode(), $e);
 		}
 	}
+
 	public function comId($id)
 	{
 		try {
-			return $this->pdoW->objectWithId([$this, 'construirObjeto'], $id, self::TABELA);
+			$sql = 'SELECT * FROM curso WHERE id = $id';
+			$preparedStatement = $this->pdow->prepare($sql);
+			$preparedStatement->execute(['id' => $id]);
+
+			if ($preparedStatement->rowCount() < 1) {
+				return null;
+			}
+
+			$result = $preparedStatement->fetch();
+
+			return $this->construirObjeto($result);
 		} catch (\PDOException $e) {
-			throw new ColecaoException($e->getMessage(), $e->getCode(), $e);
+			Util::debug($e->getMessage());
+			exit();
+			throw new PDOException($e->getMessage(), $e->getCode(), $e);
+		}
+	}
+
+	function delete($id)
+	{
+		try {
+			return $this->pdoW->query('DELETE  FROM ' . self::TABELA . ' WHERE id = $id');
+		} catch (\PDOException $e) {
+			throw new RepositorioExcecao($e->getMessage(), $e->getCode(), $e);
+		}
+	}
+
+	function contagem()
+	{
+		try {
+			return $this->pdoW->rowCount(self::TABELA);
+		} catch (\Exception $e) {
+			throw new RepositorioExcecao($e->getMessage(), $e->getCode(), $e);
 		}
 	}
 
@@ -105,27 +151,7 @@ class RepositorioCursoEMBDR implements RepositorioCurso
 			$row['dataInicio'],
 			$row['dataFim'],
 			$row['horaInicio'],
-			$row['horaFim']
-			// $numeroAulas,
+			$row['dataFim'],
 		);
-	}
-
-
-	function delete($id)
-	{
-		try {
-			return $this->pdoW->deleteWithId($id, self::TABELA);
-		} catch (\PDOException $e) {
-			throw new ColecaoException($e->getMessage(), $e->getCode(), $e);
-		}
-	}
-
-	function contagem()
-	{
-		try {
-			return $this->pdoW->countRows(self::TABELA);
-		} catch (\Exception $e) {
-			throw new ColecaoException($e->getMessage(), $e->getCode(), $e);
-		}
 	}
 }

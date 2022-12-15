@@ -14,7 +14,6 @@ class Curso
     public $dataFim;
     public $horaInicio;
     public $horaFim;
-    // public $numeroAulas;
 
     public function __construct(
         $id,
@@ -24,10 +23,8 @@ class Curso
         $dataInicio,
         $dataFim,
         $horaInicio,
-        $horaFim,
-        // $numeroAulas,
+        $horaFim
     ) {
-
         $this->id = $id;
         $this->codigo = $codigo;
         $this->nome = $nome;
@@ -36,7 +33,6 @@ class Curso
         $this->dataFim = $dataFim;
         $this->horaInicio =  $horaInicio;
         $this->horaFim =  $horaFim;
-        // $this->numeroAulas =  $numeroAulas;
     }
 
     public function setId($id)
