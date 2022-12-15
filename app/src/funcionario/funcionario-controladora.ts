@@ -23,11 +23,11 @@ export class FuncionarioControladora {
         }
         else if (this.funcionarioVisao.cadastrarFuncionariosRegex()) {
             main.innerHTML = '';
-            main.innerHTML = await carregarPagina("/funcionario/cadastrar-funcionario.html");
+            main.innerHTML = await carregarPagina("/funcionario/formulario-funcionario.html");
             await this.cadastrar();
         }
         else if (this.funcionarioVisao.atualizarFuncionariosRegex()) {
-            main.innerHTML = await carregarPagina("/funcionario/cadastrar-funcionario.html");
+            main.innerHTML = await carregarPagina("/funcionario/formulario-funcionario.html");
 
             const funcionarioId = this.funcionarioServico.pegarUrlId();
             await this.insereDadosNaViewEdit(funcionarioId);

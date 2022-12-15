@@ -31,9 +31,10 @@ export class AlunoRepositorio {
          },
       }).then(function (response) {
 
-      if (!response.ok) {
-         // throw new AlunoError(`Erro ao cadastrar ${Aluno.nome} : ${response}`);
+      if (response.status >= 400 && response.status <= 499) {
+         throw new AlunoError(`Erro ao cadastrar ${Aluno.nome} : ${response}`);
       }
+
       return response.json();  
    })
      .catch(err =>{
@@ -79,7 +80,7 @@ export class AlunoRepositorio {
    }
 
    async delete(alunoId: number): Promise<Response> {
-      const response = await fetch(`${API_ALUNO}/${alunoId}/show`, {
+      const response = await fetch(`${API_ALUNO}/${alunoId}`, {
          method: 'DELETE',
          body: JSON.stringify(AudioWorkletNode),
          headers: {
