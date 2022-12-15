@@ -36,7 +36,7 @@ export class CursoRepositorio {
         return response.json();
     }
 
-    async todos(limit: number = 10, offset: number = 1): Promise<Curso[]> {
+    async todos(limit: number|null = 10, offset: number|null = 1): Promise<Curso[]> {
         const response = await fetch(`${API_CURSO}`, {
             method: 'GET',
             headers: {
@@ -51,7 +51,7 @@ export class CursoRepositorio {
         return response.json();
     }
 
-    async buscarPorCurso(cursoId: Number): Promise<Curso[]> {
+    async buscarPorCurso(cursoId: Number): Promise<Curso> {
         const response = await fetch(`${API_CURSO}/${cursoId}/show`, {
             method: 'GET',
             body: JSON.stringify(cursoId),
