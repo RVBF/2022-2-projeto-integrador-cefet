@@ -16,29 +16,41 @@ export class AlunoRepositorio {
       });
       const responseData = await response.json();
 
-      if ( !response.ok ) {
-         throw new AlunoError( responseData.error );
-     }
+      if (!response.ok) {
+         throw new AlunoError(responseData.error);
+      }
       return responseData;
    }
 
    async adicionar(Aluno: Aluno): Promise<Response> {
-      const response = await fetch(`${API_ALUNO}`, {
+      return  await fetch(`${API_ALUNO}`, {
          method: 'POST',
          body: JSON.stringify(Aluno),
          headers: {
             "Content-Type": "application/json;application/x-www-form-urlencoded;charset=UTF-8",
          },
-      });
+      }).then(function (response) {
 
-      if ( !response.ok ) {
-         console.log(response);
-         throw new AlunoError( `Erro ao cadastrar ${Aluno.nome} : ${response.statusText}` );
-     }
-      return response.json();
+      if (!response.ok) {
+         // throw new AlunoError(`Erro ao cadastrar ${Aluno.nome} : ${response}`);
+      }
+      return response.json();  
+   })
+     .catch(err =>{
+      console.log(err);
+         throw new Error(err.join('<br>'));
+     });
+
+      // if (!response.ok) {
+      //    const erros = await response.json();
+      //    throw new AlunoError(`Erro ao cadastrar ${Aluno.nome} : ${erros.join('<br>')}`);
+      // }
+      // else {
+      //    return (response.status == 201) ? response.json() : null;
+      // }
    }
 
-   async todos(limit: number|null, offset: number|null): Promise<Aluno[]> {
+   async todos(limit: number | null, offset: number | null): Promise<Aluno[]> {
       const response = await fetch(`${API_ALUNO}`, {
          method: 'GET',
          headers: {
@@ -55,15 +67,15 @@ export class AlunoRepositorio {
    }
 
    async buscarPorAluno(alunoId: Number): Promise<Aluno> {
-      const response = await fetch( `${API_ALUNO}/${alunoId}/show`, {
+      const response = await fetch(`${API_ALUNO}/${alunoId}/show`, {
          method: 'GET',
-     } );
+      });
 
-     if ( !response.ok ) {
-         throw new AlunoError( `Erro ao buscar aviso ${alunoId} : ${response.statusText}` );
-     }
+      if (!response.ok) {
+         throw new AlunoError(`Erro ao buscar aviso ${alunoId} : ${response.statusText}`);
+      }
 
-     return response.json();
+      return response.json();
    }
 
    async delete(alunoId: number): Promise<Response> {

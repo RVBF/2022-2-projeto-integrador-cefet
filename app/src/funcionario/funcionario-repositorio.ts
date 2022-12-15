@@ -52,7 +52,7 @@ export class FuncionarioRepositorio {
         return response.json();
     }
 
-    async buscarPorFuncionario(funcionarioId: Number): Promise<Funcionario[]> {
+    async buscarPorFuncionario(funcionarioId: Number): Promise<Funcionario> {
         const response = await fetch(`${API_FUNCIONARIO}/${funcionarioId}/show`, {
             method: 'GET',
             body: JSON.stringify(funcionarioId),

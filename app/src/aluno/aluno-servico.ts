@@ -20,7 +20,7 @@ export class AlunoServico {
       return Number(id);
    }
 
-   async adicionar( aluno: Aluno ): Promise<any> {
+   adicionar( aluno: Aluno ): Promise<any> {
       const todosErrosNoAluno = aluno.validateAll();
       // if ( todosErrosNoAluno.length > 0 ) {
       //     throw new AlunoError( todosErrosNoAluno.join( '<br>' ) );
@@ -37,11 +37,11 @@ export class AlunoServico {
       return this.alunoRepositorio.atualizar(Aluno);
    }
 
-   async porAluno(alunoId: number): Promise<any> {
+   porAluno(alunoId: number): Promise<any> {
       return this.alunoRepositorio.buscarPorAluno(alunoId);
    }
 
-   async delete(alunoId: number): Promise<Response> {
+   delete(alunoId: number): Promise<Response> {
       return this.alunoRepositorio.delete(alunoId);
    }
 

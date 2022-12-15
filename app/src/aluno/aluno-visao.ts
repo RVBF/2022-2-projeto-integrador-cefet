@@ -15,6 +15,7 @@ export class AlunoVisao {
    listarAlunoRegex = (): boolean => (/^\/alunos\/?$/i).test(path());
    cadastrosRegex = (): boolean => (/^\/alunos\/novo\/?$/i).test(path());
    atualizarAlunoRegex = (): boolean => (/^\/alunos\/\d+\/editar\/?$/).test(path());
+    visualizarAlunoRegex = (): boolean => (/^\/alunos\/\d+\/visualizar\/?$/).test(path());
 
    desenhar(alunos: Aluno[]): void {
       const tbodyTable = document.querySelector('#alunos > tbody');

@@ -39,6 +39,7 @@ abstract class Util
 
    static function responseAddSuccess()
    {
+      die(json_encode('Cadastro Realizado Com Sucesso!'));
       http_response_code(201);
    }
 

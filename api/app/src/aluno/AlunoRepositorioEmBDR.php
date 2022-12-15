@@ -20,7 +20,10 @@ class AlunoRepositorioEmBDR implements AlunoRepositorio
    {
       try {
          $objetos = [];
-         $result = $this->pdow->query('SELECT  `aluno`.*, `aluno_curso`.numero_matricula as matricula FROM `aluno` LEFT JOIN `aluno_curso` on aluno_curso.aluno_id = aluno.id')->fetchAll();
+         $sql = 'SELECT  `aluno`.*, `matricula`.numero_matricula as matricula FROM `aluno` LEFT JOIN `matricula` on matricula.aluno_id = aluno.id';
+         $preparedStatement = $this->pdow->prepare($sql);
+         $preparedStatement->execute();
+         $result = $preparedStatement->fetchAll(PDO::FETCH_ASSOC );
          foreach ($result as $row) {
             $objetos[] = $this->construirObjeto($row)->toArray();
          }
@@ -91,7 +94,7 @@ class AlunoRepositorioEmBDR implements AlunoRepositorio
    public function comId($id)
    {
       try {
-         $sql ='SELECT `aluno`.* , `aluno_curso`.numero_matricula as `matricula` FROM `aluno` LEFT JOIN `aluno_curso` on `aluno_curso`.aluno_id = `aluno`.id WHERE `aluno`.id = :id';
+         $sql ='SELECT `aluno`.* , `matricula`.numero_matricula as `matricula` FROM `aluno` LEFT JOIN `matricula` on `matricula`.aluno_id = `aluno`.id WHERE `aluno`.id = :id';
          $preparedStatement = $this->pdow->prepare($sql);
          $preparedStatement->execute(['id' => $id]);
 
@@ -112,7 +115,7 @@ class AlunoRepositorioEmBDR implements AlunoRepositorio
    function delete($id)
    {
       try {
-         return $this->pdoW->query('DELETE  FROM ' . self::TABELA . ' WHERE id = $id');
+         return $this->pdow->query('DELETE  FROM ' . self::TABELA . ' WHERE id = $id');
       } catch (\PDOException $e) {
          throw new RepositorioExcecao($e->getMessage(), $e->getCode(), $e);
       }

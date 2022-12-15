@@ -1,21 +1,28 @@
 interface FuncionarioDTO {
-  id: string;
+  id: number;
   nome: string;
   cpf: string;
   email: string;
+  eAdministrador: boolean;
+  senha: string | null;
 }
 
 export class Funcionario {
-  id: string;
+  id: number = 0;
   nome: string = '';
   cpf: string = '';
   email: string = '';
+  eAdministrador: boolean = false;
+  senha: string | null = null;
 
-  constructor({ id, nome, cpf, email }: FuncionarioDTO) {
+
+  constructor({ id, nome, cpf, email, eAdministrador, senha }: FuncionarioDTO) {
     this.id = id;
     this.nome = nome;
     this.cpf = cpf;
     this.email = email;
+    this.eAdministrador = eAdministrador;
+
   }
 
   validateAll = (): String[] => {
@@ -56,6 +63,7 @@ export class Funcionario {
     ) {
       return false;
     }
+
     var soma = 0;
     var resto;
     for (var i = 1; i <= 9; i++) soma = soma + parseInt(cpf.substring(i - 1, i)) * (11 - i);

@@ -1,21 +1,76 @@
 <?php
+namespace App\Src\Funcionario;
 
 class Funcionario
 {
-    public $nome;
-    public $cpf;
-    public $email;
+    private $id;
+    private $nome;
+    private $cpf;
+    private $email;
+    private $eAdministrador;
+    private $senha;
 
     public function __construct(
+        $id,
         $nome,
         $cpf,
         $email,
+        $eAdministrador
     ) {
+        $this->id = $id;
         $this->nome = $nome;
         $this->cpf = $cpf;
         $this->email = $email;
+        $this->eAdministrador = $eAdministrador;
     }
 
+    public function setId($id) {
+        $this->id = $id;
+    }
+
+    public function getId(){
+        return $this->id;
+    }
+
+    public function setNome($nome) {
+        $this->nome = $nome;
+    }
+
+    public function getNome(){
+        return $this->nome;
+    }
+
+    public function setCPF($cpf) {
+        $this->cpf = $cpf;
+    }
+
+    public function getCPF(){
+        return $this->cpf;
+    }
+
+    public function setEmail($email) {
+        $this->email = $email;
+    }
+
+    public function getEmail(){
+        return $this->email;
+    }
+
+    public function getEAdministrador(){
+        return $this->eAdministrador;
+    }
+
+    public function setEAdministrador($eAdministrador) {
+        $this->eAdministrador = $eAdministrador;
+    }
+ 
+    public function getSenha(){
+        return $this->senha;
+    }
+
+    public function setSenha($senha) {
+        $this->senha = $senha;
+    }
 
     public function validateAll($allErrors)
     {
@@ -73,5 +128,16 @@ class Funcionario
     {
         $allErrors = [];
         return $this->validateAll($allErrors);
+    }
+
+    public function toArray()
+    {
+        return [
+            'id' => $this->id,
+            'nome' => $this->nome,
+            'cpf' => $this->cpf,
+            'email' => $this->email,
+            'eAdministrador' => $this->eAdministrador,
+        ];
     }
 }
