@@ -11,7 +11,7 @@ use PDOException;
 class FuncionarioRepositorioEmBDR implements FuncionarioRepositorio
 {
    private $pdow = null;
-   const TABELA = 'aluno';
+   const TABELA = 'funcionario';
    function __construct(PDO &$pdow)
    {
       $this->pdow = $pdow;
@@ -21,7 +21,10 @@ class FuncionarioRepositorioEmBDR implements FuncionarioRepositorio
    {
       try {
          $objetos = [];
-         $result = $this->pdow->query('SELECT  `' . SELF::TABELA . '`.*, `aluno_curso`.numero_matricula as matricula FROM `' . SELF::TABELA . '` LEFT JOIN `aluno_curso` on aluno_curso.aluno_id = aluno.id')->fetchAll();
+         $sql = 'SELECT * FROM `funcionario`';
+         $preparedStatement = $this->pdow->prepare($sql);
+         $preparedStatement->execute();
+         $result = $preparedStatement->fetchAll(PDO::FETCH_ASSOC);
          foreach ($result as $row) {
             $objetos[] = $this->construirObjeto($row)->toArray();
          }
@@ -69,7 +72,7 @@ class FuncionarioRepositorioEmBDR implements FuncionarioRepositorio
          $erros = $funcionario->validateUpdate([]);
          if (count($erros) > 0) throw new RepositorioExcecao(implode('|', $erros));
 
-         $sql = 'UPDATE `' . SELF::TABELA . '` SET
+         $sql = 'UPDATE `funcionario` SET
                   nome = :nome,
                   cpf = :cpf,
                   email = :email,			 	
@@ -84,11 +87,9 @@ class FuncionarioRepositorioEmBDR implements FuncionarioRepositorio
             'e_administrador' => $funcionario->getEAdministrador(),
             'id' => $funcionario->getId()
          ]);
-
       } catch (\PDOException $e) {
          throw new RepositorioExcecao($e->getMessage(), $e->getCode(), $e);
-      }
-      catch (RepositorioExcecao $e) {
+      } catch (RepositorioExcecao $e) {
          throw new RepositorioExcecao($e->getMessage(), $e->getCode(), $e);
       }
    }
@@ -96,7 +97,7 @@ class FuncionarioRepositorioEmBDR implements FuncionarioRepositorio
    public function comId($id)
    {
       try {
-         $sql ='SELECT `'. SELF::TABELA . '`.*  FROM `'. SELF::TABELA . '`  WHERE `'. SELF::TABELA . '`.id = :id';
+         $sql = 'SELECT `funcionario`.*  FROM `funcionario`  WHERE `funcionario`.id = :id';
 
          $preparedStatement = $this->pdow->prepare($sql);
          $preparedStatement->execute(['id' => $id]);
@@ -108,23 +109,19 @@ class FuncionarioRepositorioEmBDR implements FuncionarioRepositorio
          $result = $preparedStatement->fetch();
 
          return $this->construirObjeto($result);
-      } 
-      catch (\PDOException $e) {
+      } catch (\PDOException $e) {
+
          throw new PDOException($e->getMessage(), $e->getCode(), $e);
-      }
-      catch (RepositorioExcecao $e) {
-         throw new RepositorioExcecao($e->getMessage(), $e->getCode(), $e);
       }
    }
 
    function delete($id)
    {
       try {
-         return $this->pdow->query('DELETE  FROM ' . self::TABELA . ' WHERE id = '. $id);
+         return $this->pdow->query('DELETE  FROM ' . self::TABELA . ' WHERE id = ' . $id);
       } catch (\PDOException $e) {
          throw new PDOException($e->getMessage(), $e->getCode(), $e);
-      }
-      catch (RepositorioExcecao $e){
+      } catch (RepositorioExcecao $e) {
          throw new RepositorioExcecao($e->getMessage(), $e->getCode(), $e);
       }
    }
@@ -135,8 +132,7 @@ class FuncionarioRepositorioEmBDR implements FuncionarioRepositorio
          return $this->pdo->rowCount(self::TABELA);
       } catch (\PDOException $e) {
          throw new PDOException($e->getMessage(), $e->getCode(), $e);
-      }
-      catch(RepositorioExcecao $e){
+      } catch (RepositorioExcecao $e) {
          throw new RepositorioExcecao($e->getMessage(), $e->getCode(), $e);
       }
    }

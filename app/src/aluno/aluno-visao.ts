@@ -90,16 +90,7 @@ export class AlunoVisao {
    }
 
    aoDispararEditar(callback: any): void {
-      const functionToAct = (elem: MouseEvent): void => {
-         elem.preventDefault();
-         callback();
-      };
-
-      const botoesEditarAluno = document.querySelectorAll('.atualizar');
-      botoesEditarAluno.forEach( (botao, i) => {
-         const elemento = botoesEditarAluno[i] as HTMLButtonElement;
-         elemento.addEventListener('click', functionToAct)
-      });
+      this.aoDispararCadastrar(callback);
    }
 
    aoDispararVoltar(callback: any): void {

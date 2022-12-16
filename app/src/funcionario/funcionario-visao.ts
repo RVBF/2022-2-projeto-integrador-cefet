@@ -17,8 +17,7 @@ export class FuncionarioVisao {
     visualizarFuncionariosRegex = (): boolean => (/^\/funcionarios\/\d+\/visualizar\/?$/).test(path());
 
     desenhar(funcionarios: Funcionario[]): void {
-        const tbodyTable = document.querySelector('#funcionario > tbody');
-
+        const tbodyTable = document.querySelector('#funcionarios > tbody');
         if (!funcionarios) {
             this.showSuccessMessage('Nenhum dado cadastrado!');
             return;
@@ -60,6 +59,8 @@ export class FuncionarioVisao {
         email.focus();
     }
 
+    desenharCadastro(): void { }
+
     habilitaBotao(): void {
         const buttonEdit = this.getValueInputElement('salvar');
         buttonEdit.disabled = false;
@@ -81,14 +82,34 @@ export class FuncionarioVisao {
     }
 
     aoDispararEditar(callback: any): void {
-        const functionToAct = (elem: MouseEvent): void => {
-            elem.preventDefault();
-            callback();
-        };
-
-        const saveFuncionarioButton = this.getValueInputElement('salvar');
-        saveFuncionarioButton.addEventListener('click', functionToAct);
+        this.aoDispararCadastrar(callback);
     }
+
+    aoDispararVoltar(callback: any): void {
+        const functionToAct = (elem: MouseEvent): void => {
+           elem.preventDefault();
+           callback();
+        };
+  
+        const voltaFuncionarioBotao = this.getValueInputElement('voltar');
+  
+        voltaFuncionarioBotao.addEventListener('click', functionToAct);
+    }
+
+    aoDispararRemover(callback: any): void {
+        const functionToAct = (elem: MouseEvent): void => {
+           elem.preventDefault();
+           const botao = (elem.target as HTMLButtonElement).parentNode as HTMLButtonElement;
+  
+           callback(botao.getAttribute('idFuncionario'));
+        };
+  
+        const botoesRemoverFuncionario = document.querySelectorAll('.remover');
+        botoesRemoverFuncionario.forEach( (botao, i) => {
+           const elemento = botoesRemoverFuncionario[i] as HTMLButtonElement;
+           elemento.addEventListener('click', functionToAct)
+        })
+     }
 
     getValueInputElement(key: string): HTMLInputElement {
         return document.getElementById(`${key}`) as HTMLInputElement;
@@ -110,6 +131,28 @@ export class FuncionarioVisao {
            eAdministrador: Boolean(campoEAdministrador.value),
            senha : String(campoSenha.value)
         });
+     };
+
+     configuraVisualizacao(): void {
+        const campoId = document.getElementById('id') as HTMLInputElement;
+        const campoNome = document.getElementById('nome') as HTMLInputElement;
+        const campoCPF = document.getElementById('cpf') as HTMLInputElement;
+        const campoEmail = document.getElementById('email') as HTMLInputElement;
+        const campoEAdministrador = document.getElementById('eAdministrador') as HTMLInputElement;
+        const campoSenha = document.getElementById('senha') as HTMLInputElement;
+        const salvaAlunoBotao = this.getValueInputElement('salvar');
+        const cancelarAlunoBotao = this.getValueInputElement('cancelar');
+        const titulo = document.querySelector('h2');
+  
+        titulo!.innerText = 'Visualizar Aluno';
+        campoId.disabled = true;
+        campoNome.disabled = true;
+        campoCPF.disabled = true;
+        campoEAdministrador.disabled = true;
+        campoEmail.disabled = true;
+        campoSenha.disabled = true;
+        salvaAlunoBotao.remove();
+        cancelarAlunoBotao.remove();
      };
   
      pegarDadosDoFormEditar(): Funcionario {

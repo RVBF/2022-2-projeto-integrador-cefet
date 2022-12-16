@@ -1,3 +1,6 @@
 export class FuncionarioError extends Error {
-    name = 'FuncionarioError';
+    constructor(message: string) {
+        super(`${message}`);
+        this.name = 'FuncionarioError';
+    }
 }

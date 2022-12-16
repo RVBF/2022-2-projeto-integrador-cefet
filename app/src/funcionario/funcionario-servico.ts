@@ -1,5 +1,4 @@
 import { Funcionario } from './funcionario';
-import { RepositorioError } from '../repositorio-error';
 import { FuncionarioRepositorio } from './funcionario-repositorio';
 import { FuncionarioError } from './funcionario-error';
 
@@ -10,34 +9,39 @@ export class FuncionarioServico {
         this.FuncionarioRepositorio = new FuncionarioRepositorio();
     }
 
-    pegarUrlId(): number {
-        const [, , id] = location.pathname.split('/');
-
-        if (!id) {
-            throw new FuncionarioError('Id não foi localizado!');
+    adicionar(aluno: Funcionario): Promise<any> {
+        const todosErrosNoAluno = aluno.validateAll();
+        if ( todosErrosNoAluno.length > 0 ) {
+            throw new FuncionarioError( todosErrosNoAluno.join('<br>') );
         }
+  
+        return this.FuncionarioRepositorio.adicionar(aluno);
+     }
 
-        return Number(id);
-    }
-
-    adicionar(funcionario: Funcionario): Promise<Response> {
-        return this.FuncionarioRepositorio.adicionar(funcionario);
-    }
-
-    todos(limit: number, offset: number): Promise<Funcionario[]> {
+     todos(limit: number | null = null, offset: number | null = null): Promise<Funcionario[]> {
         return this.FuncionarioRepositorio.todos(limit, offset);
-    }
-
-    atualizar(funcionario: Funcionario): Promise<Response> {
+     }
+  
+     atualizar(funcionario: Funcionario): Promise<Response> {
         return this.FuncionarioRepositorio.atualizar(funcionario);
-    }
-
-    async pegaFuncionario(funcionarioId: number): Promise<Funcionario> {
+     }
+  
+     porFuncionario(funcionarioId: number): Promise<any> {
         return this.FuncionarioRepositorio.buscarPorFuncionario(funcionarioId);
-    }
-
-    async delete(funcionarioId: number): Promise<Response> {
+     }
+  
+     delete(funcionarioId: number): Promise<Response> {
         return this.FuncionarioRepositorio.delete(funcionarioId);
-    }
+     }
+  
+     pegaUrlId(): number {
+        const [, , id] = location.pathname.split('/');
+  
+        if (!id) {
+           throw new FuncionarioError('Não foi possível pegar o id do aluno!');
+        }
+  
+        return parseInt(id);
+     }
 
 }

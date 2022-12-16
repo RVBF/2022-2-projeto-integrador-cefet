@@ -1,6 +1,6 @@
 import { appConfig } from '../config/config';
 import { Funcionario } from './funcionario';
-import { RepositorioError } from '../repositorio-error';
+import { FuncionarioError } from './funcionario-error';
 
 const API_FUNCIONARIO = `${appConfig.api}/funcionario`;
 
@@ -14,57 +14,60 @@ export class FuncionarioRepositorio {
                 'content-type': 'application/json',
             },
         });
+        const responseData = await response.json();
 
         if (!response.ok) {
-            throw new RepositorioError(
-                `Erro ao atualizar ID : ${Funcionario.id} : ${response.statusText}`,
-            );
+            throw new FuncionarioError(responseData.error);
         }
 
-        return response;
+        return responseData;
     }
 
-    async adicionar(Funcionario: Funcionario): Promise<Response> {
+    async adicionar(funcionario: Funcionario): Promise<Response> {
         const response = await fetch(`${API_FUNCIONARIO}`, {
             method: 'POST',
-        });
-
-        if (!response.ok) {
-            throw new RepositorioError(`Erro ao adicionar funcionário.`);
-        }
-
-        return response.json();
-    }
-
-    async todos(limit: number = 10, offset: number = 1): Promise<Funcionario[]> {
-        const response = await fetch(`${API_FUNCIONARIO}`, {
-            method: 'GET',
+            body: JSON.stringify(funcionario),
             headers: {
-                'Content-Type': 'application/json;charset=utf-8;'
+                "Content-Type": "application/json;application/x-www-form-urlencoded;charset=UTF-8",
             },
-            // body: JSON.stringify({limit : limit, offset: offset})
         });
 
-        if (!response.ok) {
-            throw new RepositorioError(`Erro ao buscar os funcionários: ${response.statusText}`);
-        }
-
-        return response.json();
+        if (response.status >= 400 && response.status <= 499) {
+            const resposta = await response.text().then(errorMessage => {
+               return errorMessage;
+            })
+   
+            throw new FuncionarioError(`Erro ao cadastrar ${funcionario.nome} : ${String(JSON.parse(resposta).split('|').join('<br>'))}`);
+   
+         }
+   
+         return response.json();
     }
+
+    async todos(limit: number | null, offset: number | null): Promise<Funcionario[]> {
+        const response = await fetch(`${API_FUNCIONARIO}`, {
+           method: 'GET',
+           headers: {
+              'Content-Type': 'application/json;charset=utf-8;'
+           },
+           // body: JSON.stringify({limit : limit, offset: offset})
+        });
+  
+        if (!response.ok) {
+           throw new FuncionarioError(`Erro ao buscar os funcionários: ${response.statusText}`);
+        }
+  
+        return response.json();
+     }
 
     async buscarPorFuncionario(funcionarioId: Number): Promise<Funcionario> {
         const response = await fetch(`${API_FUNCIONARIO}/${funcionarioId}/show`, {
             method: 'GET',
-            body: JSON.stringify(funcionarioId),
-            headers: {
-                'content-type': 'application/json',
-            },
         });
 
         if (!response.ok) {
-            throw new RepositorioError(
-                `Erro ao buscar "funcionário" ID : ${funcionarioId} : ${response.statusText}`,
-            );
+            throw new FuncionarioError(
+                `Erro ao buscar funcionário ${funcionarioId} : ${response.statusText}`);
         }
 
         return response.json();
@@ -80,8 +83,8 @@ export class FuncionarioRepositorio {
         });
 
         if (!response.ok) {
-            throw new RepositorioError(
-                `Erro ao deletar "funcionario" ID : ${funcionarioId} : ${response.statusText}`,
+            throw new FuncionarioError(
+                `Erro ao deletar funcionario ${funcionarioId} : ${response.statusText}`,
             );
         }
 

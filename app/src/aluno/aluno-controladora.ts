@@ -26,6 +26,7 @@ export class AlunoController {
         else if (this.alunoVisao.cadastrosRegex()) {
             main.innerHTML = '';
             main.innerHTML = await carregarPagina("/aluno/formulario-aluno.html");
+            
             await this.alunoVisao.desenharCadastro();
             this.alunoVisao.aoDispararCadastrar(this.cadastrar);
         }

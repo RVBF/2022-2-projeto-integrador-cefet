@@ -1,5 +1,4 @@
 import { Aluno } from './aluno';
-import { RepositorioError } from '../repositorio-error';
 import { AlunoRepositorio } from './aluno-repositorio';
 import { AlunoError } from './aluno-error';
 
