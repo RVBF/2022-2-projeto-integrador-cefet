@@ -6,7 +6,7 @@ describe('Relizar os testes dos atributos de Cursos', () => {
             id: 1,
             codigo: 'PHP01',
             nome: 'Curso de PHP',
-            situacao: 'iniciado',
+            situacao: 'Iniciado',
             inicio: new Date( '2022-01-01 00:00:00' ),
             termino: new Date( '2023-12-31 00:00:00' )
         });
@@ -18,7 +18,7 @@ describe('Relizar os testes dos atributos de Cursos', () => {
             id: 1,
             codigo: 'PHP1',
             nome: 'Curso de PHP',
-            situacao: 'iniciado',
+            situacao: 'Iniciado',
             inicio: new Date( '2022-01-01 00:00:00' ),
             termino: new Date( '2023-12-31 00:00:00' )
         });
@@ -30,7 +30,7 @@ describe('Relizar os testes dos atributos de Cursos', () => {
             id: 1,
             codigo: 'PHP01',
             nome: 'P',
-            situacao: 'iniciado',
+            situacao: 'Iniciado',
             inicio: new Date( '2022-01-01 00:00:00' ),
             termino: new Date( '2023-12-31 00:00:00' )
         });
@@ -42,7 +42,7 @@ describe('Relizar os testes dos atributos de Cursos', () => {
             id: 1,
             codigo: 'PHP01',
             nome: 'is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industrys stasa',
-            situacao: 'iniciado',
+            situacao: 'Iniciado',
             inicio: new Date( '2022-01-01 00:00:00' ),
             termino: new Date( '2023-12-31 00:00:00' )
         });
@@ -66,7 +66,7 @@ describe('Relizar os testes dos atributos de Cursos', () => {
             id: 1,
             codigo: 'PHP01',
             nome: 'Curso de PHP',
-            situacao: 'iniciado',
+            situacao: 'Iniciado',
             inicio: new Date( '2024-01-01 00:00:00' ),
             termino: new Date( '2023-12-31 00:00:00' )
         });

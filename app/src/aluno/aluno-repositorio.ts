@@ -36,7 +36,7 @@ export class AlunoRepositorio {
             return errorMessage;
          })
 
-         throw new AlunoError(`Erro ao cadastrar ${Aluno.nome} : ${String(JSON.parse(resposta).split('|').join('<br>'))}`);
+         throw new AlunoError(`Erro ao cadastrar ${aluno.nome} : ${String(JSON.parse(resposta).split('|').join('<br>'))}`);
 
       }
 
