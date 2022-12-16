@@ -4,9 +4,7 @@ namespace App\Src\Aluno;
 
 use App\RepositorioExcecao;
 use App\Request;
-use App\Src\AlunoCurso\AlunoCursoRepositorioEmBDR;
 use App\Src\Comum\Util;
-use JsonSerializable;
 use PDOException;
 use RepositoryException;
 

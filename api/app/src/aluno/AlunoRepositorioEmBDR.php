@@ -3,7 +3,6 @@
 namespace App\Src\Aluno;
 
 use App\RepositorioExcecao;
-use App\Src\Comum\Util;
 use PDO;
 use PDOException;
 
@@ -23,7 +22,7 @@ class AlunoRepositorioEmBDR implements AlunoRepositorio
          $sql = 'SELECT  `aluno`.*, `matricula`.numero_matricula as matricula FROM `aluno` LEFT JOIN `matricula` on matricula.aluno_id = aluno.id';
          $preparedStatement = $this->pdow->prepare($sql);
          $preparedStatement->execute();
-         $result = $preparedStatement->fetchAll(PDO::FETCH_ASSOC );
+         $result = $preparedStatement->fetchAll(PDO::FETCH_ASSOC);
          foreach ($result as $row) {
             $objetos[] = $this->construirObjeto($row)->toArray();
          }
@@ -82,11 +81,9 @@ class AlunoRepositorioEmBDR implements AlunoRepositorio
             'email' => $aluno->getEmail(),
             'id' => $aluno->getId()
          ]);
-
       } catch (\PDOException $e) {
          throw new RepositorioExcecao($e->getMessage(), $e->getCode(), $e);
-      }
-      catch (RepositorioExcecao $e) {
+      } catch (RepositorioExcecao $e) {
          throw new RepositorioExcecao($e->getMessage(), $e->getCode(), $e);
       }
    }
@@ -94,7 +91,7 @@ class AlunoRepositorioEmBDR implements AlunoRepositorio
    public function comId($id)
    {
       try {
-         $sql ='SELECT `aluno`.* , `matricula`.numero_matricula as `matricula` FROM `aluno` LEFT JOIN `matricula` on `matricula`.aluno_id = `aluno`.id WHERE `aluno`.id = :id';
+         $sql = 'SELECT `aluno`.* , `matricula`.numero_matricula as `matricula` FROM `aluno` LEFT JOIN `matricula` on `matricula`.aluno_id = `aluno`.id WHERE `aluno`.id = :id';
          $preparedStatement = $this->pdow->prepare($sql);
          $preparedStatement->execute(['id' => $id]);
 
@@ -114,10 +111,9 @@ class AlunoRepositorioEmBDR implements AlunoRepositorio
    function delete($id)
    {
       try {
-         $sql ='DELETE  FROM ' . self::TABELA . ' WHERE id = :id';
+         $sql = 'DELETE  FROM ' . self::TABELA . ' WHERE id = :id';
          $preparedStatement = $this->pdow->prepare($sql);
          $preparedStatement->execute(['id' => $id]);
-
       } catch (\PDOException $e) {
          throw new RepositorioExcecao($e->getMessage(), $e->getCode(), $e);
       }

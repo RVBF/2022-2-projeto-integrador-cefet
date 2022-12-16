@@ -4,6 +4,7 @@ import { path } from "../utils/caminho-pagina";
 import { colunaTabela, linhaTabela } from "../components/Tabela";
 import { Link } from "../components/Ancora";
 import { Button } from "../components";
+import { formataData } from "../utils/formata-data";
 
 export class CursoVisao {
 
@@ -31,8 +32,8 @@ export class CursoVisao {
                 colunaTabela(curso.codigo),
                 colunaTabela(curso.nome),
                 colunaTabela(curso.situacao),
-                colunaTabela(new Date(curso.inicio).toISOString()),
-                colunaTabela(new Date(curso.termino).toISOString()),
+                colunaTabela(formataData(String(curso.dataInicio))),
+                colunaTabela(formataData(String(curso.dataFim))),
                 colunaTabela(Link('atualizar', `/cursos/${curso.id}/editar`, '<span class="material-icons">edit </span>', 'btn') as HTMLElement),
                 colunaTabela(Link('visualizar', `/cursos/${curso.id}/visualizar`, '<span class="material-icons">visibility</span>', 'btn') as HTMLElement),
                 colunaTabela(Button('remover', '<span class="material-icons">delete_outline</span>', 'btn', [{ 'name': 'IdCurso', 'valor': String(curso.id) }]) as HTMLElement),
@@ -56,8 +57,8 @@ export class CursoVisao {
         codigo.value = curso.codigo.toString();
         nome.value = curso.nome.toString();
         situacao.value = curso.situacao.toString();
-        inicio.value = curso.inicio.toString();
-        termino.value = curso.termino.toString();
+        inicio.value = curso.dataInicio.toString();
+        termino.value = curso.dataFim.toString();
     }
 
     habilitaBotao(): void {
@@ -132,8 +133,8 @@ export class CursoVisao {
             codigo: String(campoCodigo.value),
             nome: String(campoNome.value),
             situacao: String(campoSituacao.value),
-            inicio: new Date(campoInicio.value),
-            termino: new Date(campoTermino.value)
+            dataInicio: new Date(campoInicio.value),
+            dataFim: new Date(campoTermino.value)
         });
 
         console.log(curso);
@@ -146,8 +147,8 @@ export class CursoVisao {
             codigo: String(this.getValueInputElement('codigo')),
             nome: String(this.getValueInputElement('nome').value),
             situacao: String(this.getValueInputElement('situacao').value),
-            inicio: new Date(this.getValueInputElement('inicio').value),
-            termino: new Date(this.getValueInputElement('termino').value)
+            dataInicio: new Date(this.getValueInputElement('inicio').value),
+            dataFim: new Date(this.getValueInputElement('termino').value)
         })
     }
 

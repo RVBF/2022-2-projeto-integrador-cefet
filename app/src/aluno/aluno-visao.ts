@@ -5,7 +5,6 @@ import { colunaTabela, linhaTabela } from "../components/Tabela";
 import { Link } from "../components/Ancora";
 import { Button } from "../components";
 
-
 export class AlunoVisao {
    servicoAluno: AlunoServico;
    constructor() {

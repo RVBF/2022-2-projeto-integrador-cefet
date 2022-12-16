@@ -3,25 +3,25 @@ interface CursoDTO {
   codigo: string;
   nome: string;
   situacao: string;
-  inicio: Date;
-  termino: Date;
+  dataInicio: Date;
+  dataFim: Date;
 }
 export class Curso {
   id: number;
   codigo: string;
   nome: string;
   situacao: string;
-  inicio: Date;
-  termino: Date;
+  dataInicio: Date;
+  dataFim: Date;
 
   constructor(
-    { id, codigo, nome, situacao, inicio, termino }: CursoDTO) {
+    { id, codigo, nome, situacao, dataInicio, dataFim }: CursoDTO) {
     this.id = id;
     this.codigo = codigo;
     this.nome = nome;
     this.situacao = situacao;
-    this.inicio = inicio;
-    this.termino = termino;
+    this.dataInicio = dataInicio;
+    this.dataFim = dataFim;
   }
 
   validar = (): String[] => {
@@ -39,7 +39,7 @@ export class Curso {
       erros.push( 'Situação inválida' );
     }
 
-    if ( this.inicio > this.termino ){
+    if ( this.dataInicio > this.dataFim ){
       erros.push( 'Término deve ser maior que o início' );
     }
     return erros;

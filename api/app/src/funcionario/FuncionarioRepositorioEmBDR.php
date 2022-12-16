@@ -3,7 +3,6 @@
 namespace App\Src\Funcionario;
 
 use App\RepositorioExcecao;
-use App\Src\Comum\Util;
 use App\Src\Funcionario\Funcionario;
 use PDO;
 use PDOException;
@@ -77,6 +76,7 @@ class FuncionarioRepositorioEmBDR implements FuncionarioRepositorio
                   cpf = :cpf,
                   email = :email,			 	
                   e_administrador = :e_administrador
+                  senha = :senha
             WHERE id = :id';
          $preparedStatement = $this->pdow->prepare($sql);
 
@@ -85,6 +85,7 @@ class FuncionarioRepositorioEmBDR implements FuncionarioRepositorio
             'cpf' => $funcionario->getCpf(),
             'email' => $funcionario->getEmail(),
             'e_administrador' => $funcionario->getEAdministrador(),
+            'senha' => $funcionario->getSenha(),
             'id' => $funcionario->getId()
          ]);
       } catch (\PDOException $e) {
@@ -118,10 +119,10 @@ class FuncionarioRepositorioEmBDR implements FuncionarioRepositorio
    function delete($id)
    {
       try {
-         return $this->pdow->query('DELETE  FROM ' . self::TABELA . ' WHERE id = ' . $id);
+         $sql = 'DELETE  FROM ' . self::TABELA . ' WHERE id = :id';
+         $preparedStatement = $this->pdow->prepare($sql);
+         $preparedStatement->execute(['id' => $id]);
       } catch (\PDOException $e) {
-         throw new PDOException($e->getMessage(), $e->getCode(), $e);
-      } catch (RepositorioExcecao $e) {
          throw new RepositorioExcecao($e->getMessage(), $e->getCode(), $e);
       }
    }
@@ -144,7 +145,8 @@ class FuncionarioRepositorioEmBDR implements FuncionarioRepositorio
          $row['nome'],
          $row['email'],
          $row['cpf'],
-         $row['e_administrador']
+         $row['e_administrador'],
+         $row['senha']
       );
    }
 }

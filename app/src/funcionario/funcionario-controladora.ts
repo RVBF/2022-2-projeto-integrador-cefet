@@ -38,7 +38,7 @@ export class FuncionarioControladora {
             this.funcionarioVisao.aoDispararEditar(this.editar);
         }
         else if (this.funcionarioVisao.visualizarFuncionariosRegex()) {
-            main.innerHTML = await carregarPagina("/aluno/formulario-aluno.html");
+            main.innerHTML = await carregarPagina("/funcionario/formulario-funcionario.html");
 
             const funcionarioId = this.funcionarioServico.pegaUrlId();
             await this.insereDadosNaViewVisualiza(funcionarioId);
@@ -59,7 +59,6 @@ export class FuncionarioControladora {
     async insereDadosNaViewEdit(funcionarioId: number): Promise<void> {
         try {
             const funcionario = await this.funcionarioServico.porFuncionario(funcionarioId);
-
             this.funcionarioVisao.desenharEdit(funcionario);
         } catch (error: any) {
             this.funcionarioVisao.showErrorMessage(error.message);

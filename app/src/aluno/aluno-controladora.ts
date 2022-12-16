@@ -59,7 +59,6 @@ export class AlunoController {
     async insereDadosNaViewEdit(alunoId: number): Promise<void> {
         try {
             const aluno = await this.alunoServico.porAluno(alunoId);
-
             this.alunoVisao.desenharEdit(aluno);
         } catch (error: any) {
             this.alunoVisao.showErrorMessage(error.message);
