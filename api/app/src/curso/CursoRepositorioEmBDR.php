@@ -4,13 +4,14 @@ namespace App\Src\Curso;
 
 use App\RepositorioExcecao;
 use App\Src\Comum\Util;
+use App\Src\Curso\CursoRepositorio;
 use App\Src\Funcionario\Funcionario;
+use DateTime;
 use PDO;
 use PDOException;
 
-require_once './Curso.php';
 
-class CursoRepositorioEMBDR implements RepositorioCurso
+class CursoRepositorioEMBDR implements CursoRepositorio
 {
 	private $pdow = null;
 	const TABELA = 'curso';
@@ -45,28 +46,28 @@ class CursoRepositorioEMBDR implements RepositorioCurso
 			$erros = $curso->validate();
 			if (count($erros)) throw new RepositorioExcecao(implode('|', $erros));
 
-			$sql = "INSERT INTO " . self::TABELA . " (`codigo`, `nome`, `situacao`, `inicio`, `termino`, `professor_id`)
+			$sql = "INSERT INTO " . self::TABELA . " (`codigo`, `nome`, `situacao`, `inicio`, `termino`)
 			VALUES (
 				:codigo,
 				:nome,
 				:situacao,
 				:inicio,
-				:fim,
-				:professor_id
+				:fim
 			)";
 
 			$preparedStatement = $this->pdow->prepare($sql);
 
+			
 			$preparedStatement->execute([
 				'codigo' => $curso->getCodigo(),
 				'nome' => $curso->getNome(),
 				'situacao' => $curso->getSituacao(),
-				'inicio' => $curso->getDataInicio(),
-				'fim' => $curso->getDataFim(),
-				'professor_id' => ($curso->getProfessor() instanceof Funcionario) ? $curso->getProfessor()->getid() : 0
+				'inicio' =>  str_replace('Z','',str_replace('T', ' ', $curso->getDataInicio())),
+				'fim' => str_replace('Z','',str_replace('T', ' ', $curso->getDataFim()))
+				// 'professor_id' => ($curso->getProfessor() instanceof Funcionario) ? $curso->getProfessor()->getid() : 0
 			]);
 
-			$curso->setId($this->pdoW->lastInsertId());
+			$curso->setId($this->pdow->lastInsertId());
 		} catch (\PDOException $e) {
 			throw new PDOException($e->getMessage(), $e->getCode(), $e);
 		} catch (RepositorioExcecao $e) {

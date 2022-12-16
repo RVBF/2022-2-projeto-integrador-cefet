@@ -56,7 +56,7 @@ class AlunoControladora
     } catch (PDOException $errorPDO) {
       Util::exibirErroAoConectar($errorPDO);
     } catch (RepositorioExcecao $error) {
-      Util::erroDoCliente(json_encode(explode('|',$error->getMessage())), 422);
+      Util::erroDoCliente(json_encode($error->getMessage()), 422);
     }
   }
 

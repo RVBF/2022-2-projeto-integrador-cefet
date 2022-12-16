@@ -15,49 +15,43 @@
 
 <div class="row">
     <form class="col s12">
+        <input type="hidden" name="id" id="id">
         <div class="row">
             <div class="input-field col s6">
                 <input id="codigo" type="text" class="validate" required>
-                <label for="codigo">Código</label>
+                <label for="codigo">*Código</label>
             </div>
 
             <div class="input-field col s6">
                 <input id="nome" type="text" class="validate" required>
-                <label for="nome">Nome</label>
+                <label for="nome">*Nome</label>
             </div>
         </div>
 
         <div class="row">
-            <div class="input-field col s6">
-                <input id="dtInicio" type="date" class="validate" required>
-                <label for="data inicio"> Data de início: </label>
+            <div class="input-field col s6 inline">
+                <div class="select-wrapper">
+
+                    <label for="inicio">*Data de início: </label>
+                    <input id="inicio" type="datetime-local" class="validate" required>
+                </div>
             </div>
 
-            <div class="input-field col s6">
-                <input id="dtFim" type="date" class="validate" required>
-                <label for="data fim"> Data de fim: </label>
-            </div>
-        </div>
-
-        <div class="row">
-            <div class="input-field col s6">
-                <input id="hrInicio" type="time" class="validate" required>
-                <label for="hora inicio"> Hora de início: </label>
-            </div>
-
-            <div class="input-field col s6">
-                <input id="hrFim" type="time" class="validate" required>
-                <label for="hora fim"> Hora de fim: </label>
+            <div class="input-field col s6 inline">
+                <div class="select-wrapper">
+                    <label for="termino">*Data de fim: </label>
+                    <input id="termino" type="datetime-local" class="validate" required>
+                </div>
             </div>
         </div>
 
         <div class="row">
             <div class="input-field col s12">
-                <select required>
-                    <option value="" disabled selected>Situação</option>
-                    <option value="1">Não iniciado</option>
-                    <option value="2">Iniciado</option>
-                    <option value="3">Finalizado</option>
+                <select required id="situacao">
+                    <option value="Situação" disabled selected>Situação</option>
+                    <option value="Não iniciado">Não iniciado</option>
+                    <option value="Iniciado">Iniciado</option>
+                    <option value="Finalizado">Finalizado</option>
                 </select>
                 <label>Situação</label>
             </div>
@@ -65,7 +59,7 @@
 
         <div class="row">
             <div class="input-field col s12">
-                <button type="submit" id="cadastrar" class="waves-effect indigo darken-4 btn-small">Cadastrar</button>
+                <button type="submit" id="salvar" class="waves-effect indigo darken-4 btn-small">Salvar</button>
             </div>
         </div>
     </form>

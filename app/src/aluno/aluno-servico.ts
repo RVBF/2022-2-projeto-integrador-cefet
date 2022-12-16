@@ -12,9 +12,9 @@ export class AlunoServico {
 
    adicionar(aluno: Aluno): Promise<any> {
       const todosErrosNoAluno = aluno.validateAll();
-      // if ( todosErrosNoAluno.length > 0 ) {
-      //     throw new AlunoError( todosErrosNoAluno.join( '<br>' ) );
-      // }
+      if ( todosErrosNoAluno.length > 0 ) {
+          throw new AlunoError( todosErrosNoAluno.join('<br>') );
+      }
 
       return this.alunoRepositorio.adicionar(aluno);
    }

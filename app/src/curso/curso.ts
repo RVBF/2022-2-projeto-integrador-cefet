@@ -35,7 +35,7 @@ export class Curso {
       erros.push( 'Nome inválido' );
     }
 
-    if ( this.situacao != 'não iniciado' && this.situacao != 'iniciado' && this.situacao != 'finalizado' ) {
+    if ( this.situacao != 'Não iniciado' && this.situacao != 'Iniciado' && this.situacao != 'Finalizado' ) {
       erros.push( 'Situação inválida' );
     }
 

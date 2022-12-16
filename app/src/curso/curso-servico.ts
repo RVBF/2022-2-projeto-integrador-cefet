@@ -18,8 +18,13 @@ export class CursoServico {
     }
   
 
-    adicionar(Curso: Curso): Promise<Response> {
-        return this.CursoRepositorio.adicionar(Curso);
+    adicionar(curso: Curso): Promise<Response> {
+        const todosErrosNoAluno = curso.validar();
+        if ( todosErrosNoAluno.length > 0 ) {
+            throw new CursoError( todosErrosNoAluno.join('<br>') );
+        }
+
+        return this.CursoRepositorio.adicionar(curso);
     }
 
     todos(limit: number |null, offset: number|null): Promise<Curso[]> {

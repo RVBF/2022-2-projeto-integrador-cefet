@@ -31,9 +31,9 @@ export class AlunoVisao {
             colunaTabela(aluno.cpf),
             colunaTabela(aluno.telefone),
             colunaTabela(aluno.email),
-            colunaTabela(Link('atualizar', `/alunos/${aluno.id}/editar`, '<span class="material-icons">edit </span>', 'btn') as HTMLElement),
-            colunaTabela(Link('visualizar', `/alunos/${aluno.id}/visualizar`, '<span class="material-icons">visibility</span>', 'btn') as HTMLElement),
-            colunaTabela(Button('remover', '<span class="material-icons">delete_outline</span>', 'btn', [{ 'name': 'IdAluno', 'valor': String(aluno.id) }]) as HTMLElement),
+            colunaTabela(Link(`atualizar_${aluno.id}`, `/alunos/${aluno.id}/editar`, '<span class="material-icons">edit </span>', 'btn atualizar ') as HTMLElement),
+            colunaTabela(Link(`visualizar_${aluno.id}`, `/alunos/${aluno.id}/visualizar`, '<span class="material-icons">visibility</span>', 'btn visualizar ') as HTMLElement),
+            colunaTabela(Button(`remover_${aluno.id}`, '<span class="material-icons">delete_outline</span>', 'btn remover ' , [{ 'name': 'IdAluno', 'valor': String(aluno.id) }]) as HTMLElement),
          ];
          tbodyTable?.append(linhaTabela(conteudoLinha));
       });
@@ -95,9 +95,11 @@ export class AlunoVisao {
          callback();
       };
 
-      const saveAlunoButton = this.getValueInputElement('salvar');
-
-      saveAlunoButton.addEventListener('click', functionToAct);
+      const botoesEditarAluno = document.querySelectorAll('.atualizar');
+      botoesEditarAluno.forEach( (botao, i) => {
+         const elemento = botoesEditarAluno[i] as HTMLButtonElement;
+         elemento.addEventListener('click', functionToAct)
+      });
    }
 
    aoDispararVoltar(callback: any): void {
@@ -119,9 +121,11 @@ export class AlunoVisao {
          callback(botao.getAttribute('idaluno'));
       };
 
-      const voltaAlunoBotao = this.getValueInputElement('remover');
-
-      voltaAlunoBotao.addEventListener('click', functionToAct);
+      const botoesRemoverAluno = document.querySelectorAll('.remover');
+      botoesRemoverAluno.forEach( (botao, i) => {
+         const elemento = botoesRemoverAluno[i] as HTMLButtonElement;
+         elemento.addEventListener('click', functionToAct)
+      })
    }
 
    getValueInputElement(key: string): HTMLInputElement {
@@ -195,7 +199,8 @@ export class AlunoVisao {
       }, 2000);
    }
 
-   showErrorMessage(message: String): void {
+   showErrorMessage(message: any): void {
+      console.log(message);
       const errorMessage = document.getElementById('errorBar');
       errorMessage!.innerHTML = String(message);
       errorMessage!.className = 'show';

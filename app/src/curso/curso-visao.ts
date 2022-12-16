@@ -6,6 +6,7 @@ import { Link } from "../components/Ancora";
 import { Button } from "../components";
 
 export class CursoVisao {
+
     cursoServico: CursoServico;
 
     constructor() {
@@ -24,14 +25,14 @@ export class CursoVisao {
             this.showSuccessMessage('Nenhum dado cadastrado!');
             return;
         }
-
+        console.log(cursos);
         cursos.forEach((curso) => {
             const conteudoLinha: Array<HTMLTableCellElement> = [
                 colunaTabela(curso.codigo),
-                colunaTabela(curso!.nome),
+                colunaTabela(curso.nome),
                 colunaTabela(curso.situacao),
-                colunaTabela(curso.inicio),
-                colunaTabela(curso.termino),
+                colunaTabela(new Date(curso.dataInicio).toISOString()),
+                colunaTabela(new Date(curso.dataFim).toISOString()),
                 colunaTabela(Link('atualizar', `/cursos/${curso.id}/editar`, '<span class="material-icons">edit </span>', 'btn') as HTMLElement),
                 colunaTabela(Link('visualizar', `/cursos/${curso.id}/visualizar`, '<span class="material-icons">visibility</span>', 'btn') as HTMLElement),
                 colunaTabela(Button('remover', '<span class="material-icons">delete_outline</span>', 'btn', [{ 'name': 'IdCurso', 'valor': String(curso.id) }]) as HTMLElement),
@@ -39,7 +40,10 @@ export class CursoVisao {
             tbodyTable?.append(linhaTabela(conteudoLinha));
         });
     }
-
+    inicializaSelect(): void {
+        var select = document.querySelectorAll('select');
+        var selectInstance = M.FormSelect.init(select);
+    }
     desenharEdit(curso: Curso): void {
         const id = this.getValueInputElement('id');
         const codigo = this.getValueInputElement('codigo');
@@ -66,12 +70,11 @@ export class CursoVisao {
         buttonEdit.disabled = true;
     }
     aoDispararCadastrar(callback: any): void {
-        const addCursoButton = this.getValueInputElement('salvar');
         const functionToAct = (elem: MouseEvent): void => {
             elem.preventDefault();
             callback();
         };
-
+        const addCursoButton = this.getValueInputElement('salvar');
         addCursoButton.addEventListener('click', functionToAct);
     }
 
@@ -117,14 +120,24 @@ export class CursoVisao {
     }
 
     pegarDadosDoFormCadastro(): Curso {
-        return new Curso({
-            id: Number(this.getValueInputElement('id').value),
-            codigo: String(this.getValueInputElement('codigo').value),
-            nome: String(this.getValueInputElement('nome').value),
-            situacao: String(this.getValueInputElement('situacao').value),
-            inicio: new Date(this.getValueInputElement('inicio').value),
-            termino: new Date(this.getValueInputElement('termino').value)
-        })
+        const campoId = document.getElementById('id') as HTMLInputElement;
+        const campoCodigo = document.getElementById('codigo') as HTMLInputElement;
+        const campoNome = document.getElementById('nome') as HTMLInputElement;
+        const campoSituacao = document.getElementById('situacao') as HTMLInputElement;
+        const campoInicio = document.getElementById('inicio') as HTMLInputElement;
+        const campoTermino = document.getElementById('termino') as HTMLInputElement;
+
+        const curso = new Curso({
+            id: 0,
+            codigo: String(campoCodigo.value),
+            nome: String(campoNome.value),
+            situacao: String(campoSituacao.value),
+            inicio: new Date(campoInicio.value),
+            termino: new Date(campoTermino.value)
+        });
+
+        console.log(curso);
+        return curso;
     };
 
     pegarDadosDoFormEditar(): Curso {
@@ -171,7 +184,7 @@ export class CursoVisao {
 
     showErrorMessage(message: string): void {
         const errorMessage = document.getElementById('errorBar');
-        errorMessage!.innerText = message;
+        errorMessage!.innerHTML = String(message);
         errorMessage!.className = 'show';
         setTimeout(() => {
             errorMessage!.className = errorMessage!.className.replace('show', '');
