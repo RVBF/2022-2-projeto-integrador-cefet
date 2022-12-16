@@ -36,7 +36,7 @@ window.addEventListener('load', async () => {
 
     const proibido = (/^\/403\/?$/i).test(urlAtual);
     const notasPath = (/^\/notas\/?([^\s]+)?$/i).test(urlAtual);
-    const funcionariosPath = (/^\/funcionarios\/?([^\s]+)?$/i).test(urlAtual);
+    const funcionariosPath = (/^\/funcionario\/?([^\s]+)?$/i).test(urlAtual);
     const alunosPath = (/^\/alunos\/?([^\s]+)?$/i).test(urlAtual);
     const cursosPath = (/^\/cursos\/?([^\s]+)?$/i).test(urlAtual);
 
