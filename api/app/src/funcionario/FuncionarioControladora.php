@@ -45,11 +45,10 @@ class FuncionarioControladora
             $data["cpf"],
             $data["email"],
             $data["eAdministrador"],
+            $data["senha"]
          );
-         
-         $funcionario->setSenha = $data['senha'];
 
-         $funcionario = $this->colecaoFuncionario->adicionar($funcionario);
+         $funcionarios = $this->colecaoFuncionario->adicionar($funcionario);
 
          Util::responseAddSuccess();
       } catch (PDOException $errorPDO) {
@@ -68,6 +67,7 @@ class FuncionarioControladora
          $funcionario->setCpf($data["cpf"]);
          $funcionario->setEmail($data["email"]);
          $funcionario->setEAdministrador($data["eAdministrador"]);
+         $funcionario->setSenha($data["senha"]);
 
          $this->colecaoFuncionario->atualizar($funcionario);
 
@@ -79,12 +79,11 @@ class FuncionarioControladora
       }
    }
 
-   function delete($id)
+   function delete(Request $request)
    {
-
       try {
-
-         $this->colecaoFuncionario->delete($id);
+         $urlQuebrada  = explode('/', $request->base());
+         $this->colecaoAluno->delete($urlQuebrada[2]);
 
          Util::responseDeleteSuccess();
       } catch (PDOException $errorPDO) {

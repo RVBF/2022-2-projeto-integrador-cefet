@@ -8,6 +8,8 @@ import { FuncionarioControladora } from "./funcionario/funcionario-controladora"
 import { CursoControladora } from "./curso/curso-controladora";
 import { LoginControladora } from "./login/login-controladora";
 
+import { formataData } from "./utils/formata-data";
+
 export * from './components/Button';
 export * from './components/Container';
 export * from './components/Form';

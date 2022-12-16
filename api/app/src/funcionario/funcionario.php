@@ -16,13 +16,15 @@ class Funcionario
         $nome,
         $cpf,
         $email,
-        $eAdministrador
+        $eAdministrador,
+        $senha
     ) {
         $this->id = $id;
         $this->nome = $nome;
         $this->cpf = $cpf;
         $this->email = $email;
         $this->eAdministrador = $eAdministrador;
+        $this->senha = $senha;
     }
 
     public function setId($id)
@@ -152,6 +154,7 @@ class Funcionario
             'cpf' => $this->cpf,
             'email' => $this->email,
             'eAdministrador' => $this->eAdministrador,
+            'senha' => $this->senha
         ];
     }
 }

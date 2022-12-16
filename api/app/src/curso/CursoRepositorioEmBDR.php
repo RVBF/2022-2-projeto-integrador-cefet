@@ -57,13 +57,13 @@ class CursoRepositorioEMBDR implements CursoRepositorio
 
 			$preparedStatement = $this->pdow->prepare($sql);
 
-			
+
 			$preparedStatement->execute([
 				'codigo' => $curso->getCodigo(),
 				'nome' => $curso->getNome(),
 				'situacao' => $curso->getSituacao(),
-				'inicio' =>  str_replace('Z','',str_replace('T', ' ', $curso->getDataInicio())),
-				'fim' => str_replace('Z','',str_replace('T', ' ', $curso->getDataFim()))
+				'inicio' =>  str_replace('Z', '', str_replace('T', ' ', $curso->getDataInicio())),
+				'fim' => str_replace('Z', '', str_replace('T', ' ', $curso->getDataFim()))
 				// 'professor_id' => ($curso->getProfessor() instanceof Funcionario) ? $curso->getProfessor()->getid() : 0
 			]);
 
@@ -152,7 +152,7 @@ class CursoRepositorioEMBDR implements CursoRepositorio
 			$row['situacao'],
 			$row['inicio'],
 			$row['termino'],
-			new Funcionario($row['professor_id'], '', '','', false),
+			new Funcionario($row['professor_id'], '', '', '', false, ''),
 		);
 	}
 }

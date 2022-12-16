@@ -28,9 +28,9 @@ export class FuncionarioVisao {
                 colunaTabela(funcionario!.nome),
                 colunaTabela(funcionario.cpf),
                 colunaTabela(funcionario.email),
-                colunaTabela(Link('atualizar', `/funcionarios/${funcionario.id}/editar`, '<span class="material-icons">edit </span>', 'btn') as HTMLElement),
-                colunaTabela(Link('visualizar', `/funcionarios/${funcionario.id}/visualizar`, '<span class="material-icons">visibility</span>', 'btn') as HTMLElement),
-                colunaTabela(Button('remover', '<span class="material-icons">delete_outline</span>', 'btn') as HTMLElement),
+                colunaTabela(Link(`atualizar_${funcionario.id}`, `/funcionarios/${funcionario.id}/editar`, '<span class="material-icons">edit </span>', 'btn atualizar') as HTMLElement),
+                colunaTabela(Link(`visualizar_${funcionario.id}`, `/funcionarios/${funcionario.id}/visualizar`, '<span class="material-icons">visibility</span>', 'btn visualizar') as HTMLElement),
+                colunaTabela(Button(`remover_${funcionario.id}`, '<span class="material-icons">delete_outline</span>', 'btn remover' , [{ 'name': 'idFuncionario', 'valor': String(funcionario.id) }]) as HTMLElement),
             ];
             tbodyTable?.append(linhaTabela(conteudoLinha));
         });
@@ -42,6 +42,7 @@ export class FuncionarioVisao {
         const cpf = this.getValueInputElement('cpf');
         const email = this.getValueInputElement('email');
         const eAdministrador = this.getValueInputElement('e_administrador');
+        const senha = this.getValueInputElement('senha');
         const titulo = document.querySelector('h2');
 
         titulo!.innerText = 'Editar Funcionário';
@@ -49,14 +50,21 @@ export class FuncionarioVisao {
 
         id.value = String(funcionario.id);
         id.focus();
+
         nome.value = String(funcionario.nome);
         nome.focus();
+
         cpf.value = String(funcionario.cpf);
         cpf.focus();
-        eAdministrador.value = String(funcionario.eAdministrador);
-        eAdministrador.focus();
+        
         email.value = funcionario.email;
         email.focus();
+
+        eAdministrador.value = String(funcionario.eAdministrador);
+        eAdministrador.focus();
+
+        senha.value = String(funcionario.senha);
+        senha.focus();
     }
 
     desenharCadastro(): void { }
@@ -144,7 +152,7 @@ export class FuncionarioVisao {
         const cancelarAlunoBotao = this.getValueInputElement('cancelar');
         const titulo = document.querySelector('h2');
   
-        titulo!.innerText = 'Visualizar Aluno';
+        titulo!.innerText = 'Visualizar Funcionario';
         campoId.disabled = true;
         campoNome.disabled = true;
         campoCPF.disabled = true;
@@ -170,7 +178,7 @@ export class FuncionarioVisao {
            cpf: String(campoCPF.value),
            email: String(campoEmail.value),
            eAdministrador: Boolean(campoEAdministrador.value),
-           senha : null
+           senha : String(campoSenha.value),
         });
      }
 

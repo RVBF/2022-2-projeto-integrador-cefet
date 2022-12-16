@@ -4,7 +4,7 @@ interface FuncionarioDTO {
   cpf: string;
   email: string;
   eAdministrador: boolean;
-  senha: string | null;
+  senha: string;
 }
 
 export class Funcionario {
@@ -13,7 +13,7 @@ export class Funcionario {
   cpf: string = '';
   email: string = '';
   eAdministrador: boolean = false;
-  senha: string | null = null;
+  senha: string = '';
 
 
   constructor({ id, nome, cpf, email, eAdministrador, senha }: FuncionarioDTO) {
@@ -22,6 +22,7 @@ export class Funcionario {
     this.cpf = cpf;
     this.email = email;
     this.eAdministrador = eAdministrador;
+    this.senha = senha;
 
   }
 

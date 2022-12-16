@@ -66,8 +66,7 @@ export class FuncionarioRepositorio {
         });
 
         if (!response.ok) {
-            throw new FuncionarioError(
-                `Erro ao buscar funcionário ${funcionarioId} : ${response.statusText}`);
+            throw new FuncionarioError(`Erro ao buscar funcionário ${funcionarioId} : ${response.statusText}`);
         }
 
         return response.json();
