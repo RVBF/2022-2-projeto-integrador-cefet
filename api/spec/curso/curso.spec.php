@@ -11,11 +11,10 @@ describe('Validar atributos de Curso', function () {
             1,
             'PHP01',
             'Curso de PHP',
-            'não iniciado',
+            'Não iniciado',
             '2022-01-01',
             '2022-12-31',
-            '00:00:00',
-            '00:00:00'
+            null
         );
         expect($curso->validate())->toBe([]);
     });
@@ -25,11 +24,10 @@ describe('Validar atributos de Curso', function () {
             1,
             'PHP1',
             'Curso de PHP',
-            'não iniciado',
+            'Não iniciado',
             '2022-01-01',
             '2022-12-31',
-            '00:00:00',
-            '00:00:00'
+            null
         );
         expect($curso->validate())->toBe(['Código inválido']);
     });
@@ -39,11 +37,10 @@ describe('Validar atributos de Curso', function () {
             1,
             'PHP01',
             'P',
-            'não iniciado',
+            'Não iniciado',
             '2022-01-01',
             '2022-12-31',
-            '00:00:00',
-            '00:00:00'
+            null
         );
         expect($curso->validate())->toBe(['Nome inválido']);
     });
@@ -53,11 +50,10 @@ describe('Validar atributos de Curso', function () {
             1,
             'PHP01',
             'is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industrys stasa',
-            'não iniciado',
+            'Não iniciado',
             '2022-01-01',
             '2022-12-31',
-            '00:00:00',
-            '00:00:00'
+            null
         );
         expect($curso->validate())->toBe(['Nome inválido']);
     });
@@ -67,11 +63,10 @@ describe('Validar atributos de Curso', function () {
             1,
             'PHP01',
             'Curso de PHP',
-            'terminado',
+            'Terminado',
             '2022-01-01',
             '2022-12-31',
-            '00:00:00',
-            '00:00:00'
+            null
         );
         expect($curso->validate())->toBe(['Situação inválida']);
     });
@@ -81,11 +76,10 @@ describe('Validar atributos de Curso', function () {
             1,
             'PHP01',
             'Curso de PHP',
-            'não iniciado',
+            'Não iniciado',
             '2023-01-01',
             '2022-12-31',
-            '00:00:00',
-            '00:00:00'
+            null
         );
         expect($curso->validate())->toBe(['Data de fim deve ser maior que a data de início']);
     });
@@ -95,12 +89,11 @@ describe('Validar atributos de Curso', function () {
             1,
             'PHP01',
             'Curso de PHP',
-            'não iniciado',
-            '2022-01-01',
+            'Não iniciado',
+            '2023-01-01',
             '2022-12-31',
-            '01:00:00',
-            '00:00:00'
+            null
         );
-        expect($curso->validate())->toBe(['Hora de fim deve ser maior que a hora de início']);
+        expect($curso->validate())->toBe(['Data de fim deve ser maior que a data de início']);
     });
 });

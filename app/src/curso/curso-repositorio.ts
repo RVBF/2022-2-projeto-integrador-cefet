@@ -40,7 +40,7 @@ export class CursoRepositorio {
             return errorMessage;
          })
 
-         throw new CursoError(`Erro ao cadastrar ${Aluno.nome} : ${String(JSON.parse(resposta).split('|').join('<br>'))}`);
+         throw new CursoError(`Erro ao cadastrar ${curso.nome} : ${String(JSON.parse(resposta).split('|').join('<br>'))}`);
 
       }
 
