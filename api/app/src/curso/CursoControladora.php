@@ -6,6 +6,7 @@ use App\RepositorioExcecao;
 use App\Request;
 use App\Src\Curso\CursoRepositorioEmBDR;
 use App\Src\Comum\Util;
+use App\Src\Funcionario\Funcionario;
 use PDOException;
 
 class CursoControladora
@@ -40,16 +41,16 @@ class CursoControladora
             $data = $request->all();
 
             $curso = new curso(
-                'id',
-                'codigo',
-                'nome',
-                'situacao',
-                'dataInicio',
-                'dataFim',
-                'professor_id'
-            );
+                $data['id'],
+                $data['codigo'],
+                $data['nome'],
+                $data['situacao'],
+                $data['inicio'],
+                $data['termino'],
+                isset($data['professor_id']) ? $data['professor_id'] : 0
+            ); 
 
-            $cursos = $this->colecaoAluno->adicionar($curso);
+            $cursos = $this->colecaoCurso->adicionar($curso);
 
             Util::responseAddSuccess();
         } catch (PDOException $errorPDO) {

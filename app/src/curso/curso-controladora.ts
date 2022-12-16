@@ -28,7 +28,8 @@ export class CursoControladora {
         else if (this.cursoVisao.cadastrarCursosRegex()) {
             main.innerHTML = '';
             main.innerHTML = await carregarPagina("/curso/formulario-curso.html");
-            await this.cadastrar();
+            this.cursoVisao.inicializaSelect();
+            this.cursoVisao.aoDispararCadastrar(this.cadastrar);
         }
         else if (this.cursoVisao.atualizarCursosRegex()) {
             main.innerHTML = await carregarPagina("/curso/formulario-curso.html");
@@ -49,8 +50,8 @@ export class CursoControladora {
 
     async insereDadosNaView(): Promise<void> {
         try {
-            const aluno: Curso[] = await this.cursoServico.todos(null, null);
-            this.cursoVisao.desenhar(aluno);
+            const alunos: Curso[] = await this.cursoServico.todos(null, null);
+            this.cursoVisao.desenhar(alunos);
         } catch (error: any) {
             this.cursoVisao.showErrorMessage(error.message);
         }
@@ -65,13 +66,15 @@ export class CursoControladora {
             this.cursoVisao.showErrorMessage(error.message);
         }
     }
-    
+
     async insereDadosNaViewVisualiza(alunoId: number): Promise<void> {
         await this.insereDadosNaViewEdit(alunoId);
     }
     cadastrar = async (): Promise<void> => {
         try {
             const curso = this.cursoVisao.pegarDadosDoFormCadastro();
+            console.log(curso);
+
             await this.cursoServico.adicionar(curso);
             this.cursoVisao.showSuccessMessage('Curso Cadastrado com sucesso!');
 
@@ -99,30 +102,30 @@ export class CursoControladora {
         }
     };
 
-    remover = async ( idCurso: string ): Promise<void> => {
+    remover = async (idCurso: string): Promise<void> => {
         const idCursoForm = idCurso;
 
         try {
-            await this.cursoServico.delete( Number( idCursoForm ) );
-            this.cursoVisao.showSuccessMessage( 'Curso removido com sucesso!' );
+            await this.cursoServico.delete(Number(idCursoForm));
+            this.cursoVisao.showSuccessMessage('Curso removido com sucesso!');
             // setTimeout( () => {
             //     location.reload();
             // }, 2000 );
-        } catch ( error: any ) {
+        } catch (error: any) {
             // this.cursoVisao.habilitaBotao( idCurso );
-            this.cursoVisao.showErrorMessage( error.message );
+            this.cursoVisao.showErrorMessage(error.message);
         }
     };
 
-    voltar = async ( idCurso: string ): Promise<void> => {
-        const idCursoForm = idCurso.replace( 'del-', '' );
+    voltar = async (idCurso: string): Promise<void> => {
+        const idCursoForm = idCurso.replace('del-', '');
 
         try {
-            setTimeout( () => {
+            setTimeout(() => {
                 location.href = '/cursos';
-            }, 2000 );
-        } catch ( error: any ) {
-            this.cursoVisao.showErrorMessage( error.message );
+            }, 2000);
+        } catch (error: any) {
+            this.cursoVisao.showErrorMessage(error.message);
         }
     };
     showErrorMessage(): Promise<void> {

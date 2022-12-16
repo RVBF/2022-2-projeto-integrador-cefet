@@ -1,6 +1,7 @@
 import { appConfig } from '../config/config';
 import { Curso } from './curso';
 import { RepositorioError } from '../repositorio-error';
+import { CursoError } from './curso-error';
 
 const API_CURSO = `${appConfig.api}/curso`;
 
@@ -27,16 +28,25 @@ export class CursoRepositorio {
     async adicionar(curso: Curso): Promise<Response> {
         const response = await fetch(`${API_CURSO}`, {
             method: 'POST',
+            body: JSON.stringify(curso),
+            headers: {
+                "Content-Type": "application/json;application/x-www-form-urlencoded;charset=UTF-8",
+            },
         });
 
-        if (!response.ok) {
-            throw new RepositorioError(`Erro ao adicionar curso.`);
-        }
 
-        return response.json();
-    }
+      if (response.status >= 400 && response.status <= 499) {
+         const resposta = await response.text().then(errorMessage => {
+            return errorMessage;
+         })
 
-    async todos(limit: number|null = 10, offset: number|null = 1): Promise<Curso[]> {
+         throw new CursoError(`Erro ao cadastrar ${Aluno.nome} : ${String(JSON.parse(resposta).split('|').join('<br>'))}`);
+
+      }
+
+      return response.json();    }
+
+    async todos(limit: number | null = 10, offset: number | null = 1): Promise<Curso[]> {
         const response = await fetch(`${API_CURSO}`, {
             method: 'GET',
             headers: {

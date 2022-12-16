@@ -120,16 +120,12 @@ class Curso
             $Erros[] = 'Nome inválido';
         }
 
-        if ($this->situacao != 'não iniciado' && $this->situacao != 'iniciado' && $this->situacao != 'finalizado') {
+        if ($this->situacao != 'Não iniciado' && $this->situacao != 'Iniciado' && $this->situacao != 'Finalizado') {
             $Erros[] = 'Situação inválida';
         }
 
         if ($this->dataInicio > $this->dataFim) {
             $Erros[] = 'Data de fim deve ser maior que a data de início';
-        }
-
-        if ($this->horaInicio > $this->horaFim) {
-            $Erros[] = 'Hora de fim deve ser maior que a hora de início';
         }
 
         return $Erros;
