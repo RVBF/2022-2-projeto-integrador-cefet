@@ -1,3 +1,5 @@
+import { Curso } from "../curso/curso";
+
 interface FuncionarioDTO {
   id: number;
   nome: string;
@@ -14,16 +16,14 @@ export class Funcionario {
   email: string = '';
   eAdministrador: boolean = false;
   senha: string = '';
-
-
-  constructor({ id, nome, cpf, email, eAdministrador, senha }: FuncionarioDTO) {
+ 
+  constructor({ id, nome, cpf, email, eAdministrador, senha}: FuncionarioDTO ) {
     this.id = id;
     this.nome = nome;
     this.cpf = cpf;
     this.email = email;
     this.eAdministrador = eAdministrador;
     this.senha = senha;
-
   }
 
   validateAll = (): String[] => {

@@ -6,20 +6,25 @@ const API_ALUNO = `${appConfig.api}/aluno`;
 
 /* eslint-disable max-len */
 export class AlunoRepositorio {
-   async atualizar(Aluno: Aluno): Promise<Response> {
-      const response = await fetch(`${API_ALUNO}/${Aluno.id}/edit`, {
+   async atualizar(aluno: Aluno): Promise<Response> {
+      const response = await fetch(`${API_ALUNO}/${aluno.id}/edit`, {
          method: 'PUT',
-         body: JSON.stringify(Aluno),
+         body: JSON.stringify(aluno),
          headers: {
             'content-type': 'application/json',
          },
       });
-      const responseData = await response.json();
+      
+      if (response.status < 200 && response.status > 299) {
+         const resposta = await response.text().then(errorMessage => {
+            return errorMessage;
+         })
 
-      if (!response.ok) {
-         throw new AlunoError(responseData.error);
+         throw new AlunoError(`Erro ao cadastrar ${aluno.nome} : ${String(JSON.parse(resposta).split('|').join('<br>'))}`);
+
       }
-      return responseData;
+
+      return response.json();
    }
 
    async adicionar(aluno: Aluno): Promise<Response> {
@@ -31,7 +36,7 @@ export class AlunoRepositorio {
          },
       })
 
-      if (response.status >= 400 && response.status <= 499) {
+      if (response.status < 200 && response.status > 299) {
          const resposta = await response.text().then(errorMessage => {
             return errorMessage;
          })
@@ -64,11 +69,30 @@ export class AlunoRepositorio {
          method: 'GET',
       });
 
-      if (!response.ok) {
-         throw new AlunoError(`Erro ao buscar aluno ${alunoId} : ${response.statusText}`);
+      if (response.status < 200 && response.status > 299) {
+         const resposta = await response.text().then(errorMessage => {
+            return errorMessage;
+         })
+
+         throw new AlunoError(`Erro ao buscar aluno de id ${alunoId} : ${String(JSON.parse(resposta).split('|').join('<br>'))}`);
+
       }
 
       return response.json();
+   }
+
+   async getProximaMatriculaDisponivel(): Promise<String> {
+      const response = await fetch(`${API_ALUNO}/numero-para-matricula`, {
+         method: 'GET',
+      });
+
+      
+      if (response.status < 200 && response.status > 299) {
+         throw new AlunoError(`Erro ao buscar um novo número de matrícula : ${response.statusText}`);
+      }
+
+      return response.json();
+
    }
 
    async delete(alunoId: number): Promise<Response> {

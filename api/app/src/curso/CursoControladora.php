@@ -7,17 +7,20 @@ use App\Request;
 use App\Src\Curso\CursoRepositorioEmBDR;
 use App\Src\Comum\Util;
 use App\Src\Funcionario\Funcionario;
+use App\Src\Funcionario\FuncionarioRepositorioEmBDR;
 use PDOException;
 
 class CursoControladora
 {
     private $conexao = null;
     private $colecaoCurso;
+    private $colecaoFuncionario;
 
     public function __construct(&$db)
     {
         $this->conexao = $db;
         $this->colecaoCurso = new CursoRepositorioEmBDR($this->conexao);
+        $this->colecaoFuncionario = new FuncionarioRepositorioEmBDR($this->conexao);
     }
 
     public function listar(Request $request)
@@ -40,14 +43,15 @@ class CursoControladora
         try {
             $data = $request->all();
 
-            $curso = new curso(
+            $curso = new Curso(
                 $data['id'],
                 $data['codigo'],
                 $data['nome'],
                 $data['situacao'],
-                $data['inicio'],
-                $data['termino'],
-                isset($data['professor_id']) ? $data['professor_id'] : 0
+                $data['numeroAulas'],
+                $data['dataInicio'],
+                $data['dataFim'],
+                new Funcionario($data['professor']['id'], $data['professor']['nome'], '', '', false, '')
             ); 
 
             $cursos = $this->colecaoCurso->adicionar($curso);
@@ -65,13 +69,19 @@ class CursoControladora
         try {
             $data = $request->all();
             $curso = $this->colecaoCurso->comId($data['id']);
-            $curso->setId($data["id"]);
-            $curso->setCodigo($data["codigo"]);
-            $curso->setNome($data["nome"]);
-            $curso->setSituacao($data["situacao"]);
-            $curso->setDataInicio($data["dataInicio"]);
-            $curso->setDataFim($data["dataFim"]);
-            $curso->setProfessor($data["professor"]);
+
+            if($curso instanceof Curso) {
+                $curso->setId($data["id"]);
+                $curso->setCodigo($data["codigo"]);
+                $curso->setNome($data["nome"]);
+                $curso->setSituacao($data["situacao"]);
+                $curso->setDataInicio($data["dataInicio"]);
+                $curso->setDataFim($data["dataFim"]);
+                $curso->setProfessor($this->colecaoFuncionario->comId($data['professor']['id']));
+            }
+            else{
+                throw new RepositorioExcecao("Curso não encontrado na base da dados!");
+            }
 
             $this->colecaoCurso->atualizar($curso);
 
@@ -83,10 +93,11 @@ class CursoControladora
         }
     }
 
-    function delete($id)
+    function delete(Request $request)
     {
         try {
-            $this->colecaoCurso->delete($id);
+            $urlQuebrada  = explode('/', $request->base());
+            $this->colecaoCurso->delete($urlQuebrada[2]);
             Util::responseDeleteSuccess();
         } catch (PDOException $errorPDO) {
             Util::exibirErroAoConectar($errorPDO);
@@ -100,6 +111,7 @@ class CursoControladora
         try {
             $urlQuebrada  = explode('/', $request->base());
             $curso = $this->colecaoCurso->comId($urlQuebrada[2]);
+
             Util::responsePegaTodosSuccess($curso->toArray());
         } catch (PDOException $errorPDO) {
             Util::exibirErroAoConectar($errorPDO);

@@ -55,6 +55,12 @@ Route::get('/aluno', function () use (&$db) {
 	$controladora->listar($request);
 });
 
+Route::get('/aluno/numero-para-matricula', function () use (&$db) {
+	$controladora  = new AlunoControladora($db);
+	$request = new Request;
+	$controladora->pegaProximoNumeroMatricula();
+});
+
 Route::get('/aluno/{id}/show', function () use (&$db) {
 	$controladora  = new AlunoControladora($db);
 	$request = new Request;
@@ -84,6 +90,11 @@ Route::get('/funcionario', function () use (&$db) {
 	$controladora  = new FuncionarioControladora($db);
 	$request = new Request;
 	$controladora->listar($request);
+});
+Route::get('/funcionario/professores', function () use (&$db) {
+	$controladora  = new FuncionarioControladora($db);
+	$request = new Request;
+	$controladora->listarProfessores($request);
 });
 
 Route::get('/funcionario/{id}/show', function () use (&$db) {

@@ -34,11 +34,25 @@ class FuncionarioControladora
       }
    }
 
+   public function listarProfessores(Request $request)
+   {
+      try {
+         $urlQuebrada  = explode('/', $request->base());
+         $funcionarios = $this->colecaoFuncionario->todosProfessores(isset($urlQuebrada[2]) ? $urlQuebrada[2] : 10, isset($urlQuebrada[3]) ? $urlQuebrada : 1);
+
+         Util::responsePegaTodosSuccess($funcionarios);
+         Util::responseUpdateSuccess();
+      } catch (PDOException $errorPDO) {
+         Util::exibirErroAoConectar($errorPDO);
+      } catch (RepositoryException $error) {
+         Util::exibirErroAoConsultar($error);
+      }
+   }
+
    function cadastrar(Request $request)
    {
       try {
          $data = $request->all();
-
          $funcionario = new Funcionario(
             $data["id"],
             $data["nome"],

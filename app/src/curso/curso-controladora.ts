@@ -2,6 +2,7 @@ import { Curso } from './curso';
 import { CursoServico } from './curso-servico';
 import { CursoVisao } from './curso-visao';
 import { carregarPagina } from '../utils/carrega-pagina';
+import { FuncionarioServico } from '../funcionario/funcionario-servico';
 /* eslint-disable-next-line func-style */
 
 async function loadPage(file: string): Promise<string> {
@@ -10,11 +11,13 @@ async function loadPage(file: string): Promise<string> {
 }
 export class CursoControladora {
     cursoServico: CursoServico;
+    funcionarioServico : FuncionarioServico;
     cursoVisao: CursoVisao;
 
     constructor() {
         this.cursoServico = new CursoServico();
         this.cursoVisao = new CursoVisao();
+        this.funcionarioServico = new FuncionarioServico();
     }
 
     async init(): Promise<void> {
@@ -24,26 +27,34 @@ export class CursoControladora {
             main.innerHTML = '';
             main.innerHTML = await carregarPagina("/curso/listar-curso.html");
             await this.insereDadosNaView();
+            this.cursoVisao.aoDispararRemover(this.remover);
+
         }
         else if (this.cursoVisao.cadastrarCursosRegex()) {
             main.innerHTML = '';
             main.innerHTML = await carregarPagina("/curso/formulario-curso.html");
             this.cursoVisao.inicializaSelect();
             this.cursoVisao.aoDispararCadastrar(this.cadastrar);
+            await this.buscarProfessores()
+
         }
         else if (this.cursoVisao.atualizarCursosRegex()) {
             main.innerHTML = await carregarPagina("/curso/formulario-curso.html");
 
             const cursoId = this.cursoServico.pegaUrlId();
             await this.insereDadosNaViewEdit(cursoId);
+            this.cursoVisao.inicializaSelect();
             this.cursoVisao.aoDispararEditar(this.editar);
+            await this.buscarProfessores()
+
         }
         else if (this.cursoVisao.visualizarCursoRegex()) {
             main.innerHTML = await carregarPagina("/curso/formulario-curso.html");
 
             const cursoId = this.cursoServico.pegaUrlId();
             await this.insereDadosNaViewVisualiza(cursoId);
-            this.cursoVisao.configuraVisualizacao();
+            await this.buscarProfessores();
+            this.cursoVisao.configuraVisualizacao();;
             this.cursoVisao.aoDispararVoltar(this.voltar);
         }
     }
@@ -57,11 +68,11 @@ export class CursoControladora {
         }
     }
 
-    async insereDadosNaViewEdit(alunoId: number): Promise<void> {
+    async insereDadosNaViewEdit(cursoId: number): Promise<void> {
         try {
-            const aluno = await this.cursoServico.porCurso(alunoId);
+            const curso = await this.cursoServico.porCurso(cursoId);
 
-            this.cursoVisao.desenharEdit(aluno);
+            this.cursoVisao.desenharEdit(curso);
         } catch (error: any) {
             this.cursoVisao.showErrorMessage(error.message);
         }
@@ -70,6 +81,16 @@ export class CursoControladora {
     async insereDadosNaViewVisualiza(alunoId: number): Promise<void> {
         await this.insereDadosNaViewEdit(alunoId);
     }
+
+    async buscarProfessores () : Promise<void> {
+        try {
+            const profesores = await this.funcionarioServico.todosProfessores();
+            this.cursoVisao.popularSelectProfessores(profesores);
+        } catch (error : any) {
+            this.cursoVisao.showErrorMessage(error);
+        }
+    }
+
     cadastrar = async (): Promise<void> => {
         try {
             const curso = this.cursoVisao.pegarDadosDoFormCadastro();
@@ -104,15 +125,14 @@ export class CursoControladora {
 
     remover = async (idCurso: string): Promise<void> => {
         const idCursoForm = idCurso;
-
+        console.log(idCursoForm);
         try {
             await this.cursoServico.delete(Number(idCursoForm));
             this.cursoVisao.showSuccessMessage('Curso removido com sucesso!');
-            // setTimeout( () => {
-            //     location.reload();
-            // }, 2000 );
+            setTimeout( () => {
+                location.reload();
+            }, 2000 );
         } catch (error: any) {
-            // this.cursoVisao.habilitaBotao( idCurso );
             this.cursoVisao.showErrorMessage(error.message);
         }
     };

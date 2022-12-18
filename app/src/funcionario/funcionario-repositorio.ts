@@ -34,31 +34,56 @@ export class FuncionarioRepositorio {
 
         if (response.status >= 400 && response.status <= 499) {
             const resposta = await response.text().then(errorMessage => {
-               return errorMessage;
+                return errorMessage;
             })
-   
+
             throw new FuncionarioError(`Erro ao cadastrar ${funcionario.nome} : ${String(JSON.parse(resposta).split('|').join('<br>'))}`);
-   
-         }
-   
-         return response.json();
+
+        }
+
+        return response.json();
     }
 
     async todos(limit: number | null, offset: number | null): Promise<Funcionario[]> {
         const response = await fetch(`${API_FUNCIONARIO}`, {
-           method: 'GET',
-           headers: {
-              'Content-Type': 'application/json;charset=utf-8;'
-           },
-           // body: JSON.stringify({limit : limit, offset: offset})
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json;charset=utf-8;'
+            },
+            // body: JSON.stringify({limit : limit, offset: offset})
         });
-  
-        if (!response.ok) {
-           throw new FuncionarioError(`Erro ao buscar os funcionários: ${response.statusText}`);
+
+        if (response.status < 200 && response.status > 299) {
+            const resposta = await response.text().then(errorMessage => {
+                return errorMessage;
+            })
+
+            throw new FuncionarioError(`Erro ao buscar lista de funcionários : ${String(JSON.parse(resposta).split('|').join('<br>'))}`);
         }
-  
+
+
         return response.json();
-     }
+    }
+
+
+    async todosProfessores(): Promise<Funcionario[]> {
+        const response = await fetch(`${API_FUNCIONARIO}/professores`, {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json;charset=utf-8;'
+            },
+        });
+
+        if (response.status < 200 && response.status > 299) {
+            const resposta = await response.text().then(errorMessage => {
+                return errorMessage;
+            })
+
+            throw new FuncionarioError(`Erro ao buscar lista de professores : ${String(JSON.parse(resposta).split('|').join('<br>'))}`);
+        }
+
+        return response.json();
+    }
 
     async buscarPorFuncionario(funcionarioId: Number): Promise<Funcionario> {
         const response = await fetch(`${API_FUNCIONARIO}/${funcionarioId}/show`, {

@@ -9,6 +9,7 @@ class Curso
     private $codigo;
     private $nome;
     private $situacao;
+    private $numeroAulas;
     private $dataInicio;
     private $dataFim;
     private $professor;
@@ -18,6 +19,7 @@ class Curso
         $codigo,
         $nome,
         $situacao,
+        $numeroAulas,
         $dataInicio,
         $dataFim,
         $professor
@@ -26,6 +28,7 @@ class Curso
         $this->codigo = $codigo;
         $this->nome = $nome;
         $this->situacao = $situacao;
+        $this->numeroAulas = $numeroAulas;
         $this->dataInicio = $dataInicio;
         $this->dataFim = $dataFim;
         $this->professor =  $professor;
@@ -69,6 +72,16 @@ class Curso
     public function getSituacao()
     {
         return $this->situacao;
+    }
+
+    public function setNumeroAulas($numeroAulas)
+    {
+        $this->numeroAulas = $numeroAulas;
+    }
+
+    public function getNumeroAulas()
+    {
+        return $this->numeroAulas;
     }
 
     public function setDataInicio($dataInicio)
@@ -145,9 +158,10 @@ class Curso
             'codigo' => $this->codigo,
             'nome' => $this->nome,
             'situacao' => $this->situacao,
+            'numeroAulas' => $this->numeroAulas,
             'dataInicio' => $this->dataInicio,
             'dataFim' => $this->dataFim,
-            'professor' =>  $this->professor,
+            'professor' =>  $this->professor->toArray(),
         ];
     }
 }

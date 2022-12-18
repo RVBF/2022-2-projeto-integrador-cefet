@@ -1,33 +1,40 @@
+import { Curso } from "../curso/curso";
+
 interface AlunoDTO {
   id: number;
-  matricula: number;
+  matricula: String;
   nome: string;
   cpf: string;
   telefone: string;
   email: string;
+  cursos: Array<Curso> | null;
 }
 
 export class Aluno {
   id: number = 0;
-  matricula: number = 0;
+  matricula: String = '000000';
   nome: string = '';
   cpf: string = '';
   telefone: string = '';
   email: string = '';
+  cursos: Array<Curso> | null;
 
-  constructor({ id, matricula, nome, cpf, telefone, email }: AlunoDTO) {
+  constructor({ id, matricula, nome, cpf, telefone, email, cursos }: AlunoDTO) {
     this.id = id;
     this.matricula = matricula;
     this.nome = nome;
     this.cpf = cpf;
     this.telefone = telefone;
     this.email = email;
+    this.cursos = cursos;
   }
 
   validateAll = (): String[] => {
     const arrayErrors: string[] = [];
+    console.log(this.matricula);
+    console.log(this.matricula.toString().length);
 
-    if (this.matricula == null || isNaN(this.matricula) || this.matricula.toString().length < 6) {
+    if ( this.matricula.toString().length < 6) {
       arrayErrors.push('Matrícula inválida');
     }
 

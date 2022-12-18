@@ -1,27 +1,35 @@
+import { Funcionario } from "../funcionario/funcionario";
+
 interface CursoDTO {
   id: number;
   codigo: string;
   nome: string;
   situacao: string;
-  dataInicio: Date;
-  dataFim: Date;
+  numeroAulas: Number;
+  dataInicio: Date | null;
+  dataFim: Date | null;
+  professor: Funcionario | null;
 }
 export class Curso {
   id: number;
   codigo: string;
   nome: string;
   situacao: string;
-  dataInicio: Date;
-  dataFim: Date;
+  numeroAulas: Number;
+  dataInicio: Date | null;
+  dataFim: Date | null;
+  professor: Funcionario | null;
 
   constructor(
-    { id, codigo, nome, situacao, dataInicio, dataFim }: CursoDTO) {
+    { id, codigo, nome, situacao, numeroAulas, dataInicio, dataFim, professor}: CursoDTO) {
     this.id = id;
     this.codigo = codigo;
     this.nome = nome;
     this.situacao = situacao;
+    this.numeroAulas = numeroAulas;
     this.dataInicio = dataInicio;
     this.dataFim = dataFim;
+    this.professor = professor;
   }
 
   validar = (): String[] => {
@@ -39,7 +47,7 @@ export class Curso {
       erros.push( 'Situação inválida' );
     }
 
-    if ( this.dataInicio > this.dataFim ){
+    if (this.dataInicio != null && this.dataFim != null  && this.dataInicio > this.dataFim ){
       erros.push( 'Término deve ser maior que o início' );
     }
     return erros;

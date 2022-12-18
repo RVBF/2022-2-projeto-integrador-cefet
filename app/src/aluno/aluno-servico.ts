@@ -22,6 +22,10 @@ export class AlunoServico {
       return this.alunoRepositorio.todos(limit, offset);
    }
 
+   getProximaMatriculaDisponivel() : Promise<String>{
+      return this.alunoRepositorio.getProximaMatriculaDisponivel();
+   }
+
    atualizar(Aluno: Aluno): Promise<Response> {
       return this.alunoRepositorio.atualizar(Aluno);
    }

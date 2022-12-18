@@ -8,4 +8,5 @@ interface AlunoRepositorio
     public function atualizar(Aluno &$curso);
     public function comId($id);
     public function delete($id);
+
 }

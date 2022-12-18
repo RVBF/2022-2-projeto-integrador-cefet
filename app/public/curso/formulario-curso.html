@@ -15,7 +15,9 @@
 
 <div class="row">
     <form class="col s12">
-        <input type="hidden" name="id" id="id">
+
+        <input type="hidden" name="id" id="id" value="0">
+
         <div class="row">
             <div class="input-field col s6">
                 <input id="codigo" type="text" class="validate" required>
@@ -29,7 +31,7 @@
         </div>
 
         <div class="row">
-            <div class="input-field col s6 inline">
+            <div class="input-field col s4 inline">
                 <div class="select-wrapper">
 
                     <label for="inicio">*Data de início: </label>
@@ -37,16 +39,29 @@
                 </div>
             </div>
 
-            <div class="input-field col s6 inline">
+            <div class="input-field col s4 inline">
                 <div class="select-wrapper">
                     <label for="termino">*Data de fim: </label>
                     <input id="termino" type="datetime-local" class="validate" required>
                 </div>
             </div>
+
+            <div class="input-field col s4 inline">
+                <div class="select-wrapper">
+                    <label for="numero_aulas">*Número Aulas: </label>
+                    <input id="numero_aulas" name="numero_aulas" type="number" step="1" class="validate" required>
+                </div>
+            </div>
         </div>
 
         <div class="row">
-            <div class="input-field col s12">
+            <div class="input-field col s6">
+                <select id="professor" name="professor">
+                </select>
+                <label>Professor</label>
+            </div>
+
+            <div class="input-field col s6">
                 <select required id="situacao">
                     <option value="Situação" disabled selected>Situação</option>
                     <option value="Não iniciado">Não iniciado</option>

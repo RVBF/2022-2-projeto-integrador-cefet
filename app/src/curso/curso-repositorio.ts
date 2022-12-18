@@ -1,6 +1,5 @@
 import { appConfig } from '../config/config';
 import { Curso } from './curso';
-import { RepositorioError } from '../repositorio-error';
 import { CursoError } from './curso-error';
 
 const API_CURSO = `${appConfig.api}/curso`;
@@ -16,13 +15,16 @@ export class CursoRepositorio {
             },
         });
 
-        if (!response.ok) {
-            throw new RepositorioError(
-                `Erro ao atualizar ID : ${curso.id} : ${response.statusText}`,
-            );
-        }
-
-        return response;
+        if (response.status < 200 && response.status > 299) {
+            const resposta = await response.text().then(errorMessage => {
+               return errorMessage;
+            })
+   
+            throw new CursoError(`Erro ao atualizar ${curso.nome} : ${String(JSON.parse(resposta).split('|').join('<br>'))}`);
+   
+         }
+   
+         return response.json();    
     }
 
     async adicionar(curso: Curso): Promise<Response> {
@@ -44,7 +46,8 @@ export class CursoRepositorio {
 
       }
 
-      return response.json();    }
+      return response.json();    
+    }
 
     async todos(limit: number | null = 10, offset: number | null = 1): Promise<Curso[]> {
         const response = await fetch(`${API_CURSO}`, {
@@ -55,7 +58,7 @@ export class CursoRepositorio {
         });
 
         if (!response.ok) {
-            throw new RepositorioError(`Erro ao buscar os cursos: ${response.statusText}`);
+            throw new CursoError(`Erro ao buscar os cursos: ${response.statusText}`);
         }
 
         return response.json();
@@ -64,23 +67,22 @@ export class CursoRepositorio {
     async buscarPorCurso(cursoId: Number): Promise<Curso> {
         const response = await fetch(`${API_CURSO}/${cursoId}/show`, {
             method: 'GET',
-            body: JSON.stringify(cursoId),
-            headers: {
-                'content-type': 'application/json',
-            },
         });
 
-        if (!response.ok) {
-            throw new RepositorioError(
-                `Erro ao buscar "curso" ID : ${cursoId} : ${response.statusText}`,
-            );
-        }
-
-        return response.json();
+        if (response.status < 200 && response.status > 299) {
+            const resposta = await response.text().then(errorMessage => {
+               return errorMessage;
+            })
+   
+            throw new CursoError(`Erro ao buscar curso de id '${cursoId}': ${String(JSON.parse(resposta).split('|').join('<br>'))}`);
+   
+         }
+   
+         return response.json();
     }
 
     async delete(cursoId: number): Promise<Response> {
-        const response = await fetch(`${API_CURSO}/${cursoId}/show`, {
+        const response = await fetch(`${API_CURSO}/${cursoId}`, {
             method: 'DELETE',
             body: JSON.stringify(AudioWorkletNode),
             headers: {
@@ -88,8 +90,8 @@ export class CursoRepositorio {
             },
         });
 
-        if (!response.ok) {
-            throw new RepositorioError(
+        if (response.status < 200 && response.status > 299) {
+            throw new CursoError(
                 `Erro ao deletar "curso" ID : ${cursoId} : ${response.statusText}`,
             );
         }

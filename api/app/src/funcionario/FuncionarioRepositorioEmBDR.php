@@ -3,6 +3,7 @@
 namespace App\Src\Funcionario;
 
 use App\RepositorioExcecao;
+use App\Src\Comum\Util;
 use App\Src\Funcionario\Funcionario;
 use PDO;
 use PDOException;
@@ -33,30 +34,47 @@ class FuncionarioRepositorioEmBDR implements FuncionarioRepositorio
       }
    }
 
+   public function todosProfessores($tamanho = 0, $salto = 0)
+   {
+      try {
+         $objetos = [];
+         $sql = 'SELECT * FROM `funcionario` WHERE e_administrador = "0"';
+         $preparedStatement = $this->pdow->prepare($sql);
+         $preparedStatement->execute();
+         $result = $preparedStatement->fetchAll(PDO::FETCH_ASSOC);
+         foreach ($result as $row) {
+            $objetos[] = $this->construirObjeto($row)->toArray();
+         }
+         return $objetos;
+      } catch (\PDOException $e) {
+         throw new PDOException($e->getMessage(), $e->getCode(), $e);
+      }
+   }
+
    function adicionar(Funcionario &$funcionario)
    {
       try {
          $erros = $funcionario->validateAll([]);
          if (count($erros) > 0) throw new RepositorioExcecao(implode('|', $erros));
+         $sql = "INSERT INTO `pis-grupo1`.`funcionario` (`nome`, `cpf`, `email`, `senha`, `e_administrador`) VALUES (
+               :nome,
+               :cpf,
+               :email,
+               :senha,
+               :e_administrador
+          );
+         ";
 
-         $sql = "INSERT INTO " . self::TABELA . " (`nome`, `cpf`, `email`, `e_administrador`, `senha`)
-         VALUES (
-         	:nome,
-         	:cpf,
-         	:email,
-         	:e_administrador,
-         	:senha,
-         )";
          $preparedStatement = $this->pdow->prepare($sql);
 
          $preparedStatement->execute([
             'nome' => $funcionario->getNome(),
-            'cpf' => $funcionario->getCpf(),
+            'cpf' =>  $funcionario->getCPF(),
             'email' => $funcionario->getEmail(),
-            'e_administrador' => $funcionario->getEAdministrador(),
             'senha' => $funcionario->getSenha(),
+            'e_administrador' =>  $funcionario->getEAdministrador()
          ]);
-
+      
          $funcionario->setId($this->pdow->lastInsertId());
       } catch (\PDOException $e) {
          throw new PDOException($e->getMessage(), $e->getCode(), $e);
@@ -130,10 +148,16 @@ class FuncionarioRepositorioEmBDR implements FuncionarioRepositorio
    function contagem()
    {
       try {
-         return $this->pdo->rowCount(self::TABELA);
-      } catch (\PDOException $e) {
-         throw new PDOException($e->getMessage(), $e->getCode(), $e);
-      } catch (RepositorioExcecao $e) {
+         $sql = 'SELECT COUNT(*) FROM `'.SELF::TABELA.'`';
+         $preparedStatement = $this->pdow->prepare($sql);
+         $preparedStatement->execute();
+
+         if ($preparedStatement->rowCount() < 1) {
+            return null;
+         }
+
+         $result = $preparedStatement->fetch();
+      } catch (\Exception $e) {
          throw new RepositorioExcecao($e->getMessage(), $e->getCode(), $e);
       }
    }
