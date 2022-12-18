@@ -4,7 +4,11 @@ namespace App\Src\Aluno;
 
 use App\RepositorioExcecao;
 use App\Request;
+use App\Src\AlunoCurso\AlunoCurso;
+use App\Src\AlunoCurso\AlunoCursoRepositorioEmBDR;
 use App\Src\Comum\Util;
+use App\Src\Curso\Curso;
+use App\Src\Curso\CursoRepositorioEMBDR;
 use PDOException;
 use RepositoryException;
 
@@ -12,11 +16,15 @@ class AlunoControladora
 {
   private $conexao = null;
   private $colecaoAluno;
+  private $colecaoCurso;
+  private $colecaoAlunoCurso;
 
   public function __construct(&$db)
   {
     $this->conexao = $db;
     $this->colecaoAluno = new AlunoRepositorioEmBDR($this->conexao);
+    $this->colecaoCurso = new CursoRepositorioEMBDR($this->conexao);
+    $this->colecaoAlunoCurso = new AlunoCursoRepositorioEmBDR($this->conexao);
   }
 
   public function listar(Request $request)
@@ -37,18 +45,45 @@ class AlunoControladora
   function cadastrar(Request $request)
   {
     try {
-      $data = $request->all();
 
-      $aluno = new aluno(
+      $data = $request->all();
+      $proximoNumeroMatricula = $this->colecaoAluno->contagem() + 1;
+
+      $sevicoMatricula = new ServicoMatricula($proximoNumeroMatricula);
+      $proximoNumeroMatricula = $sevicoMatricula->formataMatricula();
+      $aluno = new Aluno(
         $data["id"],
-        $data["matricula"],
+        $proximoNumeroMatricula,
         $data["nome"],
         $data["cpf"],
         $data["telefone"],
         $data["email"]
       );
 
-      $alunos = $this->colecaoAluno->adicionar($aluno);
+      $this->colecaoAluno->adicionar($aluno);
+
+      $cursosCodigos =  [];
+      foreach ($data['cursos'] as $key => $curso) {
+        $cursosCodigos[] = $curso['codigo'];
+      }
+
+      $cursos = $this->colecaoCurso->comCodigos($cursosCodigos);
+      $alunosCursos = [];
+
+      foreach ($cursos as $curso) {
+        $alunosCursos[] = new AlunoCurso(
+          0,
+          $aluno->getMatricula(),
+          null,
+          null,
+          null,
+          0,
+          $aluno,
+          $curso
+        );
+      }
+
+      $this->colecaoAlunoCurso->adicionarTodos($alunosCursos);
 
       Util::responseAddSuccess();
     } catch (PDOException $errorPDO) {
@@ -101,7 +136,29 @@ class AlunoControladora
       $urlQuebrada  = explode('/', $request->base());
 
       $aluno = $this->colecaoAluno->comId($urlQuebrada[2]);
+      $aluno->setCursos($this->colecaoAlunoCurso->comAlunoId($aluno->getId()));
+
+      foreach ($aluno->getCursos() as $alunoCurso) {
+        $alunoCurso->setCurso($this->colecaoCurso->comId($alunoCurso->getCurso()));
+      }
+
       Util::responsePegaTodosSuccess($aluno->toArray());
+    } catch (PDOException $errorPDO) {
+      Util::exibirErroAoConectar($errorPDO);
+    } catch (RepositoryException $error) {
+      Util::exibirErroAoConsultar($error);
+    }
+  }
+
+  function pegaProximoNumeroMatricula()
+  {
+
+    try {
+      $proximoNumeroMatricula = $this->colecaoAluno->contagem() + 1;
+
+      $sevicoMatricula = new ServicoMatricula($proximoNumeroMatricula);
+      $proximoNumeroMatricula = $sevicoMatricula->formataMatricula();
+      Util::responsePegaTodosSuccess($proximoNumeroMatricula);
     } catch (PDOException $errorPDO) {
       Util::exibirErroAoConectar($errorPDO);
     } catch (RepositoryException $error) {

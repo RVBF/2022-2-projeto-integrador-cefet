@@ -21,6 +21,10 @@ export class FuncionarioServico {
      todos(limit: number | null = null, offset: number | null = null): Promise<Funcionario[]> {
         return this.FuncionarioRepositorio.todos(limit, offset);
      }
+
+     todosProfessores(): Promise<Funcionario[]> {
+        return this.FuncionarioRepositorio.todosProfessores();
+     }
   
      atualizar(funcionario: Funcionario): Promise<Response> {
         return this.FuncionarioRepositorio.atualizar(funcionario);

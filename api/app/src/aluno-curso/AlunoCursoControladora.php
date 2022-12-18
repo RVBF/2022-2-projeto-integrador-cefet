@@ -112,7 +112,6 @@ class AlunoCursoControladora
     try {
       $id = explode('/', $request->base())[1];
       $alunoCurso = $this->colecaoAlunoCurso->comId($id);
-
       Util::responseAddSuccess($alunoCurso->toArray());
     } catch (PDOException $errorPDO) {
       Util::exibirErroAoConectar($errorPDO);

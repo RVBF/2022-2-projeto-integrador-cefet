@@ -2,6 +2,8 @@
 
 namespace App\Src\AlunoCurso;
 
+use App\Src\Curso\Curso;
+
 class AlunoCurso
 {
     private $id;
@@ -145,7 +147,7 @@ class AlunoCurso
             'notaAF' => $this->notaAF,
             'faltas' => $this->faltas,
             'aluno' => $this->aluno,
-            'curso' => $this->curso,
+            'curso' => $this->curso instanceof  Curso ? $this->curso->toArray() : [],
         ];
     }
 }

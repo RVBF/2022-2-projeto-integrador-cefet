@@ -8,5 +8,6 @@ interface CursoRepositorio
    public function adicionar(Curso &$curso);
    public function atualizar(Curso &$curso);
    public function comId($id);
+   public function comCodigos($ids);
    public function delete($id);
 }

@@ -3,6 +3,7 @@
 namespace App\Src\Aluno;
 
 use App\RepositorioExcecao;
+use App\Src\Comum\Util;
 use PDO;
 use PDOException;
 
@@ -19,7 +20,7 @@ class AlunoRepositorioEmBDR implements AlunoRepositorio
    {
       try {
          $objetos = [];
-         $sql = 'SELECT  `aluno`.*, `matricula`.numero_matricula as matricula FROM `aluno` LEFT JOIN `matricula` on matricula.aluno_id = aluno.id';
+         $sql = 'SELECT  `aluno`.* FROM `aluno`';
          $preparedStatement = $this->pdow->prepare($sql);
          $preparedStatement->execute();
          $result = $preparedStatement->fetchAll(PDO::FETCH_ASSOC);
@@ -38,8 +39,9 @@ class AlunoRepositorioEmBDR implements AlunoRepositorio
          $erros = $aluno->validateAll([]);
          if (count($erros) > 0) throw new RepositorioExcecao(implode('|', $erros));
 
-         $sql = "INSERT INTO " . self::TABELA . " (`nome`, `cpf`, `telefone`, `email`)
+         $sql = "INSERT INTO " . self::TABELA . " (`matricula`, `nome`, `cpf`, `telefone`, `email`)
          VALUES (
+         	:matricula,
          	:nome,
          	:cpf,
          	:telefone,
@@ -48,6 +50,7 @@ class AlunoRepositorioEmBDR implements AlunoRepositorio
          $preparedStatement = $this->pdow->prepare($sql);
 
          $preparedStatement->execute([
+            'matricula' => $aluno->getMatricula(),
             'nome' => $aluno->getNome(),
             'cpf' => $aluno->getCpf(),
             'telefone' => $aluno->getTelefone(),
@@ -91,7 +94,7 @@ class AlunoRepositorioEmBDR implements AlunoRepositorio
    public function comId($id)
    {
       try {
-         $sql = 'SELECT `aluno`.* , `matricula`.numero_matricula as `matricula` FROM `aluno` LEFT JOIN `matricula` on `matricula`.aluno_id = `aluno`.id WHERE `aluno`.id = :id';
+         $sql = 'SELECT `aluno`.* FROM `aluno`  WHERE `aluno`.id = :id';
          $preparedStatement = $this->pdow->prepare($sql);
          $preparedStatement->execute(['id' => $id]);
 
@@ -108,6 +111,7 @@ class AlunoRepositorioEmBDR implements AlunoRepositorio
       }
    }
 
+
    function delete($id)
    {
       try {
@@ -122,7 +126,15 @@ class AlunoRepositorioEmBDR implements AlunoRepositorio
    function contagem()
    {
       try {
-         return $this->pdoW->rowCount(self::TABELA);
+         $sql = 'SELECT COUNT(*) as quantidade FROM `'.SELF::TABELA.'`';
+         $preparedStatement = $this->pdow->prepare($sql);
+         $preparedStatement->execute();
+         if ($preparedStatement->rowCount() < 1) {
+            return null;
+         }
+
+         $result = $preparedStatement->fetch(PDO::FETCH_ASSOC);
+         return $result['quantidade'];
       } catch (\Exception $e) {
          throw new RepositorioExcecao($e->getMessage(), $e->getCode(), $e);
       }

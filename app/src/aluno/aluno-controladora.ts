@@ -2,15 +2,16 @@ import { Aluno } from './aluno';
 import { AlunoServico } from './aluno-servico';
 import { AlunoVisao } from './aluno-visao';
 import { carregarPagina } from '../utils/carrega-pagina';
-/* eslint-disable-next-line func-style */
-
+import { CursoServico } from '../curso/curso-servico';
 export class AlunoController {
+    cursoServico: CursoServico;
     alunoServico: AlunoServico;
     alunoVisao: AlunoVisao;
 
     constructor() {
         this.alunoServico = new AlunoServico();
         this.alunoVisao = new AlunoVisao();
+        this.cursoServico = new CursoServico();
     }
 
     async init(): Promise<void> {
@@ -28,12 +29,16 @@ export class AlunoController {
             main.innerHTML = await carregarPagina("/aluno/formulario-aluno.html");
             
             await this.alunoVisao.desenharCadastro();
+            this.getProximaMatriculaDisponivel();
             this.alunoVisao.aoDispararCadastrar(this.cadastrar);
+            await this.buscarCursos()
         }
         else if (this.alunoVisao.atualizarAlunoRegex()) {
             main.innerHTML = await carregarPagina("/aluno/formulario-aluno.html");
 
             const alunoId = this.alunoServico.pegaUrlId();
+            this.buscarCursos();
+
             await this.insereDadosNaViewEdit(alunoId);
             this.alunoVisao.aoDispararEditar(this.editar);
         }
@@ -49,8 +54,8 @@ export class AlunoController {
 
     async insereDadosNaView(): Promise<void> {
         try {
-            const aluno: Aluno[] = await this.alunoServico.todos(null, null);
-            this.alunoVisao.desenhar(aluno);
+            const alunos: Aluno[] = await this.alunoServico.todos(null, null);
+            this.alunoVisao.desenhar(alunos);
         } catch (error: any) {
             this.alunoVisao.showErrorMessage(error.message);
         }
@@ -64,9 +69,29 @@ export class AlunoController {
             this.alunoVisao.showErrorMessage(error.message);
         }
     }
+
+    async getProximaMatriculaDisponivel() : Promise<void>
+    {
+        try {
+            const matricula = await this.alunoServico.getProximaMatriculaDisponivel();
+            this.alunoVisao.preencherMatricula(matricula);
+        } catch (error) {
+            
+        }
+    }
     
     async insereDadosNaViewVisualiza(alunoId: number): Promise<void> {
         await this.insereDadosNaViewEdit(alunoId);
+    }
+
+    
+    async buscarCursos () : Promise<void> {
+        try {
+            const cursos = await this.cursoServico.todos(null, null);
+            this.alunoVisao.popularSelectCursos(cursos);
+        } catch (error : any) {
+            this.alunoVisao.showErrorMessage(error);
+        }
     }
 
     cadastrar = async (): Promise<void> => {
@@ -106,11 +131,10 @@ export class AlunoController {
         try {
             await this.alunoServico.delete( Number( idAlunoForm ) );
             this.alunoVisao.showSuccessMessage( 'Aluno removido com sucesso!' );
-            // setTimeout( () => {
-            //     location.reload();
-            // }, 2000 );
+            setTimeout( () => {
+                location.reload();
+            }, 2000 );
         } catch ( error: any ) {
-            // this.alunoVisao.habilitaBotao( idAluno );
             this.alunoVisao.showErrorMessage( error.message );
         }
     };

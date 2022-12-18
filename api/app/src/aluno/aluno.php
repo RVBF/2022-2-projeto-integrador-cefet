@@ -2,6 +2,9 @@
 
 namespace App\Src\Aluno;
 
+use App\Src\AlunoCurso\AlunoCurso;
+use App\Src\Curso\Curso;
+
 class Aluno
 {
     private $id;
@@ -10,6 +13,7 @@ class Aluno
     private $cpf;
     private $telefone;
     private $email;
+    private $cursos;
 
     public function __construct(
         $id,
@@ -17,7 +21,8 @@ class Aluno
         $nome,
         $cpf,
         $telefone,
-        $email
+        $email,
+        $cursos = null
     ) {
         $this->id = $id;
         $this->matricula = $matricula;
@@ -25,6 +30,7 @@ class Aluno
         $this->cpf = $cpf;
         $this->telefone = $telefone;
         $this->email = $email;
+        $this->cursos = $cursos;
     }
 
     public function setId($id)
@@ -84,6 +90,16 @@ class Aluno
     public function getEmail()
     {
         return $this->email;
+    }
+
+    public function setCursos($cursos)
+    {
+        $this->cursos = $cursos;
+    }
+
+    public function getCursos()
+    {
+        return $this->cursos;
     }
 
     public function validateAll($allErrors)
@@ -160,6 +176,7 @@ class Aluno
             'cpf' => $this->cpf,
             'telefone' => $this->telefone,
             'email' => $this->email,
+            'cursos' => $this->cursos instanceof AlunoCurso ?  $this->cursos->toArray() : '',
         ];
     }
 }

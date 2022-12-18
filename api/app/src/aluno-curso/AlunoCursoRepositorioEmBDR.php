@@ -37,34 +37,28 @@ class AlunoCursoRepositorioEmBDR implements AlunoCursoRepositorio
 	{
 
 		try {
-			$sql = "INSERT INTO " . self::TABELA . " (`numero_matricula`, `nota_av1`, `nota_av2`, `nota_af`, `faltas`, `aluno_id`, `curso_id`)		
-			VALUES (
-				:numero_matricula
-				:nota_av1
-				:nota_av2
-				:nota_af
-				:faltas
-				:aluno_id
-				:curso_id
-			)";
-
-
+			$sql = "INSERT INTO `pis-grupo1`.`".SELF::TABELA."` (`aluno_id`, `curso_id`, `numero_matricula`) VALUES (:aluno_id, :curso_id, :numero_matricula);
+			";
+			
 			$dados = [
+				'aluno_id' => $alunoCurso->getAluno() instanceof Aluno ? $alunoCurso->getAluno()->getId() : 0,
+				'curso_id'  => $alunoCurso->getCurso() instanceof Curso ? $alunoCurso->getCurso()->getId() : 0,
 				'numero_matricula' => $alunoCurso->getmatricula(),
-				'nota_av1' => $alunoCurso->getAv1(),
-				'nota_av2'  => $alunoCurso->getAv2(),
-				'nota_af' => $alunoCurso->getNotaAF(),
-				'faltas' => $alunoCurso->getFaltas(),
-				'aluno_id' => ($alunoCurso->getAluno() instanceof Aluno) ? $alunoCurso->getAluno()->getId() : 2,
-				'curso_id' => ($alunoCurso->getCurso() instanceof Curso) ? $alunoCurso->getCurso()->getId() : 1,
 			];
+
 			$preparedStatement = $this->pdow->prepare($sql);
 			$preparedStatement->execute($dados);
-
 
 			$alunoCurso->setId($this->pdow->lastInsertId());
 		} catch (\PDOException $e) {
 			throw new PDOException($e->getMessage(), $e->getCode(), $e);
+		}
+	}
+
+	function adicionarTodos(Array &$alunosCurso)
+	{
+		foreach ($alunosCurso as $key => $aluno) {
+				$this->adicionar($aluno);
 		}
 	}
 
@@ -119,6 +113,27 @@ class AlunoCursoRepositorioEmBDR implements AlunoCursoRepositorio
 		}
 	}
 
+	public function comAlunoId($alunoId)
+	{
+		try {
+			$sql = 'SELECT * FROM `aluno_curso` where `aluno_curso`.aluno_id = "'.$alunoId.'"';
+			$preparedStatement = $this->pdow->prepare($sql);
+			$preparedStatement->execute();
+			if ($preparedStatement->rowCount() < 1) {
+				return null;
+			}
+
+			$result = $preparedStatement->fetchAll(PDO::FETCH_ASSOC);
+         foreach ($result as $row) {
+            $objetos[] = $this->construirObjeto($row);
+         }
+         return $objetos;
+		} catch (\PDOException $e) {
+
+			throw new PDOException($e->getMessage(), $e->getCode(), $e);
+		}
+	}
+
 	function delete($id)
 	{
 		try {
@@ -128,14 +143,22 @@ class AlunoCursoRepositorioEmBDR implements AlunoCursoRepositorio
 		}
 	}
 
-	function contagem()
-	{
-		try {
-			return $this->pdow->rowCount(self::TABELA);
-		} catch (\Exception $e) {
-			throw new PDOException($e->getMessage(), $e->getCode(), $e);
-		}
-	}
+   function contagem()
+   {
+      try {
+         $sql = 'SELECT COUNT(*) FROM `'.SELF::TABELA.'`';
+         $preparedStatement = $this->pdow->prepare($sql);
+         $preparedStatement->execute();
+
+         if ($preparedStatement->rowCount() < 1) {
+            return null;
+         }
+
+         $result = $preparedStatement->fetch();
+      } catch (\Exception $e) {
+         throw new RepositorioExcecao($e->getMessage(), $e->getCode(), $e);
+      }
+   }
 
 	function construirObjeto(array $row)
 	{

@@ -2,12 +2,10 @@ import { Funcionario } from './funcionario';
 import { FuncionarioServico } from './funcionario-servico';
 import { FuncionarioVisao } from './funcionario-visao';
 import { carregarPagina } from '../utils/carrega-pagina';
-/* eslint-disable-next-line func-style */
 
 export class FuncionarioControladora {
     funcionarioServico: FuncionarioServico;
     funcionarioVisao: FuncionarioVisao;
-
     constructor() {
         this.funcionarioServico = new FuncionarioServico();
         this.funcionarioVisao = new FuncionarioVisao();
@@ -83,6 +81,7 @@ export class FuncionarioControladora {
             this.funcionarioVisao.showErrorMessage(error);
         }
     };
+
 
     editar = async (): Promise<void> => {
         try {
