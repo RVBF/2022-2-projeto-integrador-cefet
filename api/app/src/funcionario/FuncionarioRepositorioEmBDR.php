@@ -26,7 +26,7 @@ class FuncionarioRepositorioEmBDR implements FuncionarioRepositorio
          $preparedStatement->execute();
          $result = $preparedStatement->fetchAll(PDO::FETCH_ASSOC);
          foreach ($result as $row) {
-            $objetos[] = $this->construirObjeto($row)->toArray();
+            $objetos[] = $this->construirObjeto($row);
          }
          return $objetos;
       } catch (\PDOException $e) {
@@ -43,7 +43,7 @@ class FuncionarioRepositorioEmBDR implements FuncionarioRepositorio
          $preparedStatement->execute();
          $result = $preparedStatement->fetchAll(PDO::FETCH_ASSOC);
          foreach ($result as $row) {
-            $objetos[] = $this->construirObjeto($row)->toArray();
+            $objetos[] = $this->construirObjeto($row);
          }
          return $objetos;
       } catch (\PDOException $e) {

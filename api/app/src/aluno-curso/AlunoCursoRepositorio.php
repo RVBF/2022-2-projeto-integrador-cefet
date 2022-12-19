@@ -8,5 +8,5 @@ interface AlunoCursoRepositorio{
    public function atualizar(AlunoCurso &$curso);
    public function comId($id);
    public function comAlunoId($alunoId);
-   public function delete($id);
+   function delete($cursoId, $alunoId);
 }

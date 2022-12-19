@@ -31,7 +31,7 @@ class CursoRepositorioEMBDR implements CursoRepositorio
 			$result = $preparedStatement->fetchAll(PDO::FETCH_ASSOC);
 
 			foreach ($result as $row) {
-				$objetos[] = $this->construirObjeto($row)->toArray();
+				$objetos[] = $this->construirObjeto($row);
 			}
 			return $objetos;
 		} catch (\PDOException $e) {

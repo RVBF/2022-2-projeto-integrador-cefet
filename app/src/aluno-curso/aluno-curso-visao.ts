@@ -166,7 +166,8 @@ export class VisaoAlunoCurso {
          av2:  Number(campoAV2.value),
          notaAF: Number(campoAvaliacaoFinal.value),
          falta: Number(campoFalta.value),
-         aluno: new Aluno({ id: Number(campoAluno.value), matricula: campoMatricula.value.toString(), nome: '', cpf: '', telefone: '', email: '', cursos : null})
+         aluno: new Aluno({ id: Number(campoAluno.value), matricula: campoMatricula.value.toString(), nome: '', cpf: '', telefone: '', email: '', cursos : null}),
+         curso: null
       })
    };
 
@@ -178,7 +179,8 @@ export class VisaoAlunoCurso {
          av2: Number(this.getValueInputElement('nota_av2').value),
          notaAF: Number(this.getValueInputElement('nota_AF').value),
          falta: Number(this.getValueInputElement('falta').value),
-         aluno: new Aluno({ id: Number(this.getValueInputElement('aluno_id').value), matricula: '', nome: '', cpf: '', telefone: '', email: '', cursos : null})
+         aluno: new Aluno({ id: Number(this.getValueInputElement('aluno_id').value), matricula: '', nome: '', cpf: '', telefone: '', email: '', cursos : null}),
+         curso: null
       })
    }
 
@@ -194,7 +196,8 @@ export class VisaoAlunoCurso {
          av2: parseFloat(nota_av2.value),
          notaAF: 0.00,
          falta: 0,
-         aluno: null
+         aluno: null,
+         curso: null,
       });
 
       situacao!.value = String(alunoCurso.situacaoAluno());

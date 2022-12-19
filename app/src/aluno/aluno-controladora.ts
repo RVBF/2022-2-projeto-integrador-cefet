@@ -37,8 +37,7 @@ export class AlunoController {
             main.innerHTML = await carregarPagina("/aluno/formulario-aluno.html");
 
             const alunoId = this.alunoServico.pegaUrlId();
-            this.buscarCursos();
-
+            await this.buscarCursos();
             await this.insereDadosNaViewEdit(alunoId);
             this.alunoVisao.aoDispararEditar(this.editar);
         }
@@ -46,6 +45,7 @@ export class AlunoController {
             main.innerHTML = await carregarPagina("/aluno/formulario-aluno.html");
 
             const alunoId = this.alunoServico.pegaUrlId();
+            await this.buscarCursos();
             await this.insereDadosNaViewVisualiza(alunoId);
             this.alunoVisao.configuraVisualizacao();
             this.alunoVisao.aoDispararVoltar(this.voltar);

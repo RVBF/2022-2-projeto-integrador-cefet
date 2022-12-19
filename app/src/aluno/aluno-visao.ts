@@ -6,6 +6,7 @@ import { Link } from "../components/Ancora";
 import { Button } from "../components";
 import { Curso } from "../curso/curso";
 import { Funcionario } from "../funcionario/funcionario";
+import { AlunoCurso } from "../aluno-curso/aluno-curso";
 
 export class AlunoVisao {
    servicoAluno: AlunoServico;
@@ -73,18 +74,17 @@ export class AlunoVisao {
       const telefone = this.getValueInputElement('telefone');
       const email = this.getValueInputElement('email');
       const titulo = document.querySelector('h2');
-      const cursos = document.querySelector('#cursos') as HTMLSelectElement;
+      const cursos = document.getElementById('cursos') as HTMLSelectElement;
       titulo!.innerText = 'Editar Aluno';
-      console.log(aluno);
-
-      for (const key in cursos.options) {
-         if (Object.prototype.hasOwnProperty.call(cursos.options, key)) {
-            const element = cursos.options[key];
-            console.log(aluno.cursos);
-            (aluno.cursos as Array<Curso>).forEach((curso) =>{
-               if(curso.codigo == element.value) element.selected = true;
-            })
-         }
+      if(aluno.cursos != null){
+         for (const key in cursos.options) {
+            if (Object.prototype.hasOwnProperty.call(cursos.options, key)) {
+               const element = cursos.options[key] as HTMLOptionElement;
+               (aluno.cursos).forEach((curso ) =>{
+                  if((curso?.curso.codigo == element.value)) element.selected = true;
+               })
+            }
+      }
       }
 
       id.value = String(aluno.id);
@@ -230,7 +230,6 @@ export class AlunoVisao {
    }
 
    showErrorMessage(message: any): void {
-      console.log(message);
       const errorMessage = document.getElementById('errorBar');
       errorMessage!.innerHTML = String(message);
       errorMessage!.className = 'show';

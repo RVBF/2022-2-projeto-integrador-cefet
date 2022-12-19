@@ -2,7 +2,7 @@
 require 'app/src/login/login-repositorio.php';
 require 'app/src/login/sessao-usuario.php';
 
-class LoginRepositorioMysql implements LoginRepositorio
+class LoginRepositorioEmBDR implements LoginRepositorio
 {
   private $sessaoEmArquivo;
   public function __construct(&$pdo)
