@@ -4,8 +4,106 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "bbc32f6a343bb6bfab0a0dba8ef5f030",
-    "packages": [],
+    "content-hash": "8cc0d99e69a40e871612ac11f6ef528e",
+    "packages": [
+        {
+            "name": "phputil/json",
+            "version": "1.3.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/thiagodp/json.git",
+                "reference": "058e07a47ef28983fceb94f98d7edf08983f08ef"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/thiagodp/json/zipball/058e07a47ef28983fceb94f98d7edf08983f08ef",
+                "reference": "058e07a47ef28983fceb94f98d7edf08983f08ef",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.3",
+                "phputil/rtti": ">=1.4"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "phputil\\": "lib/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Thiago Delgado Pinto"
+                }
+            ],
+            "description": "A JSON encoder and decoder that can also convert PHP objects with private or protected attributes.",
+            "homepage": "http://github.com/thiagodp/json",
+            "keywords": [
+                "decode",
+                "encode",
+                "json",
+                "object",
+                "php",
+                "private",
+                "protected"
+            ],
+            "support": {
+                "issues": "https://github.com/thiagodp/json/issues",
+                "source": "https://github.com/thiagodp/json"
+            },
+            "time": "2018-01-27T16:57:59+00:00"
+        },
+        {
+            "name": "phputil/rtti",
+            "version": "1.4.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/thiagodp/rtti.git",
+                "reference": "513056bb2843bbf495a83f8a1481c9aaec120c4b"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/thiagodp/rtti/zipball/513056bb2843bbf495a83f8a1481c9aaec120c4b",
+                "reference": "513056bb2843bbf495a83f8a1481c9aaec120c4b",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.2.0"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "phputil\\": "lib/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Thiago Delgado Pinto"
+                }
+            ],
+            "description": "A Run-Time Type Information extractor, useful for getting/setting private attributes from/to PHP objects.",
+            "homepage": "http://github.com/thiagodp/rtti",
+            "keywords": [
+                "php",
+                "private",
+                "protected",
+                "rtti",
+                "run-time"
+            ],
+            "support": {
+                "issues": "https://github.com/thiagodp/rtti/issues",
+                "source": "https://github.com/thiagodp/rtti"
+            },
+            "time": "2018-01-27T17:00:23+00:00"
+        }
+    ],
     "packages-dev": [
         {
             "name": "kahlan/kahlan",
@@ -75,5 +173,5 @@
         "php": ">=7.4"
     },
     "platform-dev": [],
-    "plugin-api-version": "2.3.0"
+    "plugin-api-version": "2.2.0"
 }

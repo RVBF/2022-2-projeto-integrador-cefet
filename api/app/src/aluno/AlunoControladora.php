@@ -7,10 +7,8 @@ use App\Request;
 use App\Src\AlunoCurso\AlunoCurso;
 use App\Src\AlunoCurso\AlunoCursoRepositorioEmBDR;
 use App\Src\Comum\Util;
-use App\Src\Curso\Curso;
 use App\Src\Curso\CursoRepositorioEMBDR;
 use PDOException;
-use RepositoryException;
 
 class AlunoControladora
 {
@@ -37,7 +35,7 @@ class AlunoControladora
       Util::responseUpdateSuccess();
     } catch (PDOException $errorPDO) {
       Util::exibirErroAoConectar($errorPDO);
-    } catch (RepositoryException $error) {
+    } catch (RepositorioExcecao $error) {
       Util::exibirErroAoConsultar($error);
     }
   }
@@ -103,13 +101,39 @@ class AlunoControladora
       $aluno->setCpf($data["cpf"]);
       $aluno->setTelefone($data["telefone"]);
       $aluno->setEmail($data["email"]);
-
       $this->colecaoAluno->atualizar($aluno);
+      foreach($this->colecaoAlunoCurso->comAlunoId($aluno->getId()) as $alunoCurso){
+        $this->colecaoAlunoCurso->delete($alunoCurso->getCurso(), $aluno->getId());
+      }
+
+      $cursosCodigos =  [];
+      foreach ($data['cursos'] as $key => $curso) {
+        $cursosCodigos[] = $curso['codigo'];
+      }
+      
+
+      $cursos = $this->colecaoCurso->comCodigos($cursosCodigos);
+      $alunosCursos = [];
+
+      foreach ($cursos as $curso) {
+        $alunosCursos[] = new AlunoCurso(
+          0,
+          $aluno->getMatricula(),
+          null,
+          null,
+          null,
+          0,
+          $aluno,
+          $curso
+        );
+      }
+
+      $this->colecaoAlunoCurso->adicionarTodos($alunosCursos);
 
       Util::responseUpdateSuccess();
     } catch (PDOException $errorPDO) {
       Util::exibirErroAoConectar($errorPDO);
-    } catch (RepositoryException $error) {
+    } catch (RepositorioExcecao $error) {
       Util::exibirErroAoConsultar($error);
     }
   }
@@ -119,12 +143,15 @@ class AlunoControladora
 
     try {
       $urlQuebrada  = explode('/', $request->base());
+      $aluno = $this->colecaoAluno->comId($urlQuebrada[2]);
+      foreach($aluno->getCursos() as $alunoCurso){
+        $this->colecaoAlunoCurso->delete($alunoCurso->getCurso(), $aluno->getId());
+      }
       $this->colecaoAluno->delete($urlQuebrada[2]);
-
       Util::responseDeleteSuccess();
     } catch (PDOException $errorPDO) {
       Util::exibirErroAoConectar($errorPDO);
-    } catch (RepositoryException $error) {
+    } catch (RepositorioExcecao $error) {
       Util::exibirErroAoConsultar($error);
     }
   }
@@ -142,10 +169,10 @@ class AlunoControladora
         $alunoCurso->setCurso($this->colecaoCurso->comId($alunoCurso->getCurso()));
       }
 
-      Util::responsePegaTodosSuccess($aluno->toArray());
+      Util::responsePegaTodosSuccess($aluno);
     } catch (PDOException $errorPDO) {
       Util::exibirErroAoConectar($errorPDO);
-    } catch (RepositoryException $error) {
+    } catch (RepositorioExcecao $error) {
       Util::exibirErroAoConsultar($error);
     }
   }
@@ -161,7 +188,7 @@ class AlunoControladora
       Util::responsePegaTodosSuccess($proximoNumeroMatricula);
     } catch (PDOException $errorPDO) {
       Util::exibirErroAoConectar($errorPDO);
-    } catch (RepositoryException $error) {
+    } catch (RepositorioExcecao $error) {
       Util::exibirErroAoConsultar($error);
     }
   }

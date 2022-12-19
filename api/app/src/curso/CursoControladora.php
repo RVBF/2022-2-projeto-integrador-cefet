@@ -112,7 +112,7 @@ class CursoControladora
             $urlQuebrada  = explode('/', $request->base());
             $curso = $this->colecaoCurso->comId($urlQuebrada[2]);
 
-            Util::responsePegaTodosSuccess($curso->toArray());
+            Util::responsePegaTodosSuccess($curso);
         } catch (PDOException $errorPDO) {
             Util::exibirErroAoConectar($errorPDO);
         } catch (RepositorioExcecao $error) {

@@ -114,7 +114,7 @@ class FuncionarioControladora
          $urlQuebrada  = explode('/', $request->base());
 
          $funcionario = $this->colecaoFuncionario->comId($urlQuebrada[2]);
-         Util::responsePegaTodosSuccess($funcionario->toArray());
+         Util::responsePegaTodosSuccess($funcionario);
       } catch (PDOException $errorPDO) {
          Util::exibirErroAoConectar($errorPDO);
       } catch (RepositoryException $error) {

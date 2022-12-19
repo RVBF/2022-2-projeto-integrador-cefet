@@ -25,7 +25,7 @@ class AlunoCursoRepositorioEmBDR implements AlunoCursoRepositorio
 			$objetos = [];
 			$result = $this->pdow->query('SELECT * FROM aluno_curso')->fetchAll();
 			foreach ($result as $row) {
-				$objetos[] = $this->construirObjeto($row)->toArray();
+				$objetos[] = $this->construirObjeto($row);
 			}
 			return $objetos;
 		} catch (\PDOException $e) {
@@ -134,14 +134,17 @@ class AlunoCursoRepositorioEmBDR implements AlunoCursoRepositorio
 		}
 	}
 
-	function delete($id)
-	{
-		try {
-			return $this->pdow->query('DELETE  FROM ' . self::TABELA . ' WHERE id = $id');
-		} catch (\PDOException $e) {
-			throw new PDOException($e->getMessage(), $e->getCode(), $e);
-		}
-	}
+
+   function delete($cursoId, $alunoId)
+   {
+      try {
+         $sql = 'DELETE  FROM ' . self::TABELA . ' WHERE curso_id = :curso_id and aluno_id = :aluno_id';
+         $preparedStatement = $this->pdow->prepare($sql);
+         $preparedStatement->execute(['curso_id' => $cursoId, 'aluno_id' => $alunoId]);
+      } catch (\PDOException $e) {
+         throw new RepositorioExcecao($e->getMessage(), $e->getCode(), $e);
+      }
+   }
 
    function contagem()
    {

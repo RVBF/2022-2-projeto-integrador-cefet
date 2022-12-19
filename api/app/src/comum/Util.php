@@ -2,22 +2,32 @@
 
 namespace App\Src\Comum;
 
-use Exception;
-
+use phputil\JSON as PhputilJSON;
+use phputil\json\JSON;
 abstract class Util
 {
-
+   static function json_encode_objs($item){   
+      if(!is_array($item) && !is_object($item)){   
+          return json_encode($item);   
+      }else{   
+          $pieces = array();   
+          foreach($item as $k=>$v){   
+              $pieces[] = "\"$k\":".self::json_encode_objs($v);   
+          }   
+          return '{'.implode(',',$pieces).'}';   
+      }   
+  }   
    static function debug($data)
    {
       echo "<pre>";
       print_r($data);
       echo "</pre>";
-      // exit;
+      exit;
    }
    static function responsePegaTodosSuccess($data)
    {
       http_response_code(200);
-      print json_encode($data);
+      print PhputilJSON::encode($data);
    }
 
    static function print_json($mixed, $with_headers = true)
@@ -39,7 +49,7 @@ abstract class Util
 
    static function responseAddSuccess()
    {
-      die(json_encode('Cadastro Realizado Com Sucesso!'));
+      die(PhputilJSON::encode('Cadastro Realizado Com Sucesso!'));
       http_response_code(201);
    }
 
@@ -68,7 +78,7 @@ abstract class Util
    static function exibirErroAoConsultar($erro)
    {
       http_response_code(400);
-      die(json_encode('Erro ao consultar o banco de dados: ' . $erro->getMessage()));
+      die(PhputilJSON::encode('Erro ao consultar o banco de dados: ' . $erro->getMessage()));
    }
 
    static function erroDoServidor($mensagem, $codigo = 500)

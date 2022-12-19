@@ -150,18 +150,4 @@ class Curso
         // if ($this->calculatePresenca(100, 75) >= 75 && $nota->calculateMediaDeAvaliacoes(10, 6) === 'Aprovado') return 'Aprovado';
         // else return 'Reprovado';
     }
-
-    public function toArray()
-    {
-        return [
-            'id' => $this->id,
-            'codigo' => $this->codigo,
-            'nome' => $this->nome,
-            'situacao' => $this->situacao,
-            'numeroAulas' => $this->numeroAulas,
-            'dataInicio' => $this->dataInicio,
-            'dataFim' => $this->dataFim,
-            'professor' =>  $this->professor->toArray(),
-        ];
-    }
 }

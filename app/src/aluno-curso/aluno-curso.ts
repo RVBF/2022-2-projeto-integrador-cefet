@@ -1,3 +1,4 @@
+import { Curso } from "../curso/curso";
 import { Aluno } from "./../aluno/aluno";
 interface AlunoCursoDTO {
   id: number;
@@ -7,6 +8,7 @@ interface AlunoCursoDTO {
   notaAF: number;
   falta: number;
   aluno: Aluno | null;
+  curso: Curso | null;
 }
 export class AlunoCurso {
   id: number = 0;
@@ -16,6 +18,7 @@ export class AlunoCurso {
   notaAF: number = 0;
   falta: number = 0;
   aluno: Aluno | null = null;
+  curso: Curso | null = null;
   constructor(
     {
       id,
@@ -24,7 +27,8 @@ export class AlunoCurso {
       av2,
       notaAF,
       falta,
-      aluno
+      aluno,
+      curso
     }: AlunoCursoDTO
   ) {
     this.id = id;
@@ -34,6 +38,7 @@ export class AlunoCurso {
     this.notaAF = Number(notaAF);
     this.falta = Number(falta);
     this.aluno = aluno;
+    this.curso = curso;
   }
 
   estaDeFinal(): boolean {

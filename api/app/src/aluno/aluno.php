@@ -166,17 +166,4 @@ class Aluno
         $allErrors = [];
         return $this->validateAll($allErrors);
     }
-
-    public function toArray()
-    {
-        return [
-            'id' => $this->id,
-            'matricula' => $this->matricula,
-            'nome' => $this->nome,
-            'cpf' => $this->cpf,
-            'telefone' => $this->telefone,
-            'email' => $this->email,
-            'cursos' => $this->cursos instanceof AlunoCurso ?  $this->cursos->toArray() : '',
-        ];
-    }
 }

@@ -145,16 +145,4 @@ class Funcionario
         $allErrors = [];
         return $this->validateAll($allErrors);
     }
-
-    public function toArray()
-    {
-        return [
-            'id' => $this->id,
-            'nome' => $this->nome,
-            'cpf' => $this->cpf,
-            'email' => $this->email,
-            'eAdministrador' => $this->eAdministrador,
-            'senha' => $this->senha
-        ];
-    }
 }

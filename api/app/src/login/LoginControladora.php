@@ -1,4 +1,7 @@
 <?php
+
+use App\Request;
+
 require 'app/src/login/login.php';
 require 'app/src/login/login-visao.php';
 require 'app/src/login/login-repositorio-mysql.php';
@@ -8,28 +11,16 @@ class LoginControladora
 {
   private $visao;
   private $servico;
+  private $conexao = null;
 
-  public function __construct()
+  public function __construct(&$db)
   {
-    $this->visao = new LoginVisao();
+    $this->conexao = $db;
 
-    $pdo = new Conexao();
-    $pdoConn = $pdo->getConnection();
-    $this->servico = new LoginRepositorioMysql($pdoConn);
+    $this->servico = new LoginRepositorioEmBDR($db);
   }
 
-  public function init()
-  {
-    if ($this->visao->autenticar()) {
-      $this->autenticar();
-    } elseif ($this->visao->deslogar()) {
-      $this->deslogar();
-    }
-
-    return true;
-  }
-
-  function autenticar()
+  function autenticar($request)
   {
     $dataLogin = $this->visao->dataLogin();
     try {
@@ -42,7 +33,7 @@ class LoginControladora
     }
   }
 
-  function deslogar()
+  function deslogar(Request $request)
   {
     try {
       $this->servico->deslogar();

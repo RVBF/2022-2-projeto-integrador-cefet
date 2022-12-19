@@ -136,18 +136,4 @@ class AlunoCurso
             return 'Aprovado';
         } else return 'Reprovado';
     }
-
-    public function toArray()
-    {
-        return [
-            'id' => $this->id,
-            'matricula' => $this->matricula,
-            'av1' => $this->av1,
-            'av2' => $this->av2,
-            'notaAF' => $this->notaAF,
-            'faltas' => $this->faltas,
-            'aluno' => $this->aluno,
-            'curso' => $this->curso instanceof  Curso ? $this->curso->toArray() : [],
-        ];
-    }
 }
