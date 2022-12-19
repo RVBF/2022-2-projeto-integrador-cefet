@@ -1,6 +1,6 @@
 import { AlunoCurso } from '../../src/aluno-curso/aluno-curso';
 
-describe('Relizar os testes das Notas', () => {
+describe('Realizar os testes das Notas', () => {
     describe('Validar retorno de resultado baseado em notas', () => {
         it('Deve retornar {Aprovado} quando a media de avaliações for maior ou igual a 7', () => {
             const nota = new AlunoCurso({
@@ -10,7 +10,8 @@ describe('Relizar os testes das Notas', () => {
                 av2: 7,
                 notaAF: 0,
                 falta: 1,
-                aluno: null
+                aluno: null,
+                curso: null
             });
             expect(nota.situacaoAluno()).toBe('Aprovado');
         })
@@ -23,7 +24,8 @@ describe('Relizar os testes das Notas', () => {
                 av2: 3,
                 notaAF: 7,
                 falta: 1,
-                aluno: null
+                aluno: null,
+                curso: null
             });
             expect(nota.situacaoFinalAluno()).toBe('Aprovado');
         })
@@ -36,7 +38,8 @@ describe('Relizar os testes das Notas', () => {
                 av2: 6,
                 notaAF: 0,
                 falta: 1,
-                aluno: null
+                aluno: null,
+                curso: null
             });
             expect(nota.situacaoAluno()).toBe('Avaliação Final');
         });
@@ -49,7 +52,8 @@ describe('Relizar os testes das Notas', () => {
                 av2: 2.9,
                 notaAF: 0,
                 falta: 1,
-                aluno: null
+                aluno: null,
+                curso: null
             });
             expect(nota.situacaoAluno()).toBe('Reprovado');
         });
@@ -62,7 +66,8 @@ describe('Relizar os testes das Notas', () => {
                 av2: 6,
                 notaAF: 3.4,
                 falta: 1,
-                aluno: null
+                aluno: null,
+                curso: null
             });
             expect(nota.situacaoFinalAluno()).toBe('Reprovado');
         });

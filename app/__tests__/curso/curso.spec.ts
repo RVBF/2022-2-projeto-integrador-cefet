@@ -7,8 +7,10 @@ describe('Relizar os testes dos atributos de Cursos', () => {
             codigo: 'PHP01',
             nome: 'Curso de PHP',
             situacao: 'Iniciado',
-            inicio: new Date( '2022-01-01 00:00:00' ),
-            termino: new Date( '2023-12-31 00:00:00' )
+            numeroAulas: 10,
+            dataInicio: new Date( '2022-01-01 00:00:00' ),
+            dataFim: new Date( '2023-12-31 00:00:00' ),
+            professor: null
         });
         expect(curso.validar()).toHaveLength(0);
     })
@@ -19,8 +21,10 @@ describe('Relizar os testes dos atributos de Cursos', () => {
             codigo: 'PHP1',
             nome: 'Curso de PHP',
             situacao: 'Iniciado',
-            inicio: new Date( '2022-01-01 00:00:00' ),
-            termino: new Date( '2023-12-31 00:00:00' )
+            numeroAulas: 10,
+            dataInicio: new Date( '2022-01-01 00:00:00' ),
+            dataFim: new Date( '2023-12-31 00:00:00' ),
+            professor: null
         });
         expect(curso.validar()).toEqual(['Código inválido']);
     })
@@ -31,8 +35,10 @@ describe('Relizar os testes dos atributos de Cursos', () => {
             codigo: 'PHP01',
             nome: 'P',
             situacao: 'Iniciado',
-            inicio: new Date( '2022-01-01 00:00:00' ),
-            termino: new Date( '2023-12-31 00:00:00' )
+            numeroAulas: 10,
+            dataInicio: new Date( '2022-01-01 00:00:00' ),
+            dataFim: new Date( '2023-12-31 00:00:00' ),
+            professor: null
         });
         expect(curso.validar()).toEqual(['Nome inválido']);
     })
@@ -43,8 +49,10 @@ describe('Relizar os testes dos atributos de Cursos', () => {
             codigo: 'PHP01',
             nome: 'is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industrys stasa',
             situacao: 'Iniciado',
-            inicio: new Date( '2022-01-01 00:00:00' ),
-            termino: new Date( '2023-12-31 00:00:00' )
+            numeroAulas: 10,
+            dataInicio: new Date( '2022-01-01 00:00:00' ),
+            dataFim: new Date( '2023-12-31 00:00:00' ),
+            professor: null
         });
         expect(curso.validar()).toEqual(['Nome inválido']);
     })
@@ -55,8 +63,10 @@ describe('Relizar os testes dos atributos de Cursos', () => {
             codigo: 'PHP01',
             nome: 'Curso de PHP',
             situacao: 'terminado',
-            inicio: new Date( '2022-01-01 00:00:00' ),
-            termino: new Date( '2023-12-31 00:00:00' )
+            numeroAulas: 10,
+            dataInicio: new Date( '2022-01-01 00:00:00' ),
+            dataFim: new Date( '2023-12-31 00:00:00' ),
+            professor: null
         });
         expect(curso.validar()).toEqual(['Situação inválida']);
     })
@@ -67,8 +77,10 @@ describe('Relizar os testes dos atributos de Cursos', () => {
             codigo: 'PHP01',
             nome: 'Curso de PHP',
             situacao: 'Iniciado',
-            inicio: new Date( '2024-01-01 00:00:00' ),
-            termino: new Date( '2023-12-31 00:00:00' )
+            numeroAulas: 10,
+            dataInicio: new Date( '2024-01-01 00:00:00' ),
+            dataFim: new Date( '2023-12-31 00:00:00' ),
+            professor: null
         });
         expect(curso.validar()).toEqual(['Término deve ser maior que o início']);
     })
