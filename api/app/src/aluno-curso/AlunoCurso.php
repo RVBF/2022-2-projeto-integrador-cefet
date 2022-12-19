@@ -122,7 +122,8 @@ class AlunoCurso
         $mediaDeAvaliacoes = ($this->av1 + $this->av2) / 2;
 
         if ($mediaDeAvaliacoes >= 7) return 'Aprovado';
-        else if ($mediaDeAvaliacoes < 3) return 'Reprovado'; {
+        else if ($mediaDeAvaliacoes < 3) return 'Reprovado';
+        else {
             return 'Avaliação Final';
         }
     }
