@@ -87,10 +87,9 @@ export class AlunoCursoController {
     };
 
     remover = async ( idNota: string ): Promise<void> => {
-        const idNotaForm = idNota.replace( 'del-', '' );
 
         try {
-            await this.servicoAlunoCurso.delete( Number( idNotaForm ) );
+            await this.servicoAlunoCurso.delete( Number( idNota ) );
             this.visaoAlunoCurso.showSuccessMessage( 'Nota removida com sucesso!' );
             setTimeout( () => {
                 location.reload();

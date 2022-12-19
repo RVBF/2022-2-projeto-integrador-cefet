@@ -71,7 +71,7 @@ class FuncionarioRepositorioEmBDR implements FuncionarioRepositorio
             'nome' => $funcionario->getNome(),
             'cpf' =>  $funcionario->getCPF(),
             'email' => $funcionario->getEmail(),
-            'senha' => $funcionario->getSenha(),
+            'senha' => $funcionario->senhaComHash(),
             'e_administrador' =>  $funcionario->getEAdministrador()
          ]);
       
@@ -103,7 +103,7 @@ class FuncionarioRepositorioEmBDR implements FuncionarioRepositorio
             'cpf' => $funcionario->getCpf(),
             'email' => $funcionario->getEmail(),
             'e_administrador' => $funcionario->getEAdministrador(),
-            'senha' => $funcionario->getSenha(),
+            'senha' => $funcionario->senhaComHash(),
             'id' => $funcionario->getId()
          ]);
       } catch (\PDOException $e) {

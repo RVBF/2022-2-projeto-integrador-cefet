@@ -7,6 +7,7 @@ use App\Src\AlunoCurso\AlunoCursoControladora;
 use App\Src\Comum\Util;
 use App\Src\Curso\CursoControladora;
 use App\Src\Funcionario\FuncionarioControladora;
+use App\Src\Login\LoginControladora;
 
 require_once 'app/src/config/pdo-connection.php';
 $db = null;
@@ -155,14 +156,14 @@ try {
 		$controladora->delete($request);
 	});
 //login
-	Route::post('/login', function() use (&$db){
-		$controladora  = new LoginControladora($db);
+	Route::post('/login/entrar', function() use (&$db){
 		$request = new Request;
+		$controladora  = new LoginControladora($db);
 		$controladora->autenticar($request);
 	});
 
-	Route::post('/logout', function() use (&$db){
-		$controladora  = new LoginControladora($db);
+	Route::delete('/login/sair', function() use (&$db){
 		$request = new Request;
+		$controladora  = new LoginControladora($db);
 		$controladora->deslogar($request);
 	});

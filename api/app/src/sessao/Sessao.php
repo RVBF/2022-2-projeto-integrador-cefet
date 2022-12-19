@@ -1,4 +1,6 @@
 <?php
+namespace App\Src\Sessao;
+
 interface Sessao {
   function iniciarSessao();
   function destruirSessao();
@@ -6,5 +8,4 @@ interface Sessao {
   function definirValor($chave, $valor);
   function obterValor($chave);
   function sessaoIniciada();
-  function logado();
 }

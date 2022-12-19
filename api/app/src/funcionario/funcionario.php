@@ -87,6 +87,10 @@ class Funcionario
         $this->senha = $senha;
     }
 
+    public function senhaComHash() {
+        return hash( 'sha256', 'E1F53135E559C253 ' . $this->senha . ' 84B03D034B409D4E' );
+      }
+
     public function validateAll()
     {
         $allErrors = [];

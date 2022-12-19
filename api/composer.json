@@ -16,6 +16,8 @@
             "App\\Src\\AlunoCurso\\": "app/src/aluno-curso/",
             "App\\Src\\config\\": "app/src/config/",
             "App\\Src\\Comum\\": "app/src/comum/",
+            "App\\Src\\Login\\": "app/src/login/",
+            "App\\Src\\Sessao\\": "app/src/sessao/",
             "App\\Router\\": "app/routes/"
         }
     },

@@ -1,6 +1,11 @@
+import { path } from '../utils/caminho-pagina';
 import { LoginUsuario } from './login-usuario';
 
 export class LoginVisao {
+
+  logarRegex = (): boolean => (/^\/login\/?$/i).test(path());
+  sairRegex = (): boolean => (/^\/sair\/?$/i).test(path());
+
   getValueInputElement(key: string): HTMLInputElement {
     return document.getElementById(`${key}`) as HTMLInputElement;
   }
@@ -22,6 +27,8 @@ export class LoginVisao {
 
     logarForm!.addEventListener('submit', functionToSubmit);
   }
+
+
 
   showErrorMessage(message: string): void {
     const errorMessage = document.getElementById('errorBar');

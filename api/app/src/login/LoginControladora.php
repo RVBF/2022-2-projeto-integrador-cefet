@@ -1,47 +1,68 @@
 <?php
 
-use App\Request;
+namespace App\Src\Login;
 
-require 'app/src/login/login.php';
-require 'app/src/login/login-visao.php';
-require 'app/src/login/login-repositorio-mysql.php';
-require_once 'app/src/pdo/conexao.php';
+use App\Src\Login\LoginExcecao;
+use App\RepositorioExcecao;
+use App\Request;
+use App\Src\Comum\Util;
+use App\Src\Sessao\SessaoEmArquivo;
 
 class LoginControladora
 {
   private $visao;
-  private $servico;
+  private $servicoLogin;
+  private $sessaoEmArquivo;
   private $conexao = null;
 
   public function __construct(&$db)
   {
     $this->conexao = $db;
 
-    $this->servico = new LoginRepositorioEmBDR($db);
+    $this->servicoLogin = new LoginRepositorioEmBDR($db);
+    $this->sessaoEmArquivo = new SessaoEmArquivo();
+    $this->sessaoEmArquivo->iniciarSessao();
   }
 
-  function autenticar($request)
+  function autenticar(Request $request)
   {
-    $dataLogin = $this->visao->dataLogin();
+
+    $data = $request->all();
+
     try {
-      $dados = $this->servico->autenticar($dataLogin);
-      $this->visao->responseLoginSuccess($dados);
-    } catch (PDOException $errorPDO) {
-      $this->visao->exibirErroAoConectar($errorPDO);
-    } catch (RepositoryException $error) {
-      $this->visao->exibirErroAoConsultar($error);
+      $login = new Login($data['login'], $data['senha']);
+
+      $dados = $this->servicoLogin->login($login);
+      $usuarioSessao =  new SessaoUsuario($login);
+
+      $sessaoFormatada = $usuarioSessao->sessaoFormatada();
+
+      $this->sessaoEmArquivo->definirValor('usuario', json_encode($sessaoFormatada));
+
+      $this->sessaoEmArquivo->iniciarSessao();
+
+
+      UTiL::responsePegaTodosSuccess($sessaoFormatada);
+    } catch (\PDOException $errorPDO) {
+      Util::exibirErroAoConectar($errorPDO->getMessage());
+    } catch (RepositorioExcecao $error) {
+      Util::exibirErroAoConsultar($error->getMessage());
+    }
+    catch (LoginExcecao $error) {
+      Util::erro($error,400);
     }
   }
 
   function deslogar(Request $request)
   {
     try {
-      $this->servico->deslogar();
-      $this->visao->responseDeslogarSuccess();
-    } catch (PDOException $errorPDO) {
-      $this->visao->exibirErroAoConectar($errorPDO);
-    } catch (RepositoryException $error) {
-      $this->visao->exibirErroAoConsultar($error);
+      if (!$this->sessaoEmArquivo->sessaoIniciada()) throw new LoginExcecao("Não existe usuário logado");
+
+      $this->sessaoEmArquivo->destruirSessao();
+
+      Util::responseDeleteSuccess();
+    } catch (LoginExcecao $error) {
+      Util::erro($error->getMessage(), 400);
     }
   }
 }

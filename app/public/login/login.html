@@ -1,32 +1,37 @@
-<div class='row'>
-	<div class='col s12 indigo darken-4 white-text'>
-		<h3>Login</h3>
-	</div>
-</div>
+<form class="col s12" id="formulario-login">
 
-<div class='row'>
-	<div class=" col s12 form-field">
-		<input class='validate' type="text" name='usuario' id='usuario' required />
-		<label for='usuario'>Usuário</label>
-	</div>
+    <div class='row'>
+        <div class='col s12 indigo darken-4 white-text'>
+            <h3>Login</h3>
+        </div>
+    </div>
 
-	<div class=" col s12 form-field">
-		<input class='validate' type="text" name='senha' id='senha' required />
-		<label for='senha'>Senha</label>
-	</div>
-</div>
+    <div class='row'>
+        <div class=" col s12 form-field">
+            <label for='login'>Usuário</label>
+            <input class='validate' type="email" name='login' id='login' required />
+        </div>
+    </div>
 
-<div class="row">
-	<div class="form-field">
-		<label for="lembrar">
-			<input type="checkbox" class="filled-in" name="lembrar" id="lembrar" />
-			<span>Lembrar-me </span>
-		</label>
-	</div>
-</div>
+    <div class="row">
+        <div class=" col s12 form-field">
+            <label for='senha'>Senha</label>
+            <input class='validate' type="password" name='senha' id='senha' required />
+        </div>
+    </div>
 
-<div class="row">
-	<div class="form-field">
-		<button class="btn-large waves-effect waves dark indigo darken-4" style="width: 50%;">Entrar</button>
-	</div>
-</div>
+    <div class="row">
+        <div class="form-field">
+            <label for="lembrar">
+				<input type="checkbox" class="filled-in" name="lembrar" id="lembrar" />
+				<span>Lembrar-me </span>
+			</label>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="form-field">
+            <button type="submit" id="logar" class="btn-large waves-effect waves dark indigo darken-4" style="width: 50%;">Entrar</button>
+        </div>
+    </div>
+</form>
