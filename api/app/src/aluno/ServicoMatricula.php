@@ -1,7 +1,7 @@
 <?php
 namespace App\Src\Aluno;
 
-use App\Src\Comum\Util;
+use App\Src\Servico\ServicoVisao;
 
 class ServicoMatricula{
    private $matricula;

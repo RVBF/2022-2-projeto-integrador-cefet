@@ -3,7 +3,7 @@
 namespace App\Src\Sessao;
 
 use App\Request;
-use App\Src\Comum\Util;
+use App\Src\Servico\ServicoVisao;
 use App\Src\Sessao\Sessao;
 
 

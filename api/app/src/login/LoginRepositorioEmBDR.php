@@ -4,7 +4,7 @@ namespace App\Src\Login;
 
 use App\Src\Login\LoginExcecao;
 use App\RepositorioExcecao;
-use App\Src\Comum\Util;
+use App\Src\Servico\ServicoVisao;
 use PDO;
 
 class LoginRepositorioEmBDR implements LoginRepositorio
@@ -24,7 +24,6 @@ class LoginRepositorioEmBDR implements LoginRepositorio
 
       $sql  = 'SELECT id, nome, e_administrador FROM funcionario WHERE `email` = :email AND senha = :senha';
       $preparedStatement = $this->pdo->prepare($sql);
-      // Util::debug(['email' => $login->getLogin(), 'senha' => $login->senhaComHash()]);
       $preparedStatement->execute(['email' => $login->getLogin(), 'senha' => $login->senhaComHash()]);
 
       if ($preparedStatement->rowCount() < 1) throw new LoginExcecao("Login ou senha incorretos!");

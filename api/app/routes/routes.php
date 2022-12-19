@@ -4,7 +4,6 @@ use App\Request;
 use App\Route;
 use App\Src\Aluno\AlunoControladora;
 use App\Src\AlunoCurso\AlunoCursoControladora;
-use App\Src\Comum\Util;
 use App\Src\Curso\CursoControladora;
 use App\Src\Funcionario\FuncionarioControladora;
 use App\Src\Login\LoginControladora;
