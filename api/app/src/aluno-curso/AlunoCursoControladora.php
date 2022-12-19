@@ -51,7 +51,7 @@ class AlunoCursoControladora
         null
       );
 
-      $alunosCursos = $this->colecaoAlunoCurso->adicionar($alunoCurso);
+      $this->colecaoAlunoCurso->adicionar($alunoCurso);
 
       Util::responseAddSuccess();
     } catch (PDOException $errorPDO) {
@@ -78,9 +78,6 @@ class AlunoCursoControladora
       $alunoCurso->setAluno($data["aluno"]);
       $alunoCurso->setCurso($data["curso"]);
 
-      // $erros  = $alunoCurso->validar();
-      // if(count($erros)) throw new \Exception("Existe erros de envio de dados!");
-
       $this->colecaoAlunoCurso->adicionar($alunoCurso);
 
       Util::responseUpdateSuccess();
@@ -93,11 +90,13 @@ class AlunoCursoControladora
 
   function delete(Request $request)
   {
-    $id = explode('/', $request->base())[1];
-
     try {
-      $this->colecaoAlunoCurso->delete($id);
-
+      $urlQuebrada  = explode('/', $request->base());
+      $aluno_curso = $this->colecaoAlunoCurso->comId($urlQuebrada[2]);
+      foreach ($aluno_curso->getCurso() as $alunoCurso) {
+        $this->colecaoAlunoCurso->delete($alunoCurso->getCurso(), $aluno_curso->getId());
+      }
+      $this->colecaoAlunoCurso->delete($urlQuebrada[1], $urlQuebrada[2]);
       Util::responseDeleteSuccess();
     } catch (PDOException $errorPDO) {
       Util::exibirErroAoConectar($errorPDO);
