@@ -3,7 +3,7 @@
 namespace App\Src\Funcionario;
 
 use App\RepositorioExcecao;
-use App\Src\Comum\Util;
+use App\Src\Servico\ServicoVisao;
 use App\Src\Funcionario\Funcionario;
 use PDO;
 use PDOException;

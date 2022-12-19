@@ -5,7 +5,7 @@ namespace App\Src\AlunoCurso;
 use App\Src\Aluno\Aluno;
 use App\Src\Curso\Curso;
 use App\RepositorioExcecao;
-use App\Src\Comum\Util;
+use App\Src\Servico\ServicoVisao;
 use ColecaoException;
 use PDO;
 use PDOException;
