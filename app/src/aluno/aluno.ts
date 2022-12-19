@@ -31,8 +31,6 @@ export class Aluno {
 
   validateAll = (): String[] => {
     const arrayErrors: string[] = [];
-    console.log(this.matricula);
-    console.log(this.matricula.toString().length);
 
     if ( this.matricula.toString().length < 6) {
       arrayErrors.push('Matrícula inválida');
