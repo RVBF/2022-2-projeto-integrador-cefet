@@ -45,13 +45,13 @@ window.addEventListener('load', async () => {
 
     if (proibido) {
         await carregaProibida();
-    } else if (!loginPath && urlAtual === '/') {
-        location.href = '/';
-    } else if (loginPath) {
-        if (location.pathname !== '/') {
-            location.href = '/';
-        }
-        loginControladora.init();
+    // } else if (!loginPath && urlAtual === '/') {
+    //     location.href = '/';
+    // } else if (loginPath) {
+    //     if (location.pathname !== '/') {
+    //         location.href = '/';
+    //     }
+    //     loginControladora.init();
     } else if (notasPath) {
         alunoCursoController.init();
     } else if (funcionariosPath) {

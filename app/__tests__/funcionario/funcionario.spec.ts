@@ -9,7 +9,7 @@ describe('Aluno', () => {
         cpf: '18084247786',
         email: 'vitorhugo.rangel@yahoo.com.br',
         eAdministrador: false,
-        senha: null
+        senha: ''
       });
       expect(funcionario.validateAll()).toHaveLength(0);
     });
@@ -21,7 +21,7 @@ describe('Aluno', () => {
         cpf: '18084247786',
         email: 'vitorhugo.rangel@yahoo.com.br',
         eAdministrador: false,
-        senha: null
+        senha: ''
       });
       expect(funcionario.validateAll()).toEqual(['Nome inválido']);
     });
@@ -33,7 +33,7 @@ describe('Aluno', () => {
         cpf: '18084247786',
         email: 'vitorhugo.rangel@yahoo.com.br',
         eAdministrador: false,
-        senha: null
+        senha: ''
       });
       expect(funcionario.validateAll()).toEqual(['Nome inválido']);
     });
@@ -45,7 +45,7 @@ describe('Aluno', () => {
         cpf: '18084247787',
         email: 'vitorhugo.rangel@yahoo.com.br',
         eAdministrador: false,
-        senha: null
+        senha: ''
       });
       expect(funcionario.validateAll()).toEqual(['CPF inválido']);
     });
@@ -57,7 +57,7 @@ describe('Aluno', () => {
         cpf: '18084247786',
         email: 'vitorhugo.rangel#yahoo.com.br',
         eAdministrador: false,
-        senha: null
+        senha: ''
       });
       expect(funcionario.validateAll()).toEqual(['Email inválido']);
     });

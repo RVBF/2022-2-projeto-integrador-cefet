@@ -12,6 +12,7 @@ describe('Validar atributos de Curso', function () {
             'PHP01',
             'Curso de PHP',
             'Não iniciado',
+            10,
             '2022-01-01',
             '2022-12-31',
             null
@@ -25,6 +26,7 @@ describe('Validar atributos de Curso', function () {
             'PHP1',
             'Curso de PHP',
             'Não iniciado',
+            10,
             '2022-01-01',
             '2022-12-31',
             null
@@ -38,6 +40,7 @@ describe('Validar atributos de Curso', function () {
             'PHP01',
             'P',
             'Não iniciado',
+            10,
             '2022-01-01',
             '2022-12-31',
             null
@@ -51,6 +54,7 @@ describe('Validar atributos de Curso', function () {
             'PHP01',
             'is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industrys stasa',
             'Não iniciado',
+            10,
             '2022-01-01',
             '2022-12-31',
             null
@@ -64,6 +68,7 @@ describe('Validar atributos de Curso', function () {
             'PHP01',
             'Curso de PHP',
             'Terminado',
+            10,
             '2022-01-01',
             '2022-12-31',
             null
@@ -77,6 +82,7 @@ describe('Validar atributos de Curso', function () {
             'PHP01',
             'Curso de PHP',
             'Não iniciado',
+            10,
             '2023-01-01',
             '2022-12-31',
             null
@@ -90,6 +96,7 @@ describe('Validar atributos de Curso', function () {
             'PHP01',
             'Curso de PHP',
             'Não iniciado',
+            10,
             '2023-01-01',
             '2022-12-31',
             null
