@@ -7,9 +7,8 @@ const API_LOGIN = `${appConfig.api}/login`;
 
 export class LoginRepositorio {
     async autenticar(loginUsuario: LoginUsuario): Promise<SessaoUsuario> {
-        const response = await fetch(`${API_LOGIN}/autenticar`, {
+        const response = await fetch(`${API_LOGIN}/entrar`, {
             method: 'POST',
-            credentials: 'include',
             body: JSON.stringify(loginUsuario),
             headers: {
                 'content-type': 'application/json',
@@ -25,9 +24,8 @@ export class LoginRepositorio {
     }
 
     async deslogar(): Promise<void> {
-        const response = await fetch(`${API_LOGIN}/deslogar`, {
+        const response = await fetch(`${API_LOGIN}/sair`, {
             method: 'DELETE',
-            credentials: 'include',
             headers: {
                 'content-type': 'application/json',
             },

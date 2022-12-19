@@ -1,60 +1,43 @@
 <?php
-require 'app/src/login/login-repositorio.php';
-require 'app/src/login/sessao-usuario.php';
+
+namespace App\Src\Login;
+
+use App\Src\Login\LoginExcecao;
+use App\RepositorioExcecao;
+use App\Src\Comum\Util;
+use PDO;
 
 class LoginRepositorioEmBDR implements LoginRepositorio
 {
-  private $sessaoEmArquivo;
-  public function __construct(&$pdo)
+  public function __construct(PDO &$pdo)
   {
     $this->pdo = $pdo;
-    $this->sessaoEmArquivo = new SessaoEmArquivo();
   }
 
-  function autenticar($dadosLogin)
+  function login(Login &$login)
   {
     try {
-      $todosErros = $dadosLogin->validar();
-
+      $todosErros = $login->validar();
       if (count($todosErros) > 0) {
-        echo implode(', ', $todosErros);
-        http_response_code(400);
-        die();
+        throw new \Exception("Existem erros que precisam ser corrigidos");
       }
 
-      $preparedStatement = $this->pdo->prepare('SELECT id, nome, sobrenome, setor_id, perfil FROM responsavel WHERE `login` = :l AND senha = :s');
-      $preparedStatement->execute(['l' => $dadosLogin->login, 's' => $dadosLogin->senhaComHash()]);
-      if ($preparedStatement->rowCount() < 1) {
-        echo json_encode(['error' => 'Login ou senha incorretos!']);
-        http_response_code(400);
-        die();
-      }
+      $sql  = 'SELECT id, nome, e_administrador FROM funcionario WHERE `email` = :email AND senha = :senha';
+      $preparedStatement = $this->pdo->prepare($sql);
+      // Util::debug(['email' => $login->getLogin(), 'senha' => $login->senhaComHash()]);
+      $preparedStatement->execute(['email' => $login->getLogin(), 'senha' => $login->senhaComHash()]);
 
+      if ($preparedStatement->rowCount() < 1) throw new LoginExcecao("Login ou senha incorretos!");
+      
       $result = $preparedStatement->fetch(PDO::FETCH_ASSOC);
-      $usuarioSessao =  new SessaoUsuario(intval($result['id']), $result['nome'], $result['sobrenome'], $result['perfil'], intval($result['setor_id']));
-
-      $sessaoFormatada = $usuarioSessao->sessaoFormatada();
-
-      $this->sessaoEmArquivo->regerarId();
-      $this->sessaoEmArquivo->definirValor('usuario', json_encode($sessaoFormatada));
-      return $sessaoFormatada;
-    } catch (Exception $e) {
-      throw new RepositoryException($e->getMessage(), $e->getCode(), $e);
-    }
-  }
-
-  function deslogar()
-  {
-    try {
-      if (!$this->sessaoEmArquivo->logado()) {
-        http_response_code(400);
-        echo 'Usuário não está logado!';
-        die();
+      $login->setId($result['id']);
+      $login->setNome($result['nome']);
+      $login->setEAdministrador($result['e_administrador']);
+    } catch (RepositorioExcecao $e) {
+      throw new RepositorioExcecao($e->getMessage(), $e->getCode(), $e);
+    } catch (LoginExcecao $e) { {
+        throw new LoginExcecao($e->getMessage(), $e->getCode(), $e);
       }
-
-      $this->sessaoEmArquivo->destruirSessao();
-    } catch (Exception $e) {
-      throw new RepositoryException($e->getMessage(), $e->getCode(), $e);
     }
   }
 }

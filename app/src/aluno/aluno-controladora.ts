@@ -140,8 +140,6 @@ export class AlunoController {
     };
 
     voltar = async ( idAluno: string ): Promise<void> => {
-        const idAlunoForm = idAluno.replace( 'del-', '' );
-
         try {
             setTimeout( () => {
                 location.href = '/alunos';

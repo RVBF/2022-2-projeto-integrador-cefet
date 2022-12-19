@@ -39,9 +39,9 @@ export class VisaoAlunoCurso {
             colunaTabela('Rafael Barros'),
             colunaTabela(alunoCurso!.av1),
             colunaTabela(alunoCurso!.av2),
-            colunaTabela(alunoCurso.calcularMedia()),
+            colunaTabela('alunoCurso.calcularMedia()'),
             colunaTabela(alunoCurso!.notaAF),
-            colunaTabela(alunoCurso.calcularMediaFinal()),
+            colunaTabela('alunoCurso.calcularMediaFinal()'),
             colunaTabela(Link('atualizar', `/aluno-curso/${alunoCurso.id}/editar`, '<span class="material-icons">edit </span>', 'btn') as HTMLElement),
             colunaTabela(Button('remover', '<span class="material-icons">delete_outline</span>', 'btn', [{ 'name': 'IdAluno', 'valor': String(alunoCurso.id) }]) as HTMLElement),
          ];
