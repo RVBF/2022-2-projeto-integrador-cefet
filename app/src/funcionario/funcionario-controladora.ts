@@ -105,11 +105,10 @@ export class FuncionarioControladora {
         try {
             await this.funcionarioServico.delete(Number(idFuncionarioForm));
             this.funcionarioVisao.showSuccessMessage('Funcionário removido com sucesso!');
-            // setTimeout(() => {
-            //     location.reload();
-            // }, 2000);
+            setTimeout(() => {
+                location.reload();
+            }, 2000);
         } catch (error: any) {
-            // this.funcionarioVisao.habilitaBotao( idAluno );
             this.funcionarioVisao.showErrorMessage(error.message);
         }
     };

@@ -1,4 +1,5 @@
 <?php
+namespace App\Src\Comum;
 abstract class Debuger
 {
    static function json_encode_objs($item)
@@ -13,6 +14,7 @@ abstract class Debuger
          return '{' . implode(',', $pieces) . '}';
       }
    }
+   
    static function debug($data)
    {
       echo "<pre>";
