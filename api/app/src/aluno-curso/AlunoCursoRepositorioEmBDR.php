@@ -5,7 +5,7 @@ namespace App\Src\AlunoCurso;
 use App\Src\Aluno\Aluno;
 use App\Src\Curso\Curso;
 use App\RepositorioExcecao;
-use App\Src\Servico\ServicoVisao;
+use App\Src\Comum\Util;
 use ColecaoException;
 use PDO;
 use PDOException;
@@ -23,8 +23,8 @@ class AlunoCursoRepositorioEmBDR implements AlunoCursoRepositorio
 	{
 		try {
 			$objetos = [];
-			$result = $this->pdow->query('SELECT * FROM aluno_curso')->fetchAll();
-			foreach ($result as $row) {
+			$result = $this->pdow->query('SELECT ac.id id, ac.aluno_id aluno_id, ac.numero_matricula numero_matricula, c.numero_aulas numero_aulas,  ac.nota_av1 nota_av1, ac.nota_av2 nota_av2, ac.nota_af nota_af, ac.faltas faltas, a.nome nome, a.matricula matricula, c.id curso_id, c.nome curso_nome FROM aluno_curso ac INNER JOIN aluno a ON a.id = ac.aluno_id INNER JOIN curso c ON c.id = ac.curso_id')->fetchAll();
+			foreach ($result as $row) {				
 				$objetos[] = $this->construirObjeto($row);
 			}
 			return $objetos;
@@ -64,26 +64,25 @@ class AlunoCursoRepositorioEmBDR implements AlunoCursoRepositorio
 
 	function atualizar(AlunoCurso &$alunoCurso)
 	{
-
 		try {
 			$sql = 'UPDATE  ' . self::TABELA . ' SET
-				aluno_id = ":aluno_id",
-				curso_id = ":curso_id",
-				curso_id = ":curso_id",
-				matricula = ":matricula",
-				nota_av1 = ":nota_av1",
-				nota_av2 = ":nota_av2",
-				nota_af = ":nota_af",
-				faltas = ":faltas"
-			WHERE id = ":id"';
+				aluno_id = :aluno_id,
+				curso_id = :curso_id,
+				numero_matricula = :matricula,
+				nota_av1 = :nota_av1,
+				nota_av2 = :nota_av2,
+				nota_af = :nota_af,
+				faltas = :faltas
+			WHERE id = :id';
 			$preparedStatement = $this->pdow->prepare($sql);
-
+			
 			$executou = $preparedStatement->execute([
-				"aluno_id" => $alunoCurso->getAluno(),
-				"curso_id" => $alunoCurso->getCurso(),
-				"nota_av1" => $alunoCurso->getAv1(),
-				"nota_av2" => $alunoCurso->getAv2(),
-				"nota_af" => $alunoCurso->getNotaAF(),
+				"aluno_id" => $alunoCurso->getAluno()["id"],
+				"curso_id" => $alunoCurso->getCurso()["id"],
+				"matricula" => $alunoCurso->getmatricula(),
+				"nota_av1" => $alunoCurso->getAv1() !== null ? $alunoCurso->getAv1() : null,
+				"nota_av2" => $alunoCurso->getAv2() !== null ? $alunoCurso->getAv2() : null,
+				"nota_af" => $alunoCurso->getNotaAF() !== null ? $alunoCurso->getNotaAF() : null,
 				"faltas" => $alunoCurso->getFaltas(),
 				"id" => $alunoCurso->getId()
 			]);
@@ -96,8 +95,9 @@ class AlunoCursoRepositorioEmBDR implements AlunoCursoRepositorio
 
 	public function comId($id)
 	{
+		
 		try {
-			$sql = 'SELECT * FROM aluno_curso where id = "' . $id . '"';
+			$sql = 'SELECT ac.id id, ac.aluno_id aluno_id, ac.numero_matricula numero_matricula, c.numero_aulas numero_aulas, ac.nota_av1 nota_av1, ac.nota_av2 nota_av2, ac.nota_af nota_af, ac.faltas faltas, c.numero_aulas numero_aulas, a.nome nome, a.matricula matricula, c.id curso_id, c.nome curso_nome FROM aluno_curso ac INNER JOIN aluno a ON a.id = ac.aluno_id INNER JOIN curso c ON c.id = ac.curso_id where ac.id = "' . $id . '"';
 			$preparedStatement = $this->pdow->prepare($sql);
 			$preparedStatement->execute(['id' => $id]);
 			if ($preparedStatement->rowCount() < 1) {
@@ -116,11 +116,11 @@ class AlunoCursoRepositorioEmBDR implements AlunoCursoRepositorio
 	public function comAlunoId($alunoId)
 	{
 		try {
-			$sql = 'SELECT * FROM `aluno_curso` where `aluno_curso`.aluno_id = "'.$alunoId.'"';
+			$sql = 'SELECT * FROM aluno_curso ac INNER JOIN aluno a ON a.id = ac.aluno_id where ac.aluno_id = "'.$alunoId.'"';
 			$preparedStatement = $this->pdow->prepare($sql);
 			$preparedStatement->execute();
 			if ($preparedStatement->rowCount() < 1) {
-				return null;
+				return [];
 			}
 
 			$result = $preparedStatement->fetchAll(PDO::FETCH_ASSOC);
@@ -166,14 +166,14 @@ class AlunoCursoRepositorioEmBDR implements AlunoCursoRepositorio
 	function construirObjeto(array $row)
 	{
 		return new AlunoCurso(
-			0,
+			$row["id"],
 			$row['numero_matricula'],
 			$row['nota_av1'],
 			$row['nota_av2'],
 			$row['nota_af'],
 			$row['faltas'],
-			$row['aluno_id'],
-			$row['curso_id']
+			new Aluno( $row['aluno_id'], $row['numero_matricula'], $row['nome'], null, null, '', null ),
+			new Curso( $row['curso_id'], '', $row['curso_nome'], '', $row['numero_aulas'], '', '', '' )			
 		);
 	}
 }

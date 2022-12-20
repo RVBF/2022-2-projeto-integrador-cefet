@@ -6,7 +6,7 @@ interface AlunoCursoDTO {
   av1: number;
   av2: number;
   notaAF: number;
-  falta: number;
+  faltas: number;
   aluno: Aluno | null;
   curso: Curso | null;
 }
@@ -16,7 +16,7 @@ export class AlunoCurso {
   av1: number = 0;
   av2: number = 0;
   notaAF: number = 0;
-  falta: number = 0;
+  faltas: number = 0;
   aluno: Aluno | null = null;
   curso: Curso | null = null;
   constructor(
@@ -26,7 +26,7 @@ export class AlunoCurso {
       av1,
       av2,
       notaAF,
-      falta,
+      faltas,
       aluno,
       curso
     }: AlunoCursoDTO
@@ -36,7 +36,7 @@ export class AlunoCurso {
     this.av1 = Number(av1);
     this.av2 = Number(av2);
     this.notaAF = Number(notaAF);
-    this.falta = Number(falta);
+    this.faltas = Number(faltas);
     this.aluno = aluno;
     this.curso = curso;
   }
@@ -52,27 +52,38 @@ export class AlunoCurso {
     return media < 3.00 || mediaFinal < 5.00;
   }
 
-  public calcularMedia(): number {
+  public calcularMedia(): number {    
     return (this.av1 + this.av2) / 2;
   }
 
-  public calcularMediaFinal(): number {
-    return (this.estaDeFinal()) ? (this.calcularMedia() + this.notaAF) / 2 : this.calcularMedia();
+  public calcularMediaFinal(): number | string {    
+    return this.notaAF ? (this.calcularMedia() + this.notaAF) / 2 : 'Indefinido';
   }
 
-  situacaoAluno(): String {
-    if (this.calcularMedia() >= 7) {
-      return 'Aprovado';
-    } else if (this.calcularMedia() >= 3 && this.calcularMedia() < 7) {
+  situacaoAluno(): string {        
+    if( this.calculaPercentualFaltas() >= 25 || this.calcularMedia() < 3 || this.calcularMediaFinal() < 5) {
+      return 'Reprovado';
+    } 
+    
+    if( !this.notaAF && this.calcularMedia() >= 3 && this.calcularMedia() < 7 ){
       return 'Avaliação Final';
     }
-    else return 'Reprovado';
+
+    if( this.notaAF && (this.calcularMedia() + this.notaAF) / 2 >= 5 ) {
+      return 'Aprovado';
+    }
+    
+    return 'Aprovado';
   }
 
   situacaoFinalAluno(): String {
     if (this.estaDeFinal() == true && this.calcularMediaFinal() >= 5) {
       return 'Aprovado';
     } else return 'Reprovado';
+  }
+
+  calculaPercentualFaltas(): number {    
+    return (this.faltas / this.curso!.numeroAulas) * 100
   }
 
   validateAll(): string[] {
@@ -87,7 +98,7 @@ export class AlunoCurso {
     if (typeof this.notaAF !== 'number') erros.push('A nota informada não é um tipo númerico válido.');
     if (this.notaAF.valueOf() >= 0.00 && this.notaAF.valueOf() <= 10.00) erros.push('A nota AF está fora dos limites válidos.');
 
-    if (this.falta >= 0) erros.push('O campo falta deve ser maior ou igual 0.');
+    if (this.faltas >= 0) erros.push('O campo falta deve ser maior ou igual 0.');
     return erros;
   }
 }

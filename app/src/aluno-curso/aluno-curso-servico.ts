@@ -25,8 +25,9 @@ export class ServicoAlunoCurso {
       return this.AlunoCursoRepositorio.adicionar(AlunoCurso);
    }
 
-   todos(limit: number | null = null, offset: number | null = null): Promise<AlunoCurso[]> {
-      return this.AlunoCursoRepositorio.todos(limit, offset);
+   async todos(limit: number | null = null, offset: number | null = null): Promise<AlunoCurso[]> {
+      const allAlunosCurso = await this.AlunoCursoRepositorio.todos(limit, offset);
+      return allAlunosCurso.map( ( aluno ) => new AlunoCurso(aluno) );
    }
 
    atualizar(Aluno: AlunoCurso): Promise<Response> {
@@ -36,6 +37,11 @@ export class ServicoAlunoCurso {
    porAluno(alunoId: number): Promise<any> {
       return this.AlunoCursoRepositorio.buscarPorAlunoCurso(alunoId);
    }
+
+   comId( id: number ): Promise<AlunoCurso>{
+      return this.AlunoCursoRepositorio.comId(id);
+   }
+   
 
    delete(alunoId: number): Promise<Response> {
       return this.AlunoCursoRepositorio.delete(alunoId);

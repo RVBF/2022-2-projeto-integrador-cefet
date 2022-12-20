@@ -3,7 +3,7 @@
 namespace App\Src\Funcionario;
 
 use App\RepositorioExcecao;
-use App\Src\Servico\ServicoVisao;
+use App\Src\Comum\Util;
 use App\Src\Funcionario\Funcionario;
 use PDO;
 use PDOException;
@@ -71,7 +71,7 @@ class FuncionarioRepositorioEmBDR implements FuncionarioRepositorio
             'nome' => $funcionario->getNome(),
             'cpf' =>  $funcionario->getCPF(),
             'email' => $funcionario->getEmail(),
-            'senha' => $funcionario->senhaComHash(),
+            'senha' => $funcionario->getSenha(),
             'e_administrador' =>  $funcionario->getEAdministrador()
          ]);
       
@@ -103,7 +103,7 @@ class FuncionarioRepositorioEmBDR implements FuncionarioRepositorio
             'cpf' => $funcionario->getCpf(),
             'email' => $funcionario->getEmail(),
             'e_administrador' => $funcionario->getEAdministrador(),
-            'senha' => $funcionario->senhaComHash(),
+            'senha' => $funcionario->getSenha(),
             'id' => $funcionario->getId()
          ]);
       } catch (\PDOException $e) {

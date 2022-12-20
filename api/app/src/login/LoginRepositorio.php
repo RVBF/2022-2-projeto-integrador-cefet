@@ -1,6 +1,5 @@
 <?php
-namespace App\Src\Login;
-
 interface LoginRepositorio {
-  function login(Login &$login);
+  function autenticar( $dadosLogin );
+  function deslogar();
 }
