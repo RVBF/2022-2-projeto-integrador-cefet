@@ -36,58 +36,94 @@ export class VisaoAlunoCurso {
       alunosCursos.forEach((alunoCurso) => {
          const conteudoLinha: Array<HTMLTableCellElement> = [
             colunaTabela(alunoCurso!.matricula),
-            colunaTabela('Rafael Barros'),
-            colunaTabela(alunoCurso!.av1),
-            colunaTabela(alunoCurso!.av2),
-            colunaTabela('alunoCurso.calcularMedia()'),
-            colunaTabela(alunoCurso!.notaAF),
-            colunaTabela('alunoCurso.calcularMediaFinal()'),
-            colunaTabela(Link('atualizar', `/aluno-curso/${alunoCurso.id}/editar`, '<span class="material-icons">edit </span>', 'btn') as HTMLElement),
+            colunaTabela(alunoCurso.aluno!.nome),
+            colunaTabela(alunoCurso!.av1 || 'Nota não lançada'),
+            colunaTabela(alunoCurso!.av2 || 'Nota não lançada'),
+            colunaTabela( ( alunoCurso.av1 && alunoCurso.av2 ) ? alunoCurso.calcularMedia() : 'Média não definida'),
+            colunaTabela(alunoCurso!.notaAF || 'Nota não lançada'),
+            colunaTabela(( alunoCurso.av1 && alunoCurso.av2 && alunoCurso.notaAF ) ? alunoCurso.calcularMediaFinal() : 'Média final não definida'),
+            colunaTabela( alunoCurso.situacaoAluno() ),
+            colunaTabela(Link('atualizar', `/notas/${alunoCurso!.id}/editar`, '<span class="material-icons">edit </span>', 'btn') as HTMLElement),
             colunaTabela(Button('remover', '<span class="material-icons">delete_outline</span>', 'btn', [{ 'name': 'IdAluno', 'valor': String(alunoCurso.id) }]) as HTMLElement),
          ];
          tbodyTable?.append(linhaTabela(conteudoLinha));
       });
    }
 
+   validaSituacao( alunoCurso: AlunoCurso, situacaoInput: HTMLInputElement ): void{
+      const nota_av1 = (document.getElementById('av1') as HTMLInputElement);
+      const nota_av2 = (document.getElementById('av2') as HTMLInputElement);
+      const faltas = (document.getElementById('faltas') as HTMLInputElement);
+
+      alunoCurso.av1 = Number(nota_av1.value)
+      alunoCurso.av2 = Number(nota_av2.value)
+      alunoCurso.faltas = Number(faltas.value)            
+
+      if( alunoCurso.situacaoAluno() === 'Avaliação Final' || alunoCurso.notaAF ){
+         this.getValueInputElement('avaliacaoFinal').hidden = false
+      }else{
+         this.getValueInputElement('avaliacaoFinal').hidden = true
+      }
+
+      situacaoInput!.value = String(alunoCurso.situacaoAluno());
+   }
+
    desenharEdit(alunoCurso: AlunoCurso): void {
-      const id = this.getValueInputElement('id');
+
+      const notasInput = document.querySelectorAll('#av1, #av2, #faltas')
+      const situacaoInput = this.getValueInputElement('situacao');
+
+      notasInput.forEach( (campo) => {
+         campo.addEventListener('keyup', () => this.validaSituacao(alunoCurso, situacaoInput));
+      } )
+
+      if( alunoCurso.situacaoAluno() === 'Avaliação Final' || alunoCurso.notaAF ) {
+         this.getValueInputElement('avaliacaoFinal').hidden = false
+      }
+
+      situacaoInput!.value = String(alunoCurso.situacaoAluno())
+
+      const idInput = this.getValueInputElement('id-nota');
+
       const matricula = this.getValueInputElement('matricula');
-      const av1 = this.getValueInputElement('nota_av1');
-      const av2 = this.getValueInputElement('nota_av2');
-      const notaAF = this.getValueInputElement('nota_AF');
+
+      const av1 = this.getValueInputElement('av1');
+      const av2 = this.getValueInputElement('av2');
+      const notaAF = this.getValueInputElement('af');
+
       const alunoID = this.getValueInputElement('aluno_id');
+
+      const alunoNome = this.getValueInputElement('aluno_nome');
       const titulo = document.querySelector('h2');
+
+      const nomeCurso = this.getValueInputElement('nome_curso');
+      const cursoId = this.getValueInputElement('curso_id');
+
+      const faltaInput = this.getValueInputElement('faltas');      
+      faltaInput.value = String(alunoCurso!.faltas)
+
+      cursoId.value = String(alunoCurso.curso!.id)
+      
+      nomeCurso.innerText = alunoCurso.curso!.nome
+      alunoNome.innerText = alunoCurso.aluno!.nome
 
       titulo!.innerText = 'Editar Notas';
 
-      id.value = String(alunoCurso.id);
-      id.focus();
+      idInput!.value = String(alunoCurso.id);      
 
-      matricula.value = String(alunoCurso.id);
+      matricula.value = String(alunoCurso.matricula);
       matricula.focus();
 
-      av1.value = String(alunoCurso.id);
+      av1.value = String(alunoCurso.av1 || '');
       av1.focus();
 
-      av2.value = String(alunoCurso.id);
+      av2.value = String(alunoCurso.av2 || '');
       av2.focus();
 
-      notaAF.value = String(alunoCurso.id);
+      notaAF.value = String(alunoCurso.notaAF || '');
       notaAF.focus();
 
-      alunoID.value = String(alunoCurso!.aluno!.id);
-   }
-
-   desenharCadastro(): void {
-      var select = document.querySelectorAll('select');
-      var selectInstance = M.FormSelect.init(select);
-      this.atualizaSituacao(this);
-
-      document.getElementById('aluno')?.addEventListener('change', function (event) {
-         const select = (document.querySelector('#aluno') as HTMLSelectElement);
-         const matricula = (document.querySelector('#matricula') as HTMLInputElement);
-         matricula.value = String(select.options[select.selectedIndex].getAttribute('matricula'));
-      });
+      alunoID.value = String(alunoCurso.aluno!.id);
    }
 
    habilitaBotao(): void {
@@ -118,8 +154,8 @@ export class VisaoAlunoCurso {
          callback();
       };
 
-      const saveAlunoCurso = this.getValueInputElement('salvar');
-
+      const saveAlunoCurso = this.getValueInputElement('cadastrar');
+      
       saveAlunoCurso.addEventListener('click', functionToAct);
    }
 
@@ -138,8 +174,6 @@ export class VisaoAlunoCurso {
       const functionToAct = (elem: MouseEvent): void => {
          elem.preventDefault();
          const botao = elem.target as HTMLButtonElement;
-
-         console.log(botao.getAttribute('idNota'));
          callback(botao.getAttribute('nota-id'));
       };
 
@@ -156,8 +190,8 @@ export class VisaoAlunoCurso {
       const  campoMatricula = document.getElementById('matricula') as HTMLInputElement;
       const  campoAV1 = document.getElementById('av1') as HTMLInputElement;
       const  campoAV2 = document.getElementById('av2') as HTMLInputElement;
-      const  campoAvaliacaoFinal = document.getElementById('avaliacaoFinal') as HTMLInputElement;
-      const  campoFalta = document.getElementById('falta') as HTMLInputElement;
+      const  campoAvaliacaoFinal = document.getElementById('af') as HTMLInputElement;
+      const  campoFalta = document.getElementById('faltas') as HTMLInputElement;
       const  campoAluno = document.getElementById('aluno') as HTMLInputElement;
       return new AlunoCurso({
          id: 0,
@@ -165,7 +199,7 @@ export class VisaoAlunoCurso {
          av1: Number(campoAV1.value),
          av2:  Number(campoAV2.value),
          notaAF: Number(campoAvaliacaoFinal.value),
-         falta: Number(campoFalta.value),
+         faltas: Number(campoFalta.value),
          aluno: new Aluno({ id: Number(campoAluno.value), matricula: campoMatricula.value.toString(), nome: '', cpf: '', telefone: '', email: '', cursos : null}),
          curso: null
       })
@@ -173,40 +207,15 @@ export class VisaoAlunoCurso {
 
    pegarDadosDoFormEditar(): AlunoCurso {
       return new AlunoCurso({
-         id: 0,
+         id: Number(this.getValueInputElement('id-nota').value),
          matricula: Number(this.getValueInputElement('matricula').value),
-         av1: Number(this.getValueInputElement('nota_av1').value),
-         av2: Number(this.getValueInputElement('nota_av2').value),
-         notaAF: Number(this.getValueInputElement('nota_AF').value),
-         falta: Number(this.getValueInputElement('falta').value),
+         av1: Number(this.getValueInputElement('av1').value),
+         av2: Number(this.getValueInputElement('av2').value),
+         notaAF: Number(this.getValueInputElement('af').value),
+         faltas: Number(this.getValueInputElement('faltas').value),
          aluno: new Aluno({ id: Number(this.getValueInputElement('aluno_id').value), matricula: '', nome: '', cpf: '', telefone: '', email: '', cursos : null}),
-         curso: null
+         curso: new Curso({ id: Number(this.getValueInputElement('curso_id').value), codigo: '', nome: '', dataFim: null, dataInicio: null, numeroAulas: 0, professor: null, situacao: ''})
       })
-   }
-
-   processaSituacao(): void {
-      const nota_av1 = (document.getElementById('av1') as HTMLInputElement);
-      const nota_av2 = (document.getElementById('av2') as HTMLInputElement);
-      const faltas = (document.getElementById('falta') as HTMLInputElement);
-      const situacao = (document.getElementById('situacao') as HTMLInputElement);
-      const alunoCurso = new AlunoCurso({
-         id: 0,
-         matricula: 0,
-         av1: parseFloat(nota_av1.value),
-         av2: parseFloat(nota_av2.value),
-         notaAF: 0.00,
-         falta: 0,
-         aluno: null,
-         curso: null,
-      });
-
-      situacao!.value = String(alunoCurso.situacaoAluno());
-   };
-
-   atualizaSituacao = async function (objeto: VisaoAlunoCurso) {
-      document.querySelector('#av1')?.addEventListener('keyup', objeto.processaSituacao);
-      document.querySelector('#av2')?.addEventListener('keyup', objeto.processaSituacao);
-      document.querySelector('#falta')?.addEventListener('keyup', objeto.processaSituacao);
    }
 
    showSuccessMessage(message: string): void {

@@ -3,7 +3,7 @@
 namespace App\Src\Curso;
 
 use App\RepositorioExcecao;
-use App\Src\Servico\ServicoVisao;
+use App\Src\Comum\Util;
 use App\Src\Curso\CursoRepositorio;
 use App\Src\Funcionario\Funcionario;
 use DateTime;

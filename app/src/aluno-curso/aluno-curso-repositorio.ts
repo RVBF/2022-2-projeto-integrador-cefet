@@ -7,19 +7,19 @@ const API_ALUNOCURSO = `${appConfig.api}/aluno-curso`;
 /* eslint-disable max-len */
 export class AlunoCursoRepositorio {
    async atualizar(AlunoCurso: AlunoCurso): Promise<Response> {
-      const response = await fetch(`${API_ALUNOCURSO}/${AlunoCurso.id}/edit`, {
+      const response = await fetch(`${API_ALUNOCURSO}/${AlunoCurso.id}`, {
          method: 'PUT',
          body: JSON.stringify(AlunoCurso),
          headers: {
             'content-type': 'application/json',
          },
       });
-      const responseData = await response.json();
-
+      
+      
       if (!response.ok) {
-         throw new AlunoCursoError(responseData.error);
+         throw new AlunoCursoError('Não foi possível atualizar as notas!');
       }
-      return responseData;
+      return response;
    }
 
    async adicionar(alunoCurso: AlunoCurso): Promise<Response> {
@@ -57,7 +57,7 @@ export class AlunoCursoRepositorio {
    }
 
    async buscarPorAlunoCurso(alunoId: Number): Promise<AlunoCurso[]> {
-      const response = await fetch(`${API_ALUNOCURSO}/${alunoId}/show`, {
+      const response = await fetch(`${API_ALUNOCURSO}/${alunoId}`, {
          method: 'GET',
       });
 
@@ -84,6 +84,19 @@ export class AlunoCursoRepositorio {
       }
 
       return response;
+   }
+
+   async comId( id: number ): Promise<AlunoCurso> {
+      
+      const response = await fetch(`${API_ALUNOCURSO}/${id}`, {
+         method: 'GET',
+      });
+
+      if (!response.ok) {
+         throw new AlunoCursoError(`Erro ao buscar notas ${id} : ${response.statusText}`);
+      }
+
+      return response.json();
    }
 
 }
