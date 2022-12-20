@@ -9,7 +9,7 @@ describe('Realizar os testes das Notas', () => {
                 av1: 7,
                 av2: 7,
                 notaAF: 0,
-                falta: 1,
+                faltas: 1,
                 aluno: null,
                 curso: null
             });
@@ -23,7 +23,7 @@ describe('Realizar os testes das Notas', () => {
                 av1: 3,
                 av2: 3,
                 notaAF: 7,
-                falta: 1,
+                faltas: 1,
                 aluno: null,
                 curso: null
             });
@@ -37,7 +37,7 @@ describe('Realizar os testes das Notas', () => {
                 av1: 7,
                 av2: 6,
                 notaAF: 0,
-                falta: 1,
+                faltas: 1,
                 aluno: null,
                 curso: null
             });
@@ -51,7 +51,7 @@ describe('Realizar os testes das Notas', () => {
                 av1: 3,
                 av2: 2.9,
                 notaAF: 0,
-                falta: 1,
+                faltas: 1,
                 aluno: null,
                 curso: null
             });
@@ -65,7 +65,7 @@ describe('Realizar os testes das Notas', () => {
                 av1: 7,
                 av2: 6,
                 notaAF: 3.4,
-                falta: 1,
+                faltas: 1,
                 aluno: null,
                 curso: null
             });
