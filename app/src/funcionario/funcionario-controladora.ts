@@ -114,6 +114,7 @@ export class FuncionarioControladora {
     };
 
     voltar = async ( idFuncionario: string ): Promise<void> => {
+        const idFuncionarioForm = idFuncionario.replace( 'del-', '' );
 
         try {
             setTimeout( () => {

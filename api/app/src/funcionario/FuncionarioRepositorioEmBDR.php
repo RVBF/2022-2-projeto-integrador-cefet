@@ -3,7 +3,7 @@
 namespace App\Src\Funcionario;
 
 use App\RepositorioExcecao;
-use App\Src\Servico\ServicoVisao;
+use App\Src\Comum\Util;
 use App\Src\Funcionario\Funcionario;
 use PDO;
 use PDOException;
@@ -71,10 +71,10 @@ class FuncionarioRepositorioEmBDR implements FuncionarioRepositorio
             'nome' => $funcionario->getNome(),
             'cpf' =>  $funcionario->getCPF(),
             'email' => $funcionario->getEmail(),
-            'senha' => $funcionario->senhaComHash(),
+            'senha' => $funcionario->getSenha(),
             'e_administrador' =>  $funcionario->getEAdministrador()
          ]);
-      
+
          $funcionario->setId($this->pdow->lastInsertId());
       } catch (\PDOException $e) {
          throw new PDOException($e->getMessage(), $e->getCode(), $e);
@@ -85,6 +85,7 @@ class FuncionarioRepositorioEmBDR implements FuncionarioRepositorio
 
    function atualizar(Funcionario &$funcionario)
    {
+
       try {
          $erros = $funcionario->validateUpdate([]);
          if (count($erros) > 0) throw new RepositorioExcecao(implode('|', $erros));
@@ -93,7 +94,7 @@ class FuncionarioRepositorioEmBDR implements FuncionarioRepositorio
                   nome = :nome,
                   cpf = :cpf,
                   email = :email,			 	
-                  e_administrador = :e_administrador
+                  e_administrador = :e_administrador,
                   senha = :senha
             WHERE id = :id';
          $preparedStatement = $this->pdow->prepare($sql);
@@ -103,7 +104,7 @@ class FuncionarioRepositorioEmBDR implements FuncionarioRepositorio
             'cpf' => $funcionario->getCpf(),
             'email' => $funcionario->getEmail(),
             'e_administrador' => $funcionario->getEAdministrador(),
-            'senha' => $funcionario->senhaComHash(),
+            'senha' => $funcionario->getSenha(),
             'id' => $funcionario->getId()
          ]);
       } catch (\PDOException $e) {
@@ -148,7 +149,7 @@ class FuncionarioRepositorioEmBDR implements FuncionarioRepositorio
    function contagem()
    {
       try {
-         $sql = 'SELECT COUNT(*) FROM `'.SELF::TABELA.'`';
+         $sql = 'SELECT COUNT(*) FROM `' . SELF::TABELA . '`';
          $preparedStatement = $this->pdow->prepare($sql);
          $preparedStatement->execute();
 
@@ -164,12 +165,13 @@ class FuncionarioRepositorioEmBDR implements FuncionarioRepositorio
 
    function construirObjeto(array $row)
    {
+
       return new Funcionario(
          $row['id'],
          $row['nome'],
-         $row['email'],
          $row['cpf'],
-         $row['e_administrador'],
+         $row['email'],
+         boolval($row['e_administrador']),
          $row['senha']
       );
    }

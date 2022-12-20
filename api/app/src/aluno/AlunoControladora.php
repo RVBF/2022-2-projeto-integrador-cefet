@@ -6,22 +6,20 @@ use App\RepositorioExcecao;
 use App\Request;
 use App\Src\AlunoCurso\AlunoCurso;
 use App\Src\AlunoCurso\AlunoCursoRepositorioEmBDR;
-use App\Src\Servico\ServicoVisao;
+use App\Src\Comum\Util;
 use App\Src\Curso\CursoRepositorioEMBDR;
 use PDOException;
 
 class AlunoControladora
 {
   private $conexao = null;
-  private $servicoVisao;
   private $colecaoAluno;
   private $colecaoCurso;
   private $colecaoAlunoCurso;
 
   public function __construct(&$db)
   {
-      $this->conexao = $db;
-  $this->servicoVisao = new ServicoVisao();
+    $this->conexao = $db;
     $this->colecaoAluno = new AlunoRepositorioEmBDR($this->conexao);
     $this->colecaoCurso = new CursoRepositorioEMBDR($this->conexao);
     $this->colecaoAlunoCurso = new AlunoCursoRepositorioEmBDR($this->conexao);
@@ -33,12 +31,12 @@ class AlunoControladora
       $urlQuebrada  = explode('/', $request->base());
       $alunos = $this->colecaoAluno->todos(isset($urlQuebrada[2]) ? $urlQuebrada[2] : 10, isset($urlQuebrada[3]) ? $urlQuebrada : 1);
 
-      $this->servicoVisao->responsePegaTodosSuccess($alunos);
-      $this->servicoVisao->responseUpdateSuccess();
+      Util::responsePegaTodosSuccess($alunos);
+      Util::responseUpdateSuccess();
     } catch (PDOException $errorPDO) {
-      $this->servicoVisao->exibirErroAoConectar($errorPDO);
+      Util::exibirErroAoConectar($errorPDO);
     } catch (RepositorioExcecao $error) {
-      $this->servicoVisao->exibirErroAoConsultar($error);
+      Util::exibirErroAoConsultar($error);
     }
   }
 
@@ -85,11 +83,11 @@ class AlunoControladora
 
       $this->colecaoAlunoCurso->adicionarTodos($alunosCursos);
 
-      $this->servicoVisao->responseAddSuccess();
+      Util::responseAddSuccess();
     } catch (PDOException $errorPDO) {
-      $this->servicoVisao->exibirErroAoConectar($errorPDO);
+      Util::exibirErroAoConectar($errorPDO);
     } catch (RepositorioExcecao $error) {
-      $this->servicoVisao->erroDoCliente(json_encode($error->getMessage()), 422);
+      Util::erroDoCliente(json_encode($error->getMessage()), 422);
     }
   }
 
@@ -104,7 +102,7 @@ class AlunoControladora
       $aluno->setTelefone($data["telefone"]);
       $aluno->setEmail($data["email"]);
       $this->colecaoAluno->atualizar($aluno);
-      foreach($this->colecaoAlunoCurso->comAlunoId($aluno->getId()) as $alunoCurso){
+      foreach ($this->colecaoAlunoCurso->comAlunoId($aluno->getId()) as $alunoCurso) {
         $this->colecaoAlunoCurso->delete($alunoCurso->getCurso(), $aluno->getId());
       }
 
@@ -112,7 +110,6 @@ class AlunoControladora
       foreach ($data['cursos'] as $key => $curso) {
         $cursosCodigos[] = $curso['codigo'];
       }
-      
 
       $cursos = $this->colecaoCurso->comCodigos($cursosCodigos);
       $alunosCursos = [];
@@ -132,11 +129,11 @@ class AlunoControladora
 
       $this->colecaoAlunoCurso->adicionarTodos($alunosCursos);
 
-      $this->servicoVisao->responseUpdateSuccess();
+      Util::responseUpdateSuccess();
     } catch (PDOException $errorPDO) {
-      $this->servicoVisao->exibirErroAoConectar($errorPDO);
+      Util::exibirErroAoConectar($errorPDO);
     } catch (RepositorioExcecao $error) {
-      $this->servicoVisao->exibirErroAoConsultar($error);
+      Util::exibirErroAoConsultar($error);
     }
   }
 
@@ -146,15 +143,15 @@ class AlunoControladora
     try {
       $urlQuebrada  = explode('/', $request->base());
       $aluno = $this->colecaoAluno->comId($urlQuebrada[2]);
-      foreach($aluno->getCursos() as $alunoCurso){
+      foreach ($aluno->getCursos() as $alunoCurso) {
         $this->colecaoAlunoCurso->delete($alunoCurso->getCurso(), $aluno->getId());
       }
       $this->colecaoAluno->delete($urlQuebrada[2]);
-      $this->servicoVisao->responseDeleteSuccess();
+      Util::responseDeleteSuccess();
     } catch (PDOException $errorPDO) {
-      $this->servicoVisao->exibirErroAoConectar($errorPDO);
+      Util::exibirErroAoConectar($errorPDO);
     } catch (RepositorioExcecao $error) {
-      $this->servicoVisao->exibirErroAoConsultar($error);
+      Util::exibirErroAoConsultar($error);
     }
   }
 
@@ -165,17 +162,22 @@ class AlunoControladora
       $urlQuebrada  = explode('/', $request->base());
 
       $aluno = $this->colecaoAluno->comId($urlQuebrada[2]);
-      $aluno->setCursos($this->colecaoAlunoCurso->comAlunoId($aluno->getId()));
 
+      $todosCursosAluno = $this->colecaoAlunoCurso->comAlunoId($aluno->getId());
+      $aluno->setCursos($todosCursosAluno);
       foreach ($aluno->getCursos() as $alunoCurso) {
-        $alunoCurso->setCurso($this->colecaoCurso->comId($alunoCurso->getCurso()));
+        $cursoAluno = $alunoCurso->getCurso();
+
+        $pegaComId = $this->colecaoCurso->comId($cursoAluno->getId());
+
+        $alunoCurso->setCurso($pegaComId);
       }
 
-      $this->servicoVisao->responsePegaTodosSuccess($aluno);
+      Util::responsePegaTodosSuccess($aluno);
     } catch (PDOException $errorPDO) {
-      $this->servicoVisao->exibirErroAoConectar($errorPDO);
+      Util::exibirErroAoConectar($errorPDO);
     } catch (RepositorioExcecao $error) {
-      $this->servicoVisao->exibirErroAoConsultar($error);
+      Util::exibirErroAoConsultar($error);
     }
   }
 
@@ -187,11 +189,11 @@ class AlunoControladora
 
       $sevicoMatricula = new ServicoMatricula($proximoNumeroMatricula);
       $proximoNumeroMatricula = $sevicoMatricula->formataMatricula();
-      $this->servicoVisao->responsePegaTodosSuccess($proximoNumeroMatricula);
+      Util::responsePegaTodosSuccess($proximoNumeroMatricula);
     } catch (PDOException $errorPDO) {
-      $this->servicoVisao->exibirErroAoConectar($errorPDO);
+      Util::exibirErroAoConectar($errorPDO);
     } catch (RepositorioExcecao $error) {
-      $this->servicoVisao->exibirErroAoConsultar($error);
+      Util::exibirErroAoConsultar($error);
     }
   }
 }
