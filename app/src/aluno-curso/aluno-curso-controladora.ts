@@ -21,17 +21,11 @@ export class AlunoCursoController {
             main.innerHTML = await carregarPagina('/aluno-curso/listar-nota.html');
 
             await this.insereDadosNaView();
-        }
-        else if (this.visaoAlunoCurso.cadastroNotasRegex()) {
-            main.innerHTML = '';
-            main.innerHTML = await carregarPagina('/aluno-curso/formulario-nota.html');
-            await this.visaoAlunoCurso.desenharCadastro();
-            this.visaoAlunoCurso.aoDispararCadastrar(this.cadastrar);
-        }
+        }        
         else if ( this.visaoAlunoCurso.atualizarNotasRegex() ) {
             main.innerHTML = await carregarPagina('/aluno-curso/formulario-nota.html');
-            const alunoId = this.servicoAlunoCurso.catchUrlId();
-            await this.insereDadosNaViewEdit(alunoId);
+            const id = this.servicoAlunoCurso.catchUrlId();
+            await this.insereDadosNaViewEdit(id);
             this.visaoAlunoCurso.aoDispararEditar(this.editar);
         }
     }
@@ -39,17 +33,17 @@ export class AlunoCursoController {
     async insereDadosNaView(): Promise<void> {
         try {
             const aluno: AlunoCurso[] = await this.servicoAlunoCurso.todos(null, null);
+            
             this.visaoAlunoCurso.desenhar(aluno);
         } catch (error: any) {
             this.visaoAlunoCurso.showErrorMessage(error.message);
         }
     }
 
-    async insereDadosNaViewEdit(alunoId: number): Promise<void> {
+    async insereDadosNaViewEdit(id: number): Promise<void> {
         try {
-            const aluno = await this.servicoAlunoCurso.porAluno(alunoId);
-
-            this.visaoAlunoCurso.desenharEdit(aluno);
+            const alunoCurso = await this.servicoAlunoCurso.comId(id);                 
+            this.visaoAlunoCurso.desenharEdit(new AlunoCurso( alunoCurso ));
         } catch (error: any) {
             this.visaoAlunoCurso.showErrorMessage(error.message);
         }
@@ -73,23 +67,24 @@ export class AlunoCursoController {
     editar = async (): Promise<void> => {
         try {
             const nota = this.visaoAlunoCurso.pegarDadosDoFormEditar();
+            
             this.servicoAlunoCurso.atualizar(nota);
 
             this.visaoAlunoCurso.showSuccessMessage('Nota editada com sucesso!');
 
             setTimeout(() => {
-                location.href = '/alunos';
+                location.href = '/notas';
             }, 2000);
-        } catch (error: any) {
-            this.visaoAlunoCurso.habilitaBotao();
+        } catch (error: any) {            
             this.visaoAlunoCurso.showErrorMessage(error);
         }
     };
 
     remover = async ( idNota: string ): Promise<void> => {
+        const idNotaForm = idNota.replace( 'del-', '' );
 
         try {
-            await this.servicoAlunoCurso.delete( Number( idNota ) );
+            await this.servicoAlunoCurso.delete( Number( idNotaForm ) );
             this.visaoAlunoCurso.showSuccessMessage( 'Nota removida com sucesso!' );
             setTimeout( () => {
                 location.reload();

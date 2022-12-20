@@ -5,7 +5,7 @@ interface CursoDTO {
   codigo: string;
   nome: string;
   situacao: string;
-  numeroAulas: Number;
+  numeroAulas: number;
   dataInicio: Date | null;
   dataFim: Date | null;
   professor: Funcionario | null;
@@ -15,11 +15,10 @@ export class Curso {
   codigo: string;
   nome: string;
   situacao: string;
-  numeroAulas: Number;
+  numeroAulas: number;
   dataInicio: Date | null;
   dataFim: Date | null;
   professor: Funcionario | null;
-   curso: any;
 
   constructor(
     { id, codigo, nome, situacao, numeroAulas, dataInicio, dataFim, professor}: CursoDTO) {

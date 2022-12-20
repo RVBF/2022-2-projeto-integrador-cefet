@@ -13,7 +13,7 @@ class AlunoCurso
     private $notaAF;
     private $faltas;
     private $aluno;
-    private $curso;
+    private $curso;    
 
     public function __construct(
         $id,
@@ -33,7 +33,7 @@ class AlunoCurso
         $this->notaAF = $notaAF;
         $this->faltas = $faltas;
         $this->aluno = $aluno;
-        $this->curso = $curso;
+        $this->curso = $curso;        
     }
 
     public function setId($id)
@@ -77,9 +77,9 @@ class AlunoCurso
     }
 
 
-    public function setFalta($falta)
+    public function setFaltas($faltas)
     {
-        $this->falta = $falta;
+        $this->faltas = $faltas;
     }
 
     public function getFaltas()

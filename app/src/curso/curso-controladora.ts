@@ -124,8 +124,7 @@ export class CursoControladora {
     };
 
     remover = async (idCurso: string): Promise<void> => {
-        const idCursoForm = idCurso;
-        console.log(idCursoForm);
+        const idCursoForm = idCurso;        
         try {
             await this.cursoServico.delete(Number(idCursoForm));
             this.cursoVisao.showSuccessMessage('Curso removido com sucesso!');

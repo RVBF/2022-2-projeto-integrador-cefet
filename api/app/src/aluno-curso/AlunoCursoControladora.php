@@ -3,20 +3,18 @@
 namespace App\Src\AlunoCurso;
 
 use App\Request;
-use App\Src\Servico\ServicoVisao;
+use App\Src\Comum\Util;
 use PDOException;
 use RepositoryException;
 
 class AlunoCursoControladora
 {
   private $conexao = null;
-  private $servicoVisao;
   private $colecaoAlunoCurso;
 
   public function __construct(&$db)
   {
-      $this->conexao = $db;
-  $this->servicoVisao = new ServicoVisao();
+    $this->conexao = $db;
     $this->colecaoAlunoCurso = new AlunoCursoRepositorioEmBDR($this->conexao);
   }
 
@@ -27,12 +25,12 @@ class AlunoCursoControladora
       $urlQuebrada  = explode('/', $request->base());
       $alunosCursos = $this->colecaoAlunoCurso->todos(isset($urlQuebrada[2]) ? $urlQuebrada[2] : 10, isset($urlQuebrada[3]) ? $urlQuebrada : 1);
 
-      $this->servicoVisao->responsePegaTodosSuccess($alunosCursos);
-      $this->servicoVisao->responseUpdateSuccess();
+      Util::responsePegaTodosSuccess($alunosCursos);
+      Util::responseUpdateSuccess();
     } catch (PDOException $errorPDO) {
-      $this->servicoVisao->exibirErroAoConectar($errorPDO);
+      Util::exibirErroAoConectar($errorPDO);
     } catch (RepositoryException $error) {
-      $this->servicoVisao->exibirErroAoConsultar($error);
+      Util::exibirErroAoConsultar($error);
     }
   }
 
@@ -55,11 +53,11 @@ class AlunoCursoControladora
 
       $this->colecaoAlunoCurso->adicionar($alunoCurso);
 
-      $this->servicoVisao->responseAddSuccess();
+      Util::responseAddSuccess();
     } catch (PDOException $errorPDO) {
-      $this->servicoVisao->exibirErroAoConectar($errorPDO);
+      Util::exibirErroAoConectar($errorPDO);
     } catch (RepositoryException $error) {
-      $this->servicoVisao->exibirErroAoConsultar($error);
+      Util::exibirErroAoConsultar($error);
     }
   }
 
@@ -75,18 +73,18 @@ class AlunoCursoControladora
       $alunoCurso->setmatricula($data["matricula"]);
       $alunoCurso->setAv1($data["av1"]);
       $alunoCurso->setAv2($data["av2"]);
-      $alunoCurso->getNotaAF($data["notaAF"]);
-      $alunoCurso->setFalta($data["falta"]);
+      $alunoCurso->setNotaAF($data["notaAF"]);
+      $alunoCurso->setFaltas($data["faltas"]);
       $alunoCurso->setAluno($data["aluno"]);
       $alunoCurso->setCurso($data["curso"]);
 
-      $this->colecaoAlunoCurso->adicionar($alunoCurso);
+      $this->colecaoAlunoCurso->atualizar($alunoCurso);
 
-      $this->servicoVisao->responseUpdateSuccess();
+      Util::responseUpdateSuccess();
     } catch (PDOException $errorPDO) {
-      $this->servicoVisao->exibirErroAoConectar($errorPDO);
+      Util::exibirErroAoConectar($errorPDO);
     } catch (RepositoryException $error) {
-      $this->servicoVisao->exibirErroAoConsultar($error);
+      Util::exibirErroAoConsultar($error);
     }
   }
 
@@ -99,11 +97,11 @@ class AlunoCursoControladora
         $this->colecaoAlunoCurso->delete($alunoCurso->getCurso(), $aluno_curso->getId());
       }
       $this->colecaoAlunoCurso->delete($urlQuebrada[1], $urlQuebrada[2]);
-      $this->servicoVisao->responseDeleteSuccess();
+      Util::responseDeleteSuccess();
     } catch (PDOException $errorPDO) {
-      $this->servicoVisao->exibirErroAoConectar($errorPDO);
+      Util::exibirErroAoConectar($errorPDO);
     } catch (RepositoryException $error) {
-      $this->servicoVisao->exibirErroAoConsultar($error);
+      Util::exibirErroAoConsultar($error);
     }
   }
 
@@ -111,13 +109,15 @@ class AlunoCursoControladora
   {
 
     try {
-      $id = explode('/', $request->base())[1];
-      $alunoCurso = $this->colecaoAlunoCurso->comId($id);
-      $this->servicoVisao->responseAddSuccess($alunoCurso);
+      $id = explode('/', $request->base())[2];
+
+      $alunoCurso = $this->colecaoAlunoCurso->comId($id); 
+      
+      Util::responsePegaTodosSuccess($alunoCurso);
     } catch (PDOException $errorPDO) {
-      $this->servicoVisao->exibirErroAoConectar($errorPDO);
+      Util::exibirErroAoConectar($errorPDO);
     } catch (RepositoryException $error) {
-      $this->servicoVisao->exibirErroAoConsultar($error);
+      Util::exibirErroAoConsultar($error);
     }
   }
 }

@@ -3,7 +3,7 @@
 namespace App\Src\Aluno;
 
 use App\RepositorioExcecao;
-use App\Src\Servico\ServicoVisao;
+use App\Src\Comum\Util;
 use PDO;
 use PDOException;
 
