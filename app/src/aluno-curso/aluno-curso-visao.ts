@@ -42,8 +42,9 @@ export class VisaoAlunoCurso {
             colunaTabela( ( alunoCurso.av1 && alunoCurso.av2 ) ? alunoCurso.calcularMedia() : 'Média não definida'),
             colunaTabela(alunoCurso!.notaAF || 'Nota não lançada'),
             colunaTabela(( alunoCurso.av1 && alunoCurso.av2 && alunoCurso.notaAF ) ? alunoCurso.calcularMediaFinal() : 'Média final não definida'),
-            colunaTabela( alunoCurso.situacaoAluno() ),
-            colunaTabela(Link('atualizar', `/notas/${alunoCurso!.id}/editar`, '<span class="material-icons">edit </span>', 'btn') as HTMLElement),
+            colunaTabela(alunoCurso.faltas),
+            colunaTabela(alunoCurso.situacaoAluno() || 'Indefinido' ),
+            colunaTabela(Link('atualizar', `/notas/${alunoCurso!.id}/editar`, '<span class="material-icons">description </span>', 'btn') as HTMLElement),
             colunaTabela(Button('remover', '<span class="material-icons">delete_outline</span>', 'btn', [{ 'name': 'IdAluno', 'valor': String(alunoCurso.id) }]) as HTMLElement),
          ];
          tbodyTable?.append(linhaTabela(conteudoLinha));
