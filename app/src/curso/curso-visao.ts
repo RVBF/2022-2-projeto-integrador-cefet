@@ -34,6 +34,7 @@ export class CursoVisao {
                 colunaTabela(formataData(String(curso.dataInicio))),
                 colunaTabela(formataData(String(curso.dataFim))),
                 colunaTabela((curso.professor as Funcionario).nome),
+                colunaTabela(curso.numeroAulas),
                 colunaTabela(curso.situacao),
                 colunaTabela(Link('atualizar', `/cursos/${curso.id}/editar`, '<span class="material-icons">edit </span>', 'btn') as HTMLElement),
                 colunaTabela(Link('visualizar', `/cursos/${curso.id}/visualizar`, '<span class="material-icons">visibility</span>', 'btn') as HTMLElement),
