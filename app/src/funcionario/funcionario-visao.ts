@@ -38,14 +38,17 @@ export class FuncionarioVisao {
     }
 
     desenharEdit(funcionario: Funcionario): void {
-        const id = this.getValueInputElement('id');
-        const nome = this.getValueInputElement('nome');
-        const cpf = this.getValueInputElement('cpf');
-        const email = this.getValueInputElement('email');
-        const eAdministrador = this.getValueInputElement('e_administrador');
-        const senha = this.getValueInputElement('senha');
+        const id = this.getValueInputElement('id') as HTMLInputElement;
+        const nome = this.getValueInputElement('nome') as HTMLInputElement;
+        const cpf = this.getValueInputElement('cpf') as HTMLInputElement;
+        const email = this.getValueInputElement('email') as HTMLInputElement;
+        const eAdministrador = this.getValueInputElement('eAdministrador') as HTMLInputElement;
         const titulo = document.querySelector('h2');
-
+        const sectionSenha  = document.getElementById('section_senha') as HTMLDivElement;
+        sectionSenha.hidden = true;
+        sectionSenha.childNodes.forEach((filho) =>{
+            (filho as HTMLElement).hidden = true;
+        });
         titulo!.innerText = 'Editar Funcionário';
 
 
@@ -61,11 +64,7 @@ export class FuncionarioVisao {
         email.value = funcionario.email;
         email.focus();
 
-        eAdministrador.value = String(funcionario.eAdministrador);
-        eAdministrador.focus();
-
-        senha.value = String(funcionario.senha);
-        senha.focus();
+        eAdministrador.checked = Number(funcionario.eAdministrador) ? true : false; 
     }
 
     desenharCadastro(): void {
@@ -126,6 +125,7 @@ export class FuncionarioVisao {
     }
 
     pegarDadosDoFormCadastro(): Funcionario {
+        const campoId = document.getElementById('id') as HTMLInputElement;
         const campoNome = document.getElementById('nome') as HTMLInputElement;
         const campoCPF = document.getElementById('cpf') as HTMLInputElement;
         const campoEmail = document.getElementById('email') as HTMLInputElement;
@@ -133,7 +133,7 @@ export class FuncionarioVisao {
         const campoSenha = document.getElementById('senha') as HTMLInputElement;
 
         return new Funcionario({
-            id: 0,
+            id: Number(campoId.value),
             nome: String(campoNome.value),
             cpf: String(campoCPF.value),
             email: String(campoEmail.value),
@@ -153,13 +153,23 @@ export class FuncionarioVisao {
         const cancelarAlunoBotao = this.getValueInputElement('cancelar');
         const titulo = document.querySelector('h2');
 
-        titulo!.innerText = 'Visualizar Funcionario';
+        titulo!.innerText = 'Visualizar Funcionário';
+        campoId.focus();
         campoId.disabled = true;
+        campoNome.focus();
         campoNome.disabled = true;
+        campoNome.focus();
         campoCPF.disabled = true;
+        campoCPF.focus();
         campoEAdministrador.disabled = true;
+        campoEAdministrador.focus();
+
         campoEmail.disabled = true;
+        campoEmail.focus();
+
         campoSenha.disabled = true;
+        campoSenha.focus();
+
         salvaAlunoBotao.remove();
         cancelarAlunoBotao.remove();
     };
