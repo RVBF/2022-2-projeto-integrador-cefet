@@ -5,13 +5,11 @@ namespace App\Src\Login;
 use App\Src\Login\LoginExcecao;
 use App\Src\Execao\RepositorioExcecao;
 use App\Request;
-use App\Src\Comum\Debuger;
 use App\Src\Servico\ServicoVisao;
 use App\Src\Sessao\SessaoEmArquivo;
 
 class LoginControladora
 {
-  private $visao;
   private $servicoLogin;
   private $sessaoEmArquivo;
   private $conexao = null;
@@ -24,7 +22,7 @@ class LoginControladora
 
     $this->servicoLogin = new LoginRepositorioEmBDR($db);
     $this->sessaoEmArquivo = new SessaoEmArquivo();
-    $this->sessaoEmArquivo->iniciarSessao();
+    // $this->sessaoEmArquivo->iniciarSessao();
   }
 
   function autenticar(Request $request)

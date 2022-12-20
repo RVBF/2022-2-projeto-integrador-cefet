@@ -5,12 +5,10 @@ namespace App\Src\Aluno;
 use App\Request;
 use App\Src\AlunoCurso\AlunoCurso;
 use App\Src\AlunoCurso\AlunoCursoRepositorioEmBDR;
-use App\Src\Comum\Debuger;
 use App\Src\Comum\Util;
 use App\Src\Servico\ServicoVisao;
 use App\Src\Curso\CursoRepositorioEMBDR;
 use App\Src\Execao\RepositorioExcecao;
-use SessaoEmArquivo;
 
 class AlunoControladora
 {
@@ -26,6 +24,7 @@ class AlunoControladora
     $this->colecaoAluno = new AlunoRepositorioEmBDR($this->conexao);
     $this->colecaoCurso = new CursoRepositorioEMBDR($this->conexao);
     $this->colecaoAlunoCurso = new AlunoCursoRepositorioEmBDR($this->conexao);
+    // $this->sessaoEmArquivo = new SessaoEmArquivo();
 
   }
 

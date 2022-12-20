@@ -36,7 +36,7 @@ try {
 		$controladora->atualizar($request);
 	});
 
-	Route::put('/aluno-curso/{id}/show', function () use (&$db) {
+	Route::get('/aluno-curso/{id}/show', function () use (&$db) {
 		$controladora  = new AlunoCursoControladora($db);
 		$request = new Request;
 		$controladora->comId($request);

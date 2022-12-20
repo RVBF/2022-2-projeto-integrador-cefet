@@ -19,7 +19,6 @@ export class LoginControladora {
 
     logar = async (): Promise<void> => {
         const loginUser = this.loginVisao.pegarDadosDoFormLogar();
-        console.log(loginUser);
         try {
             await this.loginServico.autenticar(loginUser);
             this.loginVisao.showSuccessMessage('Logado com sucesso!');

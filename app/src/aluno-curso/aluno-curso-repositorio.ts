@@ -88,7 +88,7 @@ export class AlunoCursoRepositorio {
 
    async comId( id: number ): Promise<AlunoCurso> {
       
-      const response = await fetch(`${API_ALUNOCURSO}/${id}`, {
+      const response = await fetch(`${API_ALUNOCURSO}/${id}/show`, {
          method: 'GET',
       });
 

@@ -83,7 +83,7 @@ export class AlunoCurso {
   }
 
   calculaPercentualFaltas(): number {    
-    return (this.faltas / this.curso!.numeroAulas) * 100
+    return (this.faltas / Number(this.curso!.numeroAulas)) * 100
   }
 
   validateAll(): string[] {
