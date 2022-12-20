@@ -21,6 +21,8 @@ export class AlunoController {
             main.innerHTML = '';
             main.innerHTML = await carregarPagina("/aluno/listar-aluno.html");
 
+            
+
             await this.insereDadosNaView();
             this.alunoVisao.aoDispararRemover(this.remover);
         }
