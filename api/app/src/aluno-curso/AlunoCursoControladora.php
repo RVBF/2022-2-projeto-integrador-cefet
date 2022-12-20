@@ -4,6 +4,8 @@ namespace App\Src\AlunoCurso;
 
 use App\Request;
 use App\Src\Comum\Util;
+use App\Src\Servico\ServicoVisao;
+use App\Src\Sessao\SessaoEmArquivo;
 use PDOException;
 use RepositoryException;
 
@@ -11,10 +13,12 @@ class AlunoCursoControladora
 {
   private $conexao = null;
   private $colecaoAlunoCurso;
+  private $servicoVisao;
 
   public function __construct(&$db)
   {
     $this->conexao = $db;
+    $this->servicoVisao = new ServicoVisao();
     $this->colecaoAlunoCurso = new AlunoCursoRepositorioEmBDR($this->conexao);
   }
 
@@ -25,12 +29,12 @@ class AlunoCursoControladora
       $urlQuebrada  = explode('/', $request->base());
       $alunosCursos = $this->colecaoAlunoCurso->todos(isset($urlQuebrada[2]) ? $urlQuebrada[2] : 10, isset($urlQuebrada[3]) ? $urlQuebrada : 1);
 
-      Util::responsePegaTodosSuccess($alunosCursos);
-      Util::responseUpdateSuccess();
+      $this->servicoVisao->responsePegaTodosSuccess($alunosCursos);
+      $this->servicoVisao->responseUpdateSuccess();
     } catch (PDOException $errorPDO) {
-      Util::exibirErroAoConectar($errorPDO);
+      $this->servicoVisao->exibirErroAoConectar($errorPDO->getMessage());
     } catch (RepositoryException $error) {
-      Util::exibirErroAoConsultar($error);
+      $this->servicoVisao->exibirErroAoConsultar($error->getMessage());
     }
   }
 
@@ -53,11 +57,11 @@ class AlunoCursoControladora
 
       $this->colecaoAlunoCurso->adicionar($alunoCurso);
 
-      Util::responseAddSuccess();
+      $this->servicoVisao->responseAddSuccess();
     } catch (PDOException $errorPDO) {
-      Util::exibirErroAoConectar($errorPDO);
+      $this->servicoVisao->exibirErroAoConectar($errorPDO->getMessage());
     } catch (RepositoryException $error) {
-      Util::exibirErroAoConsultar($error);
+      $this->servicoVisao->exibirErroAoConsultar($error->getMessage());
     }
   }
 
@@ -80,11 +84,11 @@ class AlunoCursoControladora
 
       $this->colecaoAlunoCurso->atualizar($alunoCurso);
 
-      Util::responseUpdateSuccess();
+      $this->servicoVisao->responseUpdateSuccess();
     } catch (PDOException $errorPDO) {
-      Util::exibirErroAoConectar($errorPDO);
+      $this->servicoVisao->exibirErroAoConectar($errorPDO->getMessage());
     } catch (RepositoryException $error) {
-      Util::exibirErroAoConsultar($error);
+      $this->servicoVisao->exibirErroAoConsultar($error->getMessage());
     }
   }
 
@@ -94,14 +98,14 @@ class AlunoCursoControladora
       $urlQuebrada  = explode('/', $request->base());
       $aluno_curso = $this->colecaoAlunoCurso->comId($urlQuebrada[2]);
       foreach ($aluno_curso->getCurso() as $alunoCurso) {
-        $this->colecaoAlunoCurso->delete($alunoCurso->getCurso(), $aluno_curso->getId());
+        $this->colecaoAlunoCurso->deleteComCursoEAluno($alunoCurso->getCurso(), $aluno_curso->getId());
       }
-      $this->colecaoAlunoCurso->delete($urlQuebrada[1], $urlQuebrada[2]);
-      Util::responseDeleteSuccess();
+      $this->colecaoAlunoCurso->deleteComCursoEAluno($urlQuebrada[1], $urlQuebrada[2]);
+      $this->servicoVisao->responseDeleteSuccess();
     } catch (PDOException $errorPDO) {
-      Util::exibirErroAoConectar($errorPDO);
+      $this->servicoVisao->exibirErroAoConectar($errorPDO->getMessage());
     } catch (RepositoryException $error) {
-      Util::exibirErroAoConsultar($error);
+      $this->servicoVisao->exibirErroAoConsultar($error->getMessage());
     }
   }
 
@@ -113,11 +117,11 @@ class AlunoCursoControladora
 
       $alunoCurso = $this->colecaoAlunoCurso->comId($id); 
       
-      Util::responsePegaTodosSuccess($alunoCurso);
+      $this->servicoVisao->responsePegaTodosSuccess($alunoCurso);
     } catch (PDOException $errorPDO) {
-      Util::exibirErroAoConectar($errorPDO);
+      $this->servicoVisao->exibirErroAoConectar($errorPDO->getMessage());
     } catch (RepositoryException $error) {
-      Util::exibirErroAoConsultar($error);
+      $this->servicoVisao->exibirErroAoConsultar($error->getMessage());
     }
   }
 }

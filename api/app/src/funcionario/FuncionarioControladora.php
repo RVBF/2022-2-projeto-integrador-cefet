@@ -2,20 +2,22 @@
 
 namespace App\Src\Funcionario;
 
-use App\RepositorioExcecao;
+use App\Src\Execao\RepositorioExcecao;
 use App\Request;
-use App\Src\Comum\Util;
+use App\Src\Servico\ServicoVisao;
 use PDOException;
 use RepositoryException;
 
 class FuncionarioControladora
 {
    private $conexao = null;
+  private $servicoVisao;
    private $colecaoFuncionario;
 
    public function __construct(&$db)
    {
-      $this->conexao = $db;
+        $this->conexao = $db;
+  $this->servicoVisao = new ServicoVisao();
       $this->colecaoFuncionario = new FuncionarioRepositorioEmBDR($this->conexao);
    }
 
@@ -25,12 +27,12 @@ class FuncionarioControladora
          $urlQuebrada  = explode('/', $request->base());
          $funcionarios = $this->colecaoFuncionario->todos(isset($urlQuebrada[2]) ? $urlQuebrada[2] : 10, isset($urlQuebrada[3]) ? $urlQuebrada : 1);
 
-         Util::responsePegaTodosSuccess($funcionarios);
-         Util::responseUpdateSuccess();
+         $this->servicoVisao->responsePegaTodosSuccess($funcionarios);
+         $this->servicoVisao->responseUpdateSuccess();
       } catch (PDOException $errorPDO) {
-         Util::exibirErroAoConectar($errorPDO);
+         $this->servicoVisao->exibirErroAoConectar($errorPDO->getMessage());
       } catch (RepositoryException $error) {
-         Util::exibirErroAoConsultar($error);
+         $this->servicoVisao->exibirErroAoConsultar($error->getMessage());
       }
    }
 
@@ -40,12 +42,12 @@ class FuncionarioControladora
          $urlQuebrada  = explode('/', $request->base());
          $funcionarios = $this->colecaoFuncionario->todosProfessores(isset($urlQuebrada[2]) ? $urlQuebrada[2] : 10, isset($urlQuebrada[3]) ? $urlQuebrada : 1);
 
-         Util::responsePegaTodosSuccess($funcionarios);
-         Util::responseUpdateSuccess();
+         $this->servicoVisao->responsePegaTodosSuccess($funcionarios);
+         $this->servicoVisao->responseUpdateSuccess();
       } catch (PDOException $errorPDO) {
-         Util::exibirErroAoConectar($errorPDO);
+         $this->servicoVisao->exibirErroAoConectar($errorPDO->getMessage());
       } catch (RepositoryException $error) {
-         Util::exibirErroAoConsultar($error);
+         $this->servicoVisao->exibirErroAoConsultar($error->getMessage());
       }
    }
 
@@ -64,11 +66,11 @@ class FuncionarioControladora
 
          $funcionarios = $this->colecaoFuncionario->adicionar($funcionario);
 
-         Util::responseAddSuccess();
+         $this->servicoVisao->responseAddSuccess();
       } catch (PDOException $errorPDO) {
-         Util::exibirErroAoConectar($errorPDO);
+         $this->servicoVisao->exibirErroAoConectar($errorPDO->getMessage());
       } catch (RepositorioExcecao $error) {
-         Util::erroDoCliente(json_encode(explode('|', $error->getMessage())), 422);
+         $this->servicoVisao->erroDoCliente($error->getMessage(), 422);
       }
    }
 
@@ -85,11 +87,11 @@ class FuncionarioControladora
 
          $this->colecaoFuncionario->atualizar($funcionario);
 
-         Util::responseUpdateSuccess();
+         $this->servicoVisao->responseUpdateSuccess();
       } catch (PDOException $errorPDO) {
-         Util::exibirErroAoConectar($errorPDO);
+         $this->servicoVisao->exibirErroAoConectar($errorPDO->getMessage());
       } catch (RepositoryException $error) {
-         Util::exibirErroAoConsultar($error);
+         $this->servicoVisao->exibirErroAoConsultar($error->getMessage());
       }
    }
 
@@ -97,13 +99,13 @@ class FuncionarioControladora
    {
       try {
          $urlQuebrada  = explode('/', $request->base());
-         $this->colecaoAluno->delete($urlQuebrada[2]);
+         $this->colecaoFuncionario->delete($urlQuebrada[2]);
 
-         Util::responseDeleteSuccess();
+         $this->servicoVisao->responseDeleteSuccess();
       } catch (PDOException $errorPDO) {
-         Util::exibirErroAoConectar($errorPDO);
+         $this->servicoVisao->exibirErroAoConectar($errorPDO->getMessage());
       } catch (RepositoryException $error) {
-         Util::exibirErroAoConsultar($error);
+         $this->servicoVisao->exibirErroAoConsultar($error->getMessage());
       }
    }
 
@@ -114,11 +116,11 @@ class FuncionarioControladora
          $urlQuebrada  = explode('/', $request->base());
 
          $funcionario = $this->colecaoFuncionario->comId($urlQuebrada[2]);
-         Util::responsePegaTodosSuccess($funcionario);
+         $this->servicoVisao->responsePegaTodosSuccess($funcionario);
       } catch (PDOException $errorPDO) {
-         Util::exibirErroAoConectar($errorPDO);
+         $this->servicoVisao->exibirErroAoConectar($errorPDO->getMessage());
       } catch (RepositoryException $error) {
-         Util::exibirErroAoConsultar($error);
+         $this->servicoVisao->exibirErroAoConsultar($error->getMessage());
       }
    }
 }

@@ -120,7 +120,7 @@ class Aluno
             $allErrors[] = 'Telefone inválido';
         }
 
-        if (!preg_match('/^[^0-9][a-zA-Z0-9_]+([.][a-zA-Z0-9_]+)*[@][a-zA-Z0-9_]+([.][a-zA-Z0-9_]+)*[.][a-zA-Z]{2,4}$/', $this->email)) {
+        if (!filter_var($this->email, FILTER_VALIDATE_EMAIL)) {
             $allErrors[] = 'Email inválido';
         }
 

@@ -32,8 +32,8 @@ export class AlunoVisao {
             colunaTabela(aluno.matricula),
             colunaTabela(aluno!.nome),
             colunaTabela(aluno.cpf),
-            colunaTabela(aluno.telefone),
             colunaTabela(aluno.email),
+            colunaTabela(aluno.telefone),
             colunaTabela(Link(`atualizar_${aluno.id}`, `/alunos/${aluno.id}/editar`, '<span class="material-icons">edit </span>', 'btn atualizar ') as HTMLElement),
             colunaTabela(Link(`visualizar_${aluno.id}`, `/alunos/${aluno.id}/visualizar`, '<span class="material-icons">visibility</span>', 'btn visualizar ') as HTMLElement),
             colunaTabela(Button(`remover_${aluno.id}`, '<span class="material-icons">delete_outline</span>', 'btn remover ', [{ 'name': 'IdAluno', 'valor': String(aluno.id) }]) as HTMLElement),
@@ -76,15 +76,12 @@ export class AlunoVisao {
       const titulo = document.querySelector('h2');
       const cursos = document.getElementById('cursos') as HTMLSelectElement;
       titulo!.innerText = 'Editar Aluno';
-      console.log(aluno.cursos);
-
       if(aluno.cursos != null){
-         const alunoCurso = aluno.cursos;
          for (const key in cursos.options) {
             if (Object.prototype.hasOwnProperty.call(cursos.options, key)) {
                const element = cursos.options[key] as HTMLOptionElement;
-               (alunoCurso).forEach((alunoCurso) =>{
-                  //if(((curso.curso as Curso).codigo == element.value)) element.selected = true;
+               (aluno.cursos).forEach((curso ) =>{
+                  if(((curso.curso as Curso).codigo == element.value)) element.selected = true;
                })
             }
       }

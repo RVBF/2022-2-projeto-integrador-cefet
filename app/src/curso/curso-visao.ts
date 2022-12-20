@@ -22,6 +22,7 @@ export class CursoVisao {
 
     desenhar(cursos: Curso[]): void {
         const tbodyTable = document.querySelector('#curso > tbody');
+        console.log(cursos);
         if (!cursos) {
             this.showSuccessMessage('Nenhum dado cadastrado!');
             return;
@@ -34,7 +35,6 @@ export class CursoVisao {
                 colunaTabela(formataData(String(curso.dataInicio))),
                 colunaTabela(formataData(String(curso.dataFim))),
                 colunaTabela((curso.professor as Funcionario).nome),
-                colunaTabela(curso.numeroAulas),
                 colunaTabela(curso.situacao),
                 colunaTabela(Link('atualizar', `/cursos/${curso.id}/editar`, '<span class="material-icons">edit </span>', 'btn') as HTMLElement),
                 colunaTabela(Link('visualizar', `/cursos/${curso.id}/visualizar`, '<span class="material-icons">visibility</span>', 'btn') as HTMLElement),
@@ -49,7 +49,8 @@ export class CursoVisao {
         var selectInstance = M.FormSelect.init(select);
     }
 
-    desenharEdit(curso: Curso): void {        
+    desenharEdit(curso: Curso): void {
+        console.log(curso);
         const id = this.getValueInputElement('id');
         const codigo = this.getValueInputElement('codigo');
         const nome = this.getValueInputElement('nome');
@@ -136,7 +137,7 @@ export class CursoVisao {
         const functionToAct = (elem: MouseEvent): void => {
             elem.preventDefault();
             const botao = (elem.target as HTMLElement).parentNode as HTMLElement;
-            
+            console.log(botao.getAttribute('curso-id'));
 
             callback(botao.getAttribute('curso-id'));
         };

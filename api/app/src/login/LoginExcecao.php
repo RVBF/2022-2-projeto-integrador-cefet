@@ -1,6 +1,6 @@
 <?php
 
-namespace App;
+namespace App\Src\Login;
 
 use RuntimeException;
 
@@ -8,5 +8,5 @@ use RuntimeException;
  *	Exceção de Coleção
  *  @author		Rafael Vinicius Barros Ferreira
  */
-class RepositorioExcecao extends RuntimeException {}
+class LoginExcecao extends RuntimeException {}
 ?>

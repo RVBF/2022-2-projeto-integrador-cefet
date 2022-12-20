@@ -19,12 +19,12 @@ export class LoginControladora {
 
     logar = async (): Promise<void> => {
         const loginUser = this.loginVisao.pegarDadosDoFormLogar();
-
+        console.log(loginUser);
         try {
             await this.loginServico.autenticar(loginUser);
             this.loginVisao.showSuccessMessage('Logado com sucesso!');
             setTimeout(() => {
-                location.href = '/aluno';
+                location.href = '/alunos';
             }, 2000);
         } catch (error: any) {
             this.loginVisao.showErrorMessage(error.message);

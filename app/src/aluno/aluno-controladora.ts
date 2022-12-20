@@ -21,8 +21,6 @@ export class AlunoController {
             main.innerHTML = '';
             main.innerHTML = await carregarPagina("/aluno/listar-aluno.html");
 
-            
-
             await this.insereDadosNaView();
             this.alunoVisao.aoDispararRemover(this.remover);
         }
@@ -118,9 +116,9 @@ export class AlunoController {
 
             this.alunoVisao.showSuccessMessage('Aluno Editado com sucesso!');
 
-            // setTimeout(() => {
-            //     location.href = '/alunos';
-            // }, 2000);
+            setTimeout(() => {
+                location.href = '/alunos';
+            }, 2000);
         } catch (error: any) {
             this.alunoVisao.habilitaBotao();
             this.alunoVisao.showErrorMessage(error);
@@ -142,8 +140,6 @@ export class AlunoController {
     };
 
     voltar = async ( idAluno: string ): Promise<void> => {
-        const idAlunoForm = idAluno.replace( 'del-', '' );
-
         try {
             setTimeout( () => {
                 location.href = '/alunos';

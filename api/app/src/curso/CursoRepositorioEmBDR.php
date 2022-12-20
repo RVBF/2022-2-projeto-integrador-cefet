@@ -2,8 +2,8 @@
 
 namespace App\Src\Curso;
 
-use App\RepositorioExcecao;
-use App\Src\Comum\Util;
+use App\Src\Execao\RepositorioExcecao;
+use App\Src\Servico\ServicoVisao;
 use App\Src\Curso\CursoRepositorio;
 use App\Src\Funcionario\Funcionario;
 use DateTime;
@@ -98,8 +98,8 @@ class CursoRepositorioEMBDR implements CursoRepositorio
 				'codigo' => $curso->getCodigo(),
 				'nome' => $curso->getNome(),
 				'situacao' => $curso->getSituacao(),
-				'inicio' => str_replace('Z', '', str_replace('T', ' ', $curso->getDataInicio())),
-				'fim' => str_replace('Z', '', str_replace('T', ' ', $curso->getDataFim())),
+				'inicio' => str_replace('Z', ' ', str_replace('T', ' ', $curso->getDataInicio())),
+				'fim' => str_replace('Z', ' ', str_replace('T', ' ', $curso->getDataFim())),
 				'numero_aulas' => $curso->getNumeroAulas(),
 				'professor_id' => ($curso->getProfessor() instanceof Funcionario) ? $curso->getProfessor()->getid() : 0,
 				'id' => $curso->getId()

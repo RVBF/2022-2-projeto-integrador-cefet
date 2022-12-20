@@ -51,6 +51,10 @@ export class FuncionarioVisao {
         });
         titulo!.innerText = 'Editar Funcionário';
 
+
+        id.value = String(funcionario.id);
+        id.focus();
+
         nome.value = String(funcionario.nome);
         nome.focus();
 
@@ -58,7 +62,7 @@ export class FuncionarioVisao {
         cpf.focus();
 
         email.value = funcionario.email;
-        email.focus();        
+        email.focus();
 
         eAdministrador.checked = Number(funcionario.eAdministrador) ? true : false; 
     }
@@ -171,20 +175,20 @@ export class FuncionarioVisao {
     };
 
     pegarDadosDoFormEditar(): Funcionario {
-        const campoId = Number(location.pathname.split('/')[2]);
+        const campoId = document.getElementById('id') as HTMLInputElement;
         const campoNome = document.getElementById('nome') as HTMLInputElement;
         const campoCPF = document.getElementById('cpf') as HTMLInputElement;
         const campoEmail = document.getElementById('email') as HTMLInputElement;
         const campoEAdministrador = document.getElementById('eAdministrador') as HTMLInputElement;
-        const campoSenha = document.getElementById('senha') as HTMLInputElement;
-        
+
+
         return new Funcionario({
-            id: Number(campoId),
+            id: Number(campoId.value),
             nome: String(campoNome.value),
             cpf: String(campoCPF.value),
             email: String(campoEmail.value),
-            eAdministrador: campoEAdministrador.checked,
-            senha: String(campoSenha.value),
+            eAdministrador: Boolean(campoEAdministrador.checked),
+            senha: String(''),
         });
     }
 

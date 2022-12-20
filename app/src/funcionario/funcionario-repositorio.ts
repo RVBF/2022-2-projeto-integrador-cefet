@@ -98,7 +98,7 @@ export class FuncionarioRepositorio {
     }
 
     async delete(funcionarioId: number): Promise<Response> {
-        const response = await fetch(`${API_FUNCIONARIO}/${funcionarioId}/show`, {
+        const response = await fetch(`${API_FUNCIONARIO}/${funcionarioId}`, {
             method: 'DELETE',
             body: JSON.stringify(AudioWorkletNode),
             headers: {

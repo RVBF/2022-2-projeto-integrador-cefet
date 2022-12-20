@@ -12,7 +12,7 @@
     "author": "",
     "license": "ISC",
     "devDependencies": {
-        "@parcel/transformer-sass": "^2.8.1",
+        "@parcel/transformer-sass": "^2.8.0",
         "@types/jest": "^29.2.4",
         "@types/materialize-css": "^1.0.11",
         "codeceptjs": "^3.3.6",

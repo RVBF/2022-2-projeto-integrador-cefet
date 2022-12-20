@@ -2,11 +2,10 @@
 
 namespace App\Src\Funcionario;
 
-use App\RepositorioExcecao;
 use App\Src\Comum\Util;
+use App\Src\Execao\RepositorioExcecao;
 use App\Src\Funcionario\Funcionario;
 use PDO;
-use PDOException;
 
 class FuncionarioRepositorioEmBDR implements FuncionarioRepositorio
 {
@@ -21,7 +20,7 @@ class FuncionarioRepositorioEmBDR implements FuncionarioRepositorio
    {
       try {
          $objetos = [];
-         $sql = 'SELECT * FROM `funcionario`';
+         $sql = 'SELECT id, nome, email, cpf, e_administrador FROM `funcionario`';
          $preparedStatement = $this->pdow->prepare($sql);
          $preparedStatement->execute();
          $result = $preparedStatement->fetchAll(PDO::FETCH_ASSOC);
@@ -30,7 +29,7 @@ class FuncionarioRepositorioEmBDR implements FuncionarioRepositorio
          }
          return $objetos;
       } catch (\PDOException $e) {
-         throw new PDOException($e->getMessage(), $e->getCode(), $e);
+         throw new \PDOException($e->getMessage(), $e->getCode(), $e);
       }
    }
 
@@ -38,7 +37,7 @@ class FuncionarioRepositorioEmBDR implements FuncionarioRepositorio
    {
       try {
          $objetos = [];
-         $sql = 'SELECT * FROM `funcionario` WHERE e_administrador = "0"';
+         $sql = 'SELECT id, nome, email, cpf, e_administrador FROM `funcionario` WHERE e_administrador = "0"';
          $preparedStatement = $this->pdow->prepare($sql);
          $preparedStatement->execute();
          $result = $preparedStatement->fetchAll(PDO::FETCH_ASSOC);
@@ -47,7 +46,7 @@ class FuncionarioRepositorioEmBDR implements FuncionarioRepositorio
          }
          return $objetos;
       } catch (\PDOException $e) {
-         throw new PDOException($e->getMessage(), $e->getCode(), $e);
+         throw new \PDOException($e->getMessage(), $e->getCode(), $e);
       }
    }
 
@@ -55,7 +54,7 @@ class FuncionarioRepositorioEmBDR implements FuncionarioRepositorio
    {
       try {
          $erros = $funcionario->validateAll([]);
-         if (count($erros) > 0) throw new RepositorioExcecao(implode('|', $erros));
+			if (count($erros)) throw new RepositorioExcecao(implode('|', $erros));
          $sql = "INSERT INTO `pis-grupo1`.`funcionario` (`nome`, `cpf`, `email`, `senha`, `e_administrador`) VALUES (
                :nome,
                :cpf,
@@ -71,13 +70,13 @@ class FuncionarioRepositorioEmBDR implements FuncionarioRepositorio
             'nome' => $funcionario->getNome(),
             'cpf' =>  $funcionario->getCPF(),
             'email' => $funcionario->getEmail(),
-            'senha' => $funcionario->getSenha(),
-            'e_administrador' =>  $funcionario->getEAdministrador()
+            'senha' => $funcionario->senhaComHash(),
+            'e_administrador' =>  ($funcionario->getEAdministrador()) ? 1 : 0
          ]);
-
+      
          $funcionario->setId($this->pdow->lastInsertId());
       } catch (\PDOException $e) {
-         throw new PDOException($e->getMessage(), $e->getCode(), $e);
+         throw new \PDOException($e->getMessage(), $e->getCode(), $e);
       } catch (RepositorioExcecao $e) {
          throw new RepositorioExcecao($e->getMessage(), $e->getCode(), $e);
       }
@@ -85,28 +84,27 @@ class FuncionarioRepositorioEmBDR implements FuncionarioRepositorio
 
    function atualizar(Funcionario &$funcionario)
    {
-
       try {
-         $erros = $funcionario->validateUpdate([]);
-         if (count($erros) > 0) throw new RepositorioExcecao(implode('|', $erros));
+         $erros = [];
+			if (count($erros)) throw new RepositorioExcecao((count($erros)) ? implode('|', $erros) : '');
 
-         $sql = 'UPDATE `funcionario` SET
-                  nome = :nome,
-                  cpf = :cpf,
-                  email = :email,			 	
-                  e_administrador = :e_administrador,
-                  senha = :senha
-            WHERE id = :id';
+         $sql = 'UPDATE `' . SELF::TABELA . '` SET
+                   funcionario.nome = :nome,
+                   funcionario.cpf = :cpf,
+                   funcionario.email = :email,			 	
+                   funcionario.e_administrador = :e_administrador
+           WHERE  funcionario.id = :id';
+
          $preparedStatement = $this->pdow->prepare($sql);
 
-         $executou = $preparedStatement->execute([
+        $preparedStatement->execute([
             'nome' => $funcionario->getNome(),
             'cpf' => $funcionario->getCpf(),
             'email' => $funcionario->getEmail(),
-            'e_administrador' => $funcionario->getEAdministrador(),
-            'senha' => $funcionario->getSenha(),
+            'e_administrador' =>  ($funcionario->getEAdministrador()) ? '1' : '0',
             'id' => $funcionario->getId()
          ]);
+
       } catch (\PDOException $e) {
          throw new RepositorioExcecao($e->getMessage(), $e->getCode(), $e);
       } catch (RepositorioExcecao $e) {
@@ -117,7 +115,7 @@ class FuncionarioRepositorioEmBDR implements FuncionarioRepositorio
    public function comId($id)
    {
       try {
-         $sql = 'SELECT `funcionario`.*  FROM `funcionario`  WHERE `funcionario`.id = :id';
+         $sql = 'SELECT id, nome, email, cpf, e_administrador  FROM `funcionario`  WHERE `funcionario`.id = :id';
 
          $preparedStatement = $this->pdow->prepare($sql);
          $preparedStatement->execute(['id' => $id]);
@@ -131,7 +129,7 @@ class FuncionarioRepositorioEmBDR implements FuncionarioRepositorio
          return $this->construirObjeto($result);
       } catch (\PDOException $e) {
 
-         throw new PDOException($e->getMessage(), $e->getCode(), $e);
+         throw new \PDOException($e->getMessage(), $e->getCode(), $e);
       }
    }
 
@@ -149,7 +147,7 @@ class FuncionarioRepositorioEmBDR implements FuncionarioRepositorio
    function contagem()
    {
       try {
-         $sql = 'SELECT COUNT(*) FROM `' . SELF::TABELA . '`';
+         $sql = 'SELECT COUNT(*) FROM `'.SELF::TABELA.'`';
          $preparedStatement = $this->pdow->prepare($sql);
          $preparedStatement->execute();
 
@@ -165,14 +163,13 @@ class FuncionarioRepositorioEmBDR implements FuncionarioRepositorio
 
    function construirObjeto(array $row)
    {
-
       return new Funcionario(
          $row['id'],
          $row['nome'],
          $row['cpf'],
          $row['email'],
-         boolval($row['e_administrador']),
-         $row['senha']
+         $row['e_administrador'],
+         isset($row['senha']) ?  $row['senha'] : ''
       );
    }
 }

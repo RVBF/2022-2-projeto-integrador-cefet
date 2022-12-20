@@ -8,8 +8,6 @@ import { FuncionarioControladora } from "./funcionario/funcionario-controladora"
 import { CursoControladora } from "./curso/curso-controladora";
 import { LoginControladora } from "./login/login-controladora";
 
-import { formataData } from "./utils/formata-data";
-
 export * from './components/Button';
 export * from './components/Container';
 export * from './components/Form';
@@ -46,15 +44,15 @@ window.addEventListener('load', async () => {
     if (proibido) {
         await carregaProibida();
     } 
-    // else if (!loginPath && urlAtual === '/') {
-    //     location.href = '/';
-    // } 
-    // else if (loginPath) {
-    //     if (location.pathname !== '/') {
-    //         location.href = '/';
-    //     }
-    //     loginControladora.init();
-    // }
+    else if (!loginPath && urlAtual === '/') {
+        location.href = '/';
+    } 
+    else if (loginPath) {
+        if (location.pathname !== '/') {
+            location.href = '/';
+        }
+        loginControladora.init();
+    }
     else if (notasPath) {
         alunoCursoController.init();
     } else if (funcionariosPath) {

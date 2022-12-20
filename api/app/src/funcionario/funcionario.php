@@ -87,6 +87,10 @@ class Funcionario
         $this->senha = $senha;
     }
 
+    public function senhaComHash() {
+        return hash( 'sha256', 'E1F53135E559C253 ' . $this->senha . ' 84B03D034B409D4E' );
+      }
+
     public function validateAll()
     {
         $allErrors = [];
@@ -99,7 +103,7 @@ class Funcionario
             $allErrors[] = 'CPF inválido';
         }
 
-        if (!preg_match('/^[^0-9][a-zA-Z0-9_]+([.][a-zA-Z0-9_]+)*[@][a-zA-Z0-9_]+([.][a-zA-Z0-9_]+)*[.][a-zA-Z]{2,4}$/', $this->email)) {
+        if (!filter_var($this->email, FILTER_VALIDATE_EMAIL)) {
             $allErrors[] = 'Email inválido';
         }
 

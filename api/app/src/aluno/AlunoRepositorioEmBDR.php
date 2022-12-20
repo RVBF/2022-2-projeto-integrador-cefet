@@ -2,8 +2,8 @@
 
 namespace App\Src\Aluno;
 
-use App\RepositorioExcecao;
-use App\Src\Comum\Util;
+use App\Src\Execao\RepositorioExcecao;
+use App\Src\Servico\ServicoVisao;
 use PDO;
 use PDOException;
 

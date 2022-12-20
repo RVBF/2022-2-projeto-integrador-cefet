@@ -13,6 +13,8 @@
             "App\\": "app/",
             "App\\Src\\": "app/src/",
             "App\\Src\\Aluno\\": "app/src/aluno/",
+            "App\\Src\\Funcionario\\": "app/src/funcionario/",
+            "App\\Src\\Exececao\\": "app/src/exececao/",
             "App\\Src\\AlunoCurso\\": "app/src/aluno-curso/",
             "App\\Src\\config\\": "app/src/config/",
             "App\\Src\\Servico\\": "app/src/servico/",
