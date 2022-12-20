@@ -116,7 +116,7 @@ class AlunoCursoRepositorioEmBDR implements AlunoCursoRepositorio
 	public function comAlunoId($alunoId)
 	{
 		try {
-			$sql = 'SELECT ac.id id, ac.aluno_id aluno_id, ac.numero_matricula numero_matricula, c.numero_aulas numero_aulas, ac.nota_av1 nota_av1, ac.nota_av2 nota_av2, ac.nota_af nota_af, ac.faltas faltas, c.numero_aulas numero_aulas, a.nome nome, a.matricula matricula, c.id curso_id, c.nome curso_nome FROM aluno_curso ac INNER JOIN aluno a ON a.id = ac.aluno_id INNER JOIN curso c ON c.id = ac.curso_id where ac.aluno_id = "' . $alunoId . '"';
+			$sql = 'SELECT ac.id id, ac.aluno_id aluno_id, ac.numero_matricula numero_matricula, c.numero_aulas numero_aulas, ac.nota_av1 nota_av1, ac.nota_av2 nota_av2, ac.nota_af nota_af, ac.faltas faltas, c.numero_aulas numero_aulas, a.nome nome, a.matricula matricula, c.id curso_id, c.nome curso_nome, c.codigo as codigo_curso FROM aluno_curso ac INNER JOIN aluno a ON a.id = ac.aluno_id INNER JOIN curso c ON c.id = ac.curso_id where ac.aluno_id = "' . $alunoId . '"';
 			$preparedStatement = $this->pdow->prepare($sql);
 
 			$preparedStatement->execute();
@@ -174,8 +174,8 @@ class AlunoCursoRepositorioEmBDR implements AlunoCursoRepositorio
 			$row['nota_av2'],
 			$row['nota_af'],
 			$row['faltas'],
-			new Aluno($row['aluno_id'], $row['numero_matricula'], $row['nome'], null, null, '', null),
-			new Curso($row['curso_id'], '', $row['curso_nome'], '', $row['numero_aulas'], '', '', '')
+			new Aluno( $row['aluno_id'], $row['numero_matricula'], $row['nome'], null, null, '', null ),
+			new Curso( $row['curso_id'], $row['codigo_curso'], $row['curso_nome'], '', $row['numero_aulas'], '', '', '' )			
 		);
 	}
 }

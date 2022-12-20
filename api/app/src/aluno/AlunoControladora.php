@@ -164,15 +164,8 @@ class AlunoControladora
       $aluno = $this->colecaoAluno->comId($urlQuebrada[2]);
 
       $todosCursosAluno = $this->colecaoAlunoCurso->comAlunoId($aluno->getId());
-      $aluno->setCursos($todosCursosAluno);
-      foreach ($aluno->getCursos() as $alunoCurso) {
-        $cursoAluno = $alunoCurso->getCurso();
-
-        $pegaComId = $this->colecaoCurso->comId($cursoAluno->getId());
-
-        $alunoCurso->setCurso($pegaComId);
-      }
-
+      $aluno->setCursos( $todosCursosAluno );
+     
       Util::responsePegaTodosSuccess($aluno);
     } catch (PDOException $errorPDO) {
       Util::exibirErroAoConectar($errorPDO);

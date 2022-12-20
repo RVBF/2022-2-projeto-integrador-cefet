@@ -76,12 +76,15 @@ export class AlunoVisao {
       const titulo = document.querySelector('h2');
       const cursos = document.getElementById('cursos') as HTMLSelectElement;
       titulo!.innerText = 'Editar Aluno';
+      console.log(aluno.cursos);
+
       if(aluno.cursos != null){
+         const alunoCurso = aluno.cursos;
          for (const key in cursos.options) {
             if (Object.prototype.hasOwnProperty.call(cursos.options, key)) {
                const element = cursos.options[key] as HTMLOptionElement;
-               (aluno.cursos).forEach((curso ) =>{
-                  if((curso?.codigo == element.value)) element.selected = true;
+               (alunoCurso).forEach((curso) =>{
+                  if(((curso.curso as Curso).codigo == element.value)) element.selected = true;
                })
             }
       }
