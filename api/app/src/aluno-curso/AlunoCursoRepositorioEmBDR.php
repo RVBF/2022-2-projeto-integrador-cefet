@@ -24,7 +24,7 @@ class AlunoCursoRepositorioEmBDR implements AlunoCursoRepositorio
 		try {
 			$objetos = [];
 			$result = $this->pdow->query('SELECT ac.id id, ac.aluno_id aluno_id, ac.numero_matricula numero_matricula, c.numero_aulas numero_aulas,  ac.nota_av1 nota_av1, ac.nota_av2 nota_av2, ac.nota_af nota_af, ac.faltas faltas, a.nome nome, a.matricula matricula, c.id curso_id, c.nome curso_nome FROM aluno_curso ac INNER JOIN aluno a ON a.id = ac.aluno_id INNER JOIN curso c ON c.id = ac.curso_id')->fetchAll();
-			foreach ($result as $row) {				
+			foreach ($result as $row) {
 				$objetos[] = $this->construirObjeto($row);
 			}
 			return $objetos;
@@ -37,9 +37,9 @@ class AlunoCursoRepositorioEmBDR implements AlunoCursoRepositorio
 	{
 
 		try {
-			$sql = "INSERT INTO `pis-grupo1`.`".SELF::TABELA."` (`aluno_id`, `curso_id`, `numero_matricula`) VALUES (:aluno_id, :curso_id, :numero_matricula);
+			$sql = "INSERT INTO `pis-grupo1`.`" . SELF::TABELA . "` (`aluno_id`, `curso_id`, `numero_matricula`) VALUES (:aluno_id, :curso_id, :numero_matricula);
 			";
-			
+
 			$dados = [
 				'aluno_id' => $alunoCurso->getAluno() instanceof Aluno ? $alunoCurso->getAluno()->getId() : 0,
 				'curso_id'  => $alunoCurso->getCurso() instanceof Curso ? $alunoCurso->getCurso()->getId() : 0,
@@ -55,10 +55,10 @@ class AlunoCursoRepositorioEmBDR implements AlunoCursoRepositorio
 		}
 	}
 
-	function adicionarTodos(Array &$alunosCurso)
+	function adicionarTodos(array &$alunosCurso)
 	{
 		foreach ($alunosCurso as $key => $aluno) {
-				$this->adicionar($aluno);
+			$this->adicionar($aluno);
 		}
 	}
 
@@ -75,7 +75,7 @@ class AlunoCursoRepositorioEmBDR implements AlunoCursoRepositorio
 				faltas = :faltas
 			WHERE id = :id';
 			$preparedStatement = $this->pdow->prepare($sql);
-			
+
 			$executou = $preparedStatement->execute([
 				"aluno_id" => $alunoCurso->getAluno()["id"],
 				"curso_id" => $alunoCurso->getCurso()["id"],
@@ -95,7 +95,7 @@ class AlunoCursoRepositorioEmBDR implements AlunoCursoRepositorio
 
 	public function comId($id)
 	{
-		
+
 		try {
 			$sql = 'SELECT ac.id id, ac.aluno_id aluno_id, ac.numero_matricula numero_matricula, c.numero_aulas numero_aulas, ac.nota_av1 nota_av1, ac.nota_av2 nota_av2, ac.nota_af nota_af, ac.faltas faltas, c.numero_aulas numero_aulas, a.nome nome, a.matricula matricula, c.id curso_id, c.nome curso_nome FROM aluno_curso ac INNER JOIN aluno a ON a.id = ac.aluno_id INNER JOIN curso c ON c.id = ac.curso_id where ac.id = "' . $id . '"';
 			$preparedStatement = $this->pdow->prepare($sql);
@@ -116,18 +116,20 @@ class AlunoCursoRepositorioEmBDR implements AlunoCursoRepositorio
 	public function comAlunoId($alunoId)
 	{
 		try {
-			$sql = 'SELECT * FROM aluno_curso ac INNER JOIN aluno a ON a.id = ac.aluno_id where ac.aluno_id = "'.$alunoId.'"';
+			$sql = 'SELECT ac.id id, ac.aluno_id aluno_id, ac.numero_matricula numero_matricula, c.numero_aulas numero_aulas, ac.nota_av1 nota_av1, ac.nota_av2 nota_av2, ac.nota_af nota_af, ac.faltas faltas, c.numero_aulas numero_aulas, a.nome nome, a.matricula matricula, c.id curso_id, c.nome curso_nome FROM aluno_curso ac INNER JOIN aluno a ON a.id = ac.aluno_id INNER JOIN curso c ON c.id = ac.curso_id where ac.aluno_id = "' . $alunoId . '"';
 			$preparedStatement = $this->pdow->prepare($sql);
+
 			$preparedStatement->execute();
 			if ($preparedStatement->rowCount() < 1) {
 				return [];
 			}
 
 			$result = $preparedStatement->fetchAll(PDO::FETCH_ASSOC);
-         foreach ($result as $row) {
-            $objetos[] = $this->construirObjeto($row);
-         }
-         return $objetos;
+
+			foreach ($result as $row) {
+				$objetos[] = $this->construirObjeto($row);
+			}
+			return $objetos;
 		} catch (\PDOException $e) {
 
 			throw new PDOException($e->getMessage(), $e->getCode(), $e);
@@ -135,33 +137,33 @@ class AlunoCursoRepositorioEmBDR implements AlunoCursoRepositorio
 	}
 
 
-   function delete($cursoId, $alunoId)
-   {
-      try {
-         $sql = 'DELETE  FROM ' . self::TABELA . ' WHERE curso_id = :curso_id and aluno_id = :aluno_id';
-         $preparedStatement = $this->pdow->prepare($sql);
-         $preparedStatement->execute(['curso_id' => $cursoId, 'aluno_id' => $alunoId]);
-      } catch (\PDOException $e) {
-         throw new RepositorioExcecao($e->getMessage(), $e->getCode(), $e);
-      }
-   }
+	function delete($cursoId, $alunoId)
+	{
+		try {
+			$sql = 'DELETE  FROM ' . self::TABELA . ' WHERE curso_id = :curso_id and aluno_id = :aluno_id';
+			$preparedStatement = $this->pdow->prepare($sql);
+			$preparedStatement->execute(['curso_id' => $cursoId, 'aluno_id' => $alunoId]);
+		} catch (\PDOException $e) {
+			throw new RepositorioExcecao($e->getMessage(), $e->getCode(), $e);
+		}
+	}
 
-   function contagem()
-   {
-      try {
-         $sql = 'SELECT COUNT(*) FROM `'.SELF::TABELA.'`';
-         $preparedStatement = $this->pdow->prepare($sql);
-         $preparedStatement->execute();
+	function contagem()
+	{
+		try {
+			$sql = 'SELECT COUNT(*) FROM `' . SELF::TABELA . '`';
+			$preparedStatement = $this->pdow->prepare($sql);
+			$preparedStatement->execute();
 
-         if ($preparedStatement->rowCount() < 1) {
-            return null;
-         }
+			if ($preparedStatement->rowCount() < 1) {
+				return null;
+			}
 
-         $result = $preparedStatement->fetch();
-      } catch (\Exception $e) {
-         throw new RepositorioExcecao($e->getMessage(), $e->getCode(), $e);
-      }
-   }
+			$result = $preparedStatement->fetch();
+		} catch (\Exception $e) {
+			throw new RepositorioExcecao($e->getMessage(), $e->getCode(), $e);
+		}
+	}
 
 	function construirObjeto(array $row)
 	{
@@ -172,8 +174,8 @@ class AlunoCursoRepositorioEmBDR implements AlunoCursoRepositorio
 			$row['nota_av2'],
 			$row['nota_af'],
 			$row['faltas'],
-			new Aluno( $row['aluno_id'], $row['numero_matricula'], $row['nome'], null, null, '', null ),
-			new Curso( $row['curso_id'], '', $row['curso_nome'], '', $row['numero_aulas'], '', '', '' )			
+			new Aluno($row['aluno_id'], $row['numero_matricula'], $row['nome'], null, null, '', null),
+			new Curso($row['curso_id'], '', $row['curso_nome'], '', $row['numero_aulas'], '', '', '')
 		);
 	}
 }

@@ -38,19 +38,14 @@ export class FuncionarioVisao {
     }
 
     desenharEdit(funcionario: Funcionario): void {
-        const id = this.getValueInputElement('id');
         const nome = this.getValueInputElement('nome');
         const cpf = this.getValueInputElement('cpf');
         const email = this.getValueInputElement('email');
-        const eAdministrador = this.getValueInputElement('e_administrador');
+        const eAdministrador = this.getValueInputElement('eAdministrador');
         const senha = this.getValueInputElement('senha');
         const titulo = document.querySelector('h2');
 
         titulo!.innerText = 'Editar Funcionário';
-
-
-        id.value = String(funcionario.id);
-        id.focus();
 
         nome.value = String(funcionario.nome);
         nome.focus();
@@ -59,9 +54,9 @@ export class FuncionarioVisao {
         cpf.focus();
 
         email.value = funcionario.email;
-        email.focus();
+        email.focus();        
 
-        eAdministrador.value = String(funcionario.eAdministrador);
+        eAdministrador.checked = funcionario.eAdministrador;
         eAdministrador.focus();
 
         senha.value = String(funcionario.senha);
@@ -165,20 +160,19 @@ export class FuncionarioVisao {
     };
 
     pegarDadosDoFormEditar(): Funcionario {
-        const campoId = document.getElementById('id') as HTMLInputElement;
+        const campoId = Number(location.pathname.split('/')[2]);
         const campoNome = document.getElementById('nome') as HTMLInputElement;
         const campoCPF = document.getElementById('cpf') as HTMLInputElement;
         const campoEmail = document.getElementById('email') as HTMLInputElement;
         const campoEAdministrador = document.getElementById('eAdministrador') as HTMLInputElement;
         const campoSenha = document.getElementById('senha') as HTMLInputElement;
-
-
+        
         return new Funcionario({
-            id: Number(campoId.value),
+            id: Number(campoId),
             nome: String(campoNome.value),
             cpf: String(campoCPF.value),
             email: String(campoEmail.value),
-            eAdministrador: Boolean(campoEAdministrador.value),
+            eAdministrador: campoEAdministrador.checked,
             senha: String(campoSenha.value),
         });
     }

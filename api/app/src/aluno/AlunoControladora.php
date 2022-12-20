@@ -102,7 +102,7 @@ class AlunoControladora
       $aluno->setTelefone($data["telefone"]);
       $aluno->setEmail($data["email"]);
       $this->colecaoAluno->atualizar($aluno);
-      foreach($this->colecaoAlunoCurso->comAlunoId($aluno->getId()) as $alunoCurso){
+      foreach ($this->colecaoAlunoCurso->comAlunoId($aluno->getId()) as $alunoCurso) {
         $this->colecaoAlunoCurso->delete($alunoCurso->getCurso(), $aluno->getId());
       }
 
@@ -110,7 +110,7 @@ class AlunoControladora
       foreach ($data['cursos'] as $key => $curso) {
         $cursosCodigos[] = $curso['codigo'];
       }
-      
+
       $cursos = $this->colecaoCurso->comCodigos($cursosCodigos);
       $alunosCursos = [];
 
@@ -143,7 +143,7 @@ class AlunoControladora
     try {
       $urlQuebrada  = explode('/', $request->base());
       $aluno = $this->colecaoAluno->comId($urlQuebrada[2]);
-      foreach($aluno->getCursos() as $alunoCurso){
+      foreach ($aluno->getCursos() as $alunoCurso) {
         $this->colecaoAlunoCurso->delete($alunoCurso->getCurso(), $aluno->getId());
       }
       $this->colecaoAluno->delete($urlQuebrada[2]);
@@ -162,12 +162,15 @@ class AlunoControladora
       $urlQuebrada  = explode('/', $request->base());
 
       $aluno = $this->colecaoAluno->comId($urlQuebrada[2]);
+
       $todosCursosAluno = $this->colecaoAlunoCurso->comAlunoId($aluno->getId());
-      $aluno->setCursos( $todosCursosAluno );
+      $aluno->setCursos($todosCursosAluno);
       foreach ($aluno->getCursos() as $alunoCurso) {
         $cursoAluno = $alunoCurso->getCurso();
-        $pegaComId = $this->colecaoCurso->comId( $cursoAluno );
-        $alunoCurso->setCurso( $pegaComId );
+
+        $pegaComId = $this->colecaoCurso->comId($cursoAluno->getId());
+
+        $alunoCurso->setCurso($pegaComId);
       }
 
       Util::responsePegaTodosSuccess($aluno);
