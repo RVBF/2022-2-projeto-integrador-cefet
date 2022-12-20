@@ -83,8 +83,8 @@ export class AlunoVisao {
          for (const key in cursos.options) {
             if (Object.prototype.hasOwnProperty.call(cursos.options, key)) {
                const element = cursos.options[key] as HTMLOptionElement;
-               (alunoCurso).forEach((curso) =>{
-                  if(((curso.curso as Curso).codigo == element.value)) element.selected = true;
+               (alunoCurso).forEach((alunoCurso) =>{
+                  //if(((curso.curso as Curso).codigo == element.value)) element.selected = true;
                })
             }
       }

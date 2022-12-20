@@ -19,7 +19,6 @@ export class Curso {
   dataInicio: Date | null;
   dataFim: Date | null;
   professor: Funcionario | null;
-   curso: Curso;
 
   constructor(
     { id, codigo, nome, situacao, numeroAulas, dataInicio, dataFim, professor}: CursoDTO) {

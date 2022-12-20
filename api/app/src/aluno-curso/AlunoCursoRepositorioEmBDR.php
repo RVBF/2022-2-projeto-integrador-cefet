@@ -174,8 +174,8 @@ class AlunoCursoRepositorioEmBDR implements AlunoCursoRepositorio
 			$row['nota_av2'],
 			$row['nota_af'],
 			$row['faltas'],
-			new Aluno( $row['aluno_id'], $row['numero_matricula'], $row['nome'], null, null, '', null ),
-			new Curso( $row['curso_id'], $row['codigo_curso'], $row['curso_nome'], '', $row['numero_aulas'], '', '', '' )			
+			new Aluno($row['aluno_id'], $row['numero_matricula'], $row['nome'], null, null, '', null),
+			new Curso($row['curso_id'], '', $row['curso_nome'], '', $row['numero_aulas'], '', '', '')
 		);
 	}
 }

@@ -37,7 +37,7 @@ export class AlunoCursoRepositorio {
    })
      .catch(err =>{
       console.log(err);
-         throw new Error(err.join('<br>'));
+         //throw new Error(err.join('<br>'));
      });
    }
 
