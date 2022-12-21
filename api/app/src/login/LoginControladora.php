@@ -15,15 +15,14 @@ class LoginControladora
   private $sessaoEmArquivo;
   private $conexao = null;
   private $servicoVisao;
+  private $sessao;
 
-  public function __construct(&$db)
+  public function __construct(&$db, &$sessao)
   {
     $this->conexao = $db;
     $this->servicoVisao = new ServicoVisao();
-
+    $this->sessao = $sessao;
     $this->servicoLogin = new LoginRepositorioEmBDR($db);
-    $this->sessaoEmArquivo = new SessaoEmArquivo();
-    $this->sessaoEmArquivo->iniciarSessao();
   }
 
   function autenticar(Request $request)
@@ -40,9 +39,8 @@ class LoginControladora
       $sessaoFormatada = $usuarioSessao->sessaoFormatada();
 
       
-      $this->sessaoEmArquivo->regerarId();
-      $this->sessaoEmArquivo->definirValor('usuario', $sessaoFormatada);
-      Debuger::debug($this->sessaoEmArquivo->obterValor())
+      $this->sessao->regerarId();
+      $this->sessao->definirValor('usuario', $sessaoFormatada);
       $this->servicoVisao->responsePegaTodosSuccess($sessaoFormatada);
     } catch (\PDOException $errorPDO) {
       $this->servicoVisao->exibirErroAoConectar($errorPDO->getMessage());
@@ -56,9 +54,9 @@ class LoginControladora
   function deslogar(Request $request)
   {
     try {
-      if (!$this->sessaoEmArquivo->sessaoIniciada()) throw new LoginExcecao("Não existe usuário logado");
+      if (!$this->sessao->sessaoIniciada()) throw new LoginExcecao("Não existe usuário logado");
 
-      $this->sessaoEmArquivo->destruirSessao();
+      $this->sessao->destruirSessao();
 
       $this->servicoVisao->responseDeleteSuccess();
     } catch (LoginExcecao $error) {

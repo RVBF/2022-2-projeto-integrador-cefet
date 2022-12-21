@@ -4,6 +4,7 @@ use App\Request;
 use App\Route;
 use App\Src\Aluno\AlunoControladora;
 use App\Src\AlunoCurso\AlunoCursoControladora;
+use App\Src\Comum\Debuger;
 use App\Src\Curso\CursoControladora;
 use App\Src\Funcionario\FuncionarioControladora;
 use App\Src\Login\LoginControladora;
@@ -154,14 +155,14 @@ try {
 		$controladora->delete($request);
 	});
 //login
-	Route::post('/login/entrar', function() use (&$db){
+	Route::post('/login/entrar', function() use (&$db, &$sessao){
 		$request = new Request;
-		$controladora  = new LoginControladora($db);
+		$controladora  = new LoginControladora($db, $sessao);
 		$controladora->autenticar($request);
 	});
 
-	Route::delete('/login/sair', function() use (&$db){
+	Route::delete('/login/sair', function() use (&$db, &$sessao){
 		$request = new Request;
-		$controladora  = new LoginControladora($db);
+		$controladora  = new LoginControladora($db, $sessao);
 		$controladora->deslogar($request);
 	});

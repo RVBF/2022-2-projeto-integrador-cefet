@@ -1,50 +1,37 @@
 <?php
 
-namespace App\Src\Sessao;
-
-use App\Request;
-use App\Src\Comum\Debuger;
-use App\Src\Servico\ServicoVisao;
-use App\Src\Sessao\Sessao;
+  namespace App\Src\Sessao;
 
 
-class SessaoEmArquivo implements Sessao
-{
-  private $request;
-  const UM_DIA = 24 * 60 * 60;
+  class SessaoEmArquivo implements Sessao {
+    const UM_DIA = 24*60*60;
 
-  function sessaoIniciada()
-  {
-    return session_status() === PHP_SESSION_ACTIVE;
-  }
+    function sessaoIniciada() {
+      return session_status() === PHP_SESSION_ACTIVE;
+    }
+    function iniciarSessao() {
+      session_name('SID');
+      session_set_cookie_params( [ 'lifetime' => self::UM_DIA, 'secure' => true, 'httponly' => true] );
+      return session_start();
+    }
 
-  function iniciarSessao()
-  {
-    // if ($this->sessaoIniciada()) $this->regerarId();
+    function destruirSessao() {
+      session_destroy();
+    }
 
-    if (!isset($_SESSION)) {
-      session_set_cookie_params(['lifetime'=> self::UM_DIA,'httponly'=> true]);
-      session_start();
+    function regerarId() {
+      session_regenerate_id();
+    }
+
+    function obterValor( $chave ) {
+      return isset( $_SESSION[$chave] ) ? $_SESSION[$chave] : null;
+    }
+
+    function definirValor( $chave, $valor ) {
+      $_SESSION[ $chave ] = $valor;
+    }
+
+    function logado() {
+      return isset( $_SESSION['usuario'] );
     }
   }
-
-  function destruirSessao()
-  {
-    session_destroy();
-  }
-
-  function regerarId()
-  {
-    session_regenerate_id(true);
-  }
-
-  function obterValor($chave)
-  {
-    return isset($_SESSION[$chave]) ? $_SESSION[$chave] : null;
-  }
-
-  function definirValor($chave, $valor)
-  {
-    $_SESSION[$chave] = $valor;
-  }
-}
