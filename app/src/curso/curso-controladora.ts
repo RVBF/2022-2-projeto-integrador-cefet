@@ -3,7 +3,7 @@ import { CursoServico } from './curso-servico';
 import { CursoVisao } from './curso-visao';
 import { carregarPagina } from '../utils/carrega-pagina';
 import { FuncionarioServico } from '../funcionario/funcionario-servico';
-import { AlunoServico } from '../aluno/aluno-servico';
+import { ServicoAlunoCurso } from '../aluno-curso/aluno-curso-servico';
 /* eslint-disable-next-line func-style */
 
 async function loadPage(file: string): Promise<string> {
@@ -12,15 +12,15 @@ async function loadPage(file: string): Promise<string> {
 }
 export class CursoControladora {
     cursoServico: CursoServico;
-    alunoServico: AlunoServico;
+    alunoCursoServico: ServicoAlunoCurso;
     funcionarioServico : FuncionarioServico;
     cursoVisao: CursoVisao;
-
+    
     constructor() {
         this.cursoServico = new CursoServico();
         this.cursoVisao = new CursoVisao();
         this.funcionarioServico = new FuncionarioServico();
-        this.alunoServico = new AlunoServico();
+        this.alunoCursoServico = new ServicoAlunoCurso();
     }
 
     async init(): Promise<void> {
@@ -127,8 +127,8 @@ export class CursoControladora {
     };
     buscaTodosAlunosCurso = async (idCurso: string): Promise<void> => {
         try {
-            const alunos = this.alunoServico.porCurso(Number(idCurso));
-            this.cursoVisao.renderizarGrafico(alunos);
+            const cursos = await  this.alunoCursoServico.porCurso(Number(idCurso));
+            this.cursoVisao.renderizarGrafico( cursos);
             // setTimeout(() => {
             //     location.href = '/cursos';
             // }, 2000);

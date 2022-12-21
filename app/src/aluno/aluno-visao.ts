@@ -5,8 +5,6 @@ import { colunaTabela, linhaTabela } from "../components/Tabela";
 import { Link } from "../components/Ancora";
 import { Button } from "../components";
 import { Curso } from "../curso/curso";
-import { Funcionario } from "../funcionario/funcionario";
-import { AlunoCurso } from "../aluno-curso/aluno-curso";
 
 export class AlunoVisao {
    servicoAluno: AlunoServico;

@@ -6,12 +6,16 @@ import { Link } from "../components/Ancora";
 import { Button } from "../components";
 import { formataData } from "../utils/formata-data";
 import { Funcionario } from "../funcionario/funcionario";
+import Chart from 'chart.js/auto'
+import { Aluno } from "../aluno/aluno";
+import { AlunoCurso } from "../aluno-curso/aluno-curso";
 
 export class CursoVisao {
     cursoServico: CursoServico;
-
+    chart : Chart | null;
     constructor() {
         this.cursoServico = new CursoServico();
+        this.chart = null;
     }
 
     listarCursosRegex = (): boolean => (/^\/cursos\/?$/i).test(path());
@@ -48,16 +52,85 @@ export class CursoVisao {
         var selectInstance = M.FormSelect.init(select);
     }
 
-    renderizarGrafico(alunos: Promise<any>) : void {
-        console.log(alunos)
+    renderizarGrafico(alunosCursos: AlunoCurso[]): void {
+        this.chart?.destroy();
+        const modal = document.querySelector('.modal') as HTMLElement;
+        M.Modal.init(modal, { opacity: 0.5 });
+        M.Modal.getInstance(modal).open();
+        modal.style.height = 'auto';
+        modal.style.maxHeight = '85%';
 
-            const elem = document.querySelector('.modal') as HTMLElement;
-            M.Modal.init(elem, {opacity: 0.5});
-            M.Modal.getInstance(elem).open();
+        const ctx = document.getElementById('myChart') as HTMLCanvasElement;
+        document.getElementById('myChart')?.DOCUMENT_POSITION_CONTAINED_BY;
+        const data = {
+            labels: [
+                'Aprovações Diretas',
+                'Aprovações   por   Avaliação   Final',
+                'Reprovações   por   Nota',
+                'Reprovações por Falta'
+            ],
+            datasets: [{
+                label: 'Relatório de Cursos',
+                // data: [300, 400, 500, 150],
+                data: this.processsarResultados(alunosCursos),
+                backgroundColor: [
+                    'rgb(255, 99, 132)',
+                    'rgb(54, 162, 235)',
+                    'rgb(255, 205, 86)'
+                ],
+                // hoverOffset: 4
+            }]
+
+        };
+        this.chart = new Chart(ctx, {
+            type: 'doughnut',
+            data: data,
+
+        });
+        ctx.style.display = 'block';
+        ctx.style.boxSizing = 'border-box';
+        ctx.style.height = '474px';
+        ctx.style.width = '474px';
     }
 
+    processsarResultados(alunosCursos: AlunoCurso[]): Array<Number> {
+        let resultados = [
+            /*'aprovados' */ 0,
+            /*'aprovados_final' */ 0,
+            /*'reprovacao_nota' */ 0,
+            /*'reprovacao_falta' */ 0
+        ];
+        if (alunosCursos != null) {
+            (alunosCursos).forEach((ac) => {
+                const alunoCurso: AlunoCurso = new AlunoCurso({
+                    id: Number(ac.id), matricula: ac.matricula,
+                    av1: ac.av1,
+                    av2: ac.av2,
+                    notaAF: ac.notaAF,
+                    faltas: ac.faltas,
+                    aluno: ac.aluno,
+                    curso: ac.curso
+                });
+                if (alunoCurso.calculaPercentualFaltas() > 25) {
+                    resultados[3] = resultados[3]++;
+                }
+                else
+
+                    if (alunoCurso.situacaoAluno() === 'Avaliação Final' || alunoCurso.notaAF) {
+                        resultados[1] = resultados[0]++;
+                    }
+                    else if (alunoCurso.situacaoAluno() == 'Reprovado') {
+                        resultados[2] = resultados[2]++;
+                    }
+                    else if (alunoCurso.situacaoAluno() == 'Aprovado') {
+                        resultados[0] = resultados[0]++;
+                    }
+            });
+        }
+        console.log(resultados);
+        return resultados;
+    };
     desenharEdit(curso: Curso): void {
-        console.log(curso);
         const id = this.getValueInputElement('id');
         const codigo = this.getValueInputElement('codigo');
         const nome = this.getValueInputElement('nome');
@@ -73,7 +146,7 @@ export class CursoVisao {
         nome.value = curso.nome.toString();
         situacao.value = curso.situacao.toString();
         inicio.value = (curso.dataInicio as Date).toString();
-        termino.value =( curso.dataFim as Date).toString();
+        termino.value = (curso.dataFim as Date).toString();
         numeroAulas.value = String(curso.numeroAulas);
 
         id.focus();
@@ -139,22 +212,22 @@ export class CursoVisao {
 
         voltaCursoBotao.addEventListener('click', functionToAct);
     }
-    
+
     aoDispararGraficoCurso(callback: any): void {
         const functionToAct = (elem: MouseEvent): void => {
-           elem.preventDefault();
-           const botao = (elem.target as HTMLButtonElement).parentNode as HTMLButtonElement;
-  
-           callback(botao.getAttribute('curso-id'));
+            elem.preventDefault();
+            const botao = (elem.target as HTMLButtonElement).parentNode as HTMLButtonElement;
+
+            callback(botao.getAttribute('curso-id'));
         };
-  
+
         const botoesRemoverAluno = document.querySelectorAll('.gerar_relatorio');
         botoesRemoverAluno.forEach((botao, i) => {
-           const elemento = botoesRemoverAluno[i] as HTMLButtonElement;
-           elemento.addEventListener('click', functionToAct)
+            const elemento = botoesRemoverAluno[i] as HTMLButtonElement;
+            elemento.addEventListener('click', functionToAct)
         })
-     }
-  
+    }
+
     aoDispararRemover(callback: any): void {
         const functionToAct = (elem: MouseEvent): void => {
             elem.preventDefault();
@@ -165,10 +238,10 @@ export class CursoVisao {
         };
 
         const removeCursoBotao = document.querySelectorAll('.remover');
-        removeCursoBotao.forEach( (botao, i) => {
+        removeCursoBotao.forEach((botao, i) => {
             const elemento = removeCursoBotao[i] as HTMLButtonElement;
             elemento.addEventListener('click', functionToAct)
-         })
+        })
     }
 
     getValueInputElement(key: string): HTMLInputElement {

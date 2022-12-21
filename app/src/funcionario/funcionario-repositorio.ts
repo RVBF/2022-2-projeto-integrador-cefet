@@ -12,9 +12,6 @@ export class FuncionarioRepositorio {
             body: JSON.stringify(Funcionario),
 
             credentials: 'include',
-            headers: {
-                'content-type': 'application/json',
-            },
         });
         const responseData = await response.json();
 
@@ -31,9 +28,7 @@ export class FuncionarioRepositorio {
             body: JSON.stringify(funcionario),
 
             credentials: 'include',
-            headers: {
-                "Content-Type": "application/json;application/x-www-form-urlencoded;charset=UTF-8",
-            },
+
         });
 
         if (response.status >= 400 && response.status <= 499) {
@@ -53,9 +48,7 @@ export class FuncionarioRepositorio {
             method: 'GET',
 
             credentials: 'include',
-            headers: {
-                'Content-Type': 'application/json;charset=utf-8;'
-            },
+
             // body: JSON.stringify({limit : limit, offset: offset})
         });
 
@@ -77,9 +70,7 @@ export class FuncionarioRepositorio {
             method: 'GET',
 
             credentials: 'include',
-            headers: {
-                'Content-Type': 'application/json;charset=utf-8;'
-            },
+
         });
 
         if (response.status < 200 && response.status > 299) {
@@ -111,9 +102,6 @@ export class FuncionarioRepositorio {
             body: JSON.stringify(AudioWorkletNode),
 
             credentials: 'include',
-            headers: {
-                'content-type': 'application/json',
-            },
         });
 
         if (!response.ok) {

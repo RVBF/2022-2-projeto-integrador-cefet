@@ -30,9 +30,7 @@ require 'vendor/autoload.php';
 use App\Src\Sessao\SessaoEmArquivo;
 
 $sessao = new SessaoEmArquivo();
-if( !$sessao->sessaoIniciada() ){
-  $sessao->iniciarSessao();
-}
+$sessao->iniciarSessao();
 // Realiza ajustes para modo de depuração
 if (!DEBUG_MODE) {
 

@@ -38,6 +38,10 @@ export class ServicoAlunoCurso {
       return this.AlunoCursoRepositorio.buscarPorAlunoCurso(alunoId);
    }
 
+   porCurso(cursoId: number): Promise<AlunoCurso[]> {
+      return this.AlunoCursoRepositorio.buscarPorCurso(cursoId);
+   }
+
    comId( id: number ): Promise<AlunoCurso>{
       return this.AlunoCursoRepositorio.comId(id);
    }

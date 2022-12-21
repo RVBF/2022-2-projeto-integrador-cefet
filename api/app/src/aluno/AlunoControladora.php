@@ -5,7 +5,6 @@ namespace App\Src\Aluno;
 use App\Request;
 use App\Src\AlunoCurso\AlunoCurso;
 use App\Src\AlunoCurso\AlunoCursoRepositorioEmBDR;
-use App\Src\Comum\Debuger;
 use App\Src\Comum\Util;
 use App\Src\Servico\ServicoVisao;
 use App\Src\Curso\CursoRepositorioEMBDR;
@@ -34,7 +33,7 @@ class AlunoControladora
     try {
       $urlQuebrada  = explode('/', $request->base());
       $alunos = $this->colecaoAluno->todos(isset($urlQuebrada[2]) ? $urlQuebrada[2] : 10, isset($urlQuebrada[3]) ? $urlQuebrada : 1);
-
+      
       $this->servicoVisao->responsePegaTodosSuccess($alunos);
       $this->servicoVisao->responseUpdateSuccess();
     } catch (\PDOException $errorPDO) {
@@ -167,24 +166,9 @@ class AlunoControladora
       $urlQuebrada  = explode('/', $request->base());
 
       $aluno = $this->colecaoAluno->comId($urlQuebrada[2]);
-      // $aluno->setCursos($this->colecaoAlunoCurso->comAlunoId($aluno->getId()));
+      $aluno->setCursos($this->colecaoAlunoCurso->comAlunoId($aluno->getId()));
 
       $this->servicoVisao->responsePegaTodosSuccess($aluno);
-    } catch (\PDOException $errorPDO) {
-      $this->servicoVisao->exibirErroAoConectar($errorPDO->getMessage());
-    } catch (RepositorioExcecao $error) {
-      $this->servicoVisao->exibirErroAoConsultar($error->getMessage());
-    }
-  }
-
-  function porCursoId($request)
-  {
-
-    try {
-      $urlQuebrada  = explode('/', $request->base());
-      $alunos = $this->colecaoAluno->comCursoId($urlQuebrada[3]);
-
-      $this->servicoVisao->responsePegaTodosSuccess($alunos);
     } catch (\PDOException $errorPDO) {
       $this->servicoVisao->exibirErroAoConectar($errorPDO->getMessage());
     } catch (RepositorioExcecao $error) {
@@ -197,7 +181,7 @@ class AlunoControladora
 
     try {
       $proximoNumeroMatricula = $this->colecaoAluno->contagem() + 1;
-
+      
       $sevicoMatricula = new ServicoMatricula($proximoNumeroMatricula);
       $proximoNumeroMatricula = $sevicoMatricula->formataMatricula();
       $this->servicoVisao->responsePegaTodosSuccess($proximoNumeroMatricula);

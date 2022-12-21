@@ -39,7 +39,7 @@ class LoginControladora
       $sessaoFormatada = $usuarioSessao->sessaoFormatada();
 
       
-      $this->sessao->regerarId();
+      // $this->sessao->regerarId();
       $this->sessao->definirValor('usuario', $sessaoFormatada);
       $this->servicoVisao->responsePegaTodosSuccess($sessaoFormatada);
     } catch (\PDOException $errorPDO) {

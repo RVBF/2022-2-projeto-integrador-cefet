@@ -7,6 +7,7 @@ import { carregarMenu } from "./utils/carrega-menu";
 import { FuncionarioControladora } from "./funcionario/funcionario-controladora";
 import { CursoControladora } from "./curso/curso-controladora";
 import { LoginControladora } from "./login/login-controladora";
+import  "chart.js"
 
 export * from './components/Button';
 export * from './components/Container';

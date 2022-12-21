@@ -37,6 +37,12 @@ try {
 		$controladora->atualizar($request);
 	});
 
+	Route::get('/aluno-curso/curso/{id}/show', function () use (&$db) {
+		$controladora  = new AlunoCursoControladora($db);
+		$request = new Request;
+		$controladora->porCursoId($request);
+	});
+
 	Route::get('/aluno-curso/{id}/show', function () use (&$db) {
 		$controladora  = new AlunoCursoControladora($db);
 		$request = new Request;
@@ -52,7 +58,6 @@ try {
 
 //alunos
 	Route::get('/aluno', function () use (&$db) {
-		Debuger::debug($_SESSION);
 		$controladora  = new AlunoControladora($db);
 		$request = new Request;
 		$controladora->listar($request);
@@ -70,11 +75,6 @@ try {
 		$controladora->comId($request);
 	});
 
-	Route::get('/aluno/curso/{id}/show', function () use (&$db) {
-		$controladora  = new AlunoControladora($db);
-		$request = new Request;
-		$controladora->porCursoId($request);
-	});
 
 	Route::put('/aluno/{id}/edit', function () use (&$db) {
 		$controladora  = new AlunoControladora($db);

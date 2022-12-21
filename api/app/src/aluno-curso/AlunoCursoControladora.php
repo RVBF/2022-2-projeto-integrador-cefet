@@ -124,4 +124,20 @@ class AlunoCursoControladora
       $this->servicoVisao->exibirErroAoConsultar($error->getMessage());
     }
   }
+
+  function porCursoId(Request $request)
+  {
+
+    try {
+      $id = explode('/', $request->base())[3];
+
+      $alunoCurso = $this->colecaoAlunoCurso->comCursoId($id); 
+      
+      $this->servicoVisao->responsePegaTodosSuccess($alunoCurso);
+    } catch (PDOException $errorPDO) {
+      $this->servicoVisao->exibirErroAoConectar($errorPDO->getMessage());
+    } catch (RepositoryException $error) {
+      $this->servicoVisao->exibirErroAoConsultar($error->getMessage());
+    }
+  }
 }

@@ -11,9 +11,6 @@ export class CursoRepositorio {
             method: 'PUT',
             body: JSON.stringify(curso),
             credentials: 'include',
-            headers: {
-                'content-type': 'application/json',
-            },
         });
 
         if (response.status < 200 && response.status > 299) {
@@ -33,9 +30,6 @@ export class CursoRepositorio {
             method: 'POST',
             body: JSON.stringify(curso),
             credentials: 'include',
-            headers: {
-                "Content-Type": "application/json;application/x-www-form-urlencoded;charset=UTF-8",
-            },
         });
 
 
@@ -55,9 +49,6 @@ export class CursoRepositorio {
         const response = await fetch(`${API_CURSO}`, {
             method: 'GET',
             credentials: 'include',
-            headers: {
-                'Content-Type': 'application/json;charset=utf-8;'
-            },
         });
 
         if (!response.ok) {
@@ -89,9 +80,6 @@ export class CursoRepositorio {
             method: 'DELETE',
             body: JSON.stringify(AudioWorkletNode),
             credentials: 'include',
-            headers: {
-                'content-type': 'application/json',
-            },
         });
 
         if (response.status < 200 && response.status > 299) {

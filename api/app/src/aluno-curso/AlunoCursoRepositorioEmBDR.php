@@ -134,6 +134,29 @@ class AlunoCursoRepositorioEmBDR implements AlunoCursoRepositorio
 		}
 	}
 
+	public function comCursoId($cursoId)
+	{
+		try {
+			$sql = 'SELECT ac.id id, ac.aluno_id aluno_id, ac.numero_matricula numero_matricula, c.numero_aulas numero_aulas, ac.nota_av1 nota_av1, ac.nota_av2 nota_av2, ac.nota_af nota_af, ac.faltas faltas, c.numero_aulas numero_aulas, a.nome nome, a.matricula matricula, c.id curso_id, c.nome curso_nome, c.codigo as codigo_curso, c.codigo as codigo_curso FROM aluno_curso ac INNER JOIN aluno a ON a.id = ac.aluno_id INNER JOIN curso c ON c.id = ac.curso_id where ac.curso_id = "' . $cursoId . '"';
+			$preparedStatement = $this->pdow->prepare($sql);
+
+			$preparedStatement->execute();
+			if ($preparedStatement->rowCount() < 1) {
+				return [];
+			}
+
+			$result = $preparedStatement->fetchAll(PDO::FETCH_ASSOC);
+
+			foreach ($result as $row) {
+				$objetos[] = $this->construirObjeto($row);
+			}
+			return $objetos;
+		} catch (\PDOException $e) {
+
+			throw new PDOException($e->getMessage(), $e->getCode(), $e);
+		}
+	}
+
 
 	function delete($id)
 	{

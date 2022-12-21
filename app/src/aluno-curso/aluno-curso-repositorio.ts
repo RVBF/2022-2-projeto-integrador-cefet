@@ -12,9 +12,7 @@ export class AlunoCursoRepositorio {
          body: JSON.stringify(AlunoCurso),
          
          credentials: 'include',
-headers: {
-            'content-type': 'application/json',
-         },
+
       });
 
 
@@ -30,9 +28,7 @@ headers: {
          body: JSON.stringify(AlunoCurso),
          
          credentials: 'include',
-headers: {
-            "Content-Type": "application/json;application/x-www-form-urlencoded;charset=UTF-8",
-         },
+
       }).then(function (response) {
 
          if (!response.ok) {
@@ -71,15 +67,25 @@ headers: {
       return response.json();
    }
 
+   async buscarPorCurso(cursoId: Number): Promise<AlunoCurso[]> {
+      const response = await fetch(`${API_ALUNOCURSO}/curso/${cursoId}/show`, {
+         method: 'GET',
+      });
+
+      if (!response.ok) {
+         throw new AlunoCursoError(`Erro ao buscar aluno-curso ${cursoId} : ${response.statusText}`);
+      }
+
+      return response.json();
+   }
+
    async delete(alunoId: number): Promise<Response> {
       const response = await fetch(`${API_ALUNOCURSO}/${alunoId}/show`, {
          method: 'DELETE',
          body: JSON.stringify(AlunoCurso),
          
          credentials: 'include',
-headers: {
-            'content-type': 'application/json',
-         },
+
       });
 
       if (!response.ok) {

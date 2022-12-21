@@ -1,3 +1,4 @@
+import { AlunoCurso } from "../aluno-curso/aluno-curso";
 import { Curso } from "../curso/curso";
 
 interface AlunoDTO {
@@ -7,7 +8,7 @@ interface AlunoDTO {
   cpf: string;
   telefone: string;
   email: string;
-  cursos: Array<Curso> | null;
+  cursos: Array<Curso> | Array<AlunoCurso> | null;
 }
 
 export class Aluno {
@@ -17,7 +18,7 @@ export class Aluno {
   cpf: string = '';
   telefone: string = '';
   email: string = '';
-  cursos: Array<Curso> | null;
+  cursos: Array<Curso> | Array<AlunoCurso> | null;
 
   constructor({ id, matricula, nome, cpf, telefone, email, cursos }: AlunoDTO) {
     this.id = id;

@@ -12,9 +12,6 @@ export class AlunoRepositorio {
          body: JSON.stringify(aluno),
 
          credentials: 'include',
-         headers: {
-            'content-type': 'application/json',
-         },
       });
 
       if (response.status < 200 && response.status > 299) {
@@ -33,11 +30,7 @@ export class AlunoRepositorio {
       const response = await fetch(`${API_ALUNO}`, {
          method: 'POST',
          body: JSON.stringify(aluno),
-
          credentials: 'include',
-         headers: {
-            "Content-Type": "application/json;application/x-www-form-urlencoded;charset=UTF-8",
-         },
       })
 
       if (response.status < 200 && response.status > 299) {
@@ -54,6 +47,7 @@ export class AlunoRepositorio {
 
    async todos(limit: number | null, offset: number | null): Promise<Aluno[]> {
       const response = await fetch(`${API_ALUNO}`, {
+         credentials: 'include',
          method: 'GET',
 
          // body: JSON.stringify({limit : limit, offset: offset})
@@ -68,6 +62,7 @@ export class AlunoRepositorio {
 
    async buscarPorAluno(alunoId: Number): Promise<Aluno> {
       const response = await fetch(`${API_ALUNO}/${alunoId}/show`, {
+         credentials: 'include',
          method: 'GET',
       });
 
@@ -83,8 +78,10 @@ export class AlunoRepositorio {
       return response.json();
    }
 
-   async buscarPorCurso(cursoId: Number): Promise<Aluno> {
+   async buscarPorCurso(cursoId: Number): Promise<Aluno[]> {
+
       const response = await fetch(`${API_ALUNO}/curso/${cursoId}/show`, {
+         credentials: 'include',
          method: 'GET',
       });
 
@@ -102,6 +99,7 @@ export class AlunoRepositorio {
 
    async getProximaMatriculaDisponivel(): Promise<String> {
       const response = await fetch(`${API_ALUNO}/numero-para-matricula`, {
+         credentials: 'include',
          method: 'GET',
       });
 
@@ -120,9 +118,6 @@ export class AlunoRepositorio {
          body: JSON.stringify(AudioWorkletNode),
 
          credentials: 'include',
-         headers: {
-            'content-type': 'application/json',
-         },
       });
 
       if (!response.ok) {
@@ -133,5 +128,4 @@ export class AlunoRepositorio {
 
       return response;
    }
-
 }

@@ -33,7 +33,8 @@ export class AlunoServico {
    porAluno(alunoId: number): Promise<any> {
       return this.alunoRepositorio.buscarPorAluno(alunoId);
    }
-   porCurso(cursoId: number): Promise<any> {
+   porCurso(cursoId: number): Promise<Aluno[]> {
+
       return this.alunoRepositorio.buscarPorCurso(cursoId);
    }
 

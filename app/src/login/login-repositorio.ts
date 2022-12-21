@@ -10,9 +10,7 @@ export class LoginRepositorio {
         const response = await fetch(`${API_LOGIN}/entrar`, {
             method: 'POST',
             body: JSON.stringify(loginUsuario),
-            headers: {
-                'content-type': 'application/json',
-            },
+   
         });
         const responseData = await response.json();
 
@@ -27,9 +25,6 @@ export class LoginRepositorio {
         const response = await fetch(`${API_LOGIN}/sair`, {
             method: 'DELETE',
             credentials: 'include',
-            headers: {
-                'content-type': 'application/json',
-            },
         });
 
         if (!response.ok) {
