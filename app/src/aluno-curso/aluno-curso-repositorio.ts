@@ -42,11 +42,10 @@ export class AlunoCursoRepositorio {
    }
 
    async todos(limit: number | null, offset: number | null): Promise<AlunoCurso[]> {
-      const response = await fetch(`${API_ALUNOCURSO}`, {
+      const usuarioLogado  = JSON.parse(String(localStorage.getItem('usuario')));
+      let url  = (Number(usuarioLogado.item.e_administrador)) ? `${API_ALUNOCURSO}` : `${API_ALUNOCURSO}/professor/${usuarioLogado.item.id}`;
+      const response = await fetch(url, {
          method: 'GET',
-         
-
-         // body: JSON.stringify({limit : limit, offset: offset})
       });
       if (!response.ok) {
          throw new AlunoCursoError(`Erro ao buscar as notas: ${response.statusText}`);

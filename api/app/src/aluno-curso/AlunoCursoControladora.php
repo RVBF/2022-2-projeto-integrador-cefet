@@ -38,6 +38,22 @@ class AlunoCursoControladora
     }
   }
 
+  public function listarProfessores(Request $request)
+  {
+
+    try {
+      $urlQuebrada  = explode('/', $request->base());
+      $alunosCursos = $this->colecaoAlunoCurso->todosComProfessorId($urlQuebrada[3]);
+
+      $this->servicoVisao->responsePegaTodosSuccess($alunosCursos);
+      $this->servicoVisao->responseUpdateSuccess();
+    } catch (PDOException $errorPDO) {
+      $this->servicoVisao->exibirErroAoConectar($errorPDO->getMessage());
+    } catch (RepositoryException $error) {
+      $this->servicoVisao->exibirErroAoConsultar($error->getMessage());
+    }
+  }
+
   function cadastrar(Request $request)
   {
 

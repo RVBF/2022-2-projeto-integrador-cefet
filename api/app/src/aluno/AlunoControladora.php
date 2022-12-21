@@ -24,8 +24,6 @@ class AlunoControladora
     $this->colecaoAluno = new AlunoRepositorioEmBDR($this->conexao);
     $this->colecaoCurso = new CursoRepositorioEMBDR($this->conexao);
     $this->colecaoAlunoCurso = new AlunoCursoRepositorioEmBDR($this->conexao);
-    // $this->sessaoEmArquivo = new SessaoEmArquivo();
-
   }
 
   public function listar(Request $request)
@@ -55,7 +53,7 @@ class AlunoControladora
       $proximoNumeroMatricula = $sevicoMatricula->formataMatricula();
       $aluno = new Aluno(
         $data["id"],
-        $proximoNumeroMatricula,
+        $data["matricula"],
         $data["nome"],
         $data["cpf"],
         $data["telefone"],
@@ -100,7 +98,7 @@ class AlunoControladora
     try {
       $data = $request->all();
       $aluno = $this->colecaoAluno->comId($data['id']);
-      $aluno->setMatricula($data["matricula"]);
+      $aluno->setMatricula( $data["matricula"]);
       $aluno->setNome($data["nome"]);
       $aluno->setCpf($data["cpf"]);
       $aluno->setTelefone($data["telefone"]);

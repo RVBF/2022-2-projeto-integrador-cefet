@@ -12,7 +12,7 @@ import { AlunoCurso } from "../aluno-curso/aluno-curso";
 
 export class CursoVisao {
     cursoServico: CursoServico;
-    chart : Chart | null;
+    chart: Chart | null;
     constructor() {
         this.cursoServico = new CursoServico();
         this.chart = null;
@@ -71,12 +71,12 @@ export class CursoVisao {
             ],
             datasets: [{
                 label: 'Relatório de Cursos',
-                // data: [300, 400, 500, 150],
                 data: this.processsarResultados(alunosCursos),
                 backgroundColor: [
                     'rgb(255, 99, 132)',
                     'rgb(54, 162, 235)',
-                    'rgb(255, 205, 86)'
+                    'rgb(255, 205, 86)',
+                    'rgb(0 30 16 / 87%)'
                 ],
                 // hoverOffset: 4
             }]
@@ -111,20 +111,22 @@ export class CursoVisao {
                     aluno: ac.aluno,
                     curso: ac.curso
                 });
-                if (alunoCurso.calculaPercentualFaltas() > 25) {
-                    resultados[3] = resultados[3]++;
-                }
-                else
+                if (alunoCurso!.av1 || alunoCurso!.av2) {
 
-                    if (alunoCurso.situacaoAluno() === 'Avaliação Final' || alunoCurso.notaAF) {
-                        resultados[1] = resultados[0]++;
+                    if (alunoCurso.calculaPercentualFaltas() > 25) {
+                        resultados[3] = resultados[3] + 1;
+                    }
+                    else if (alunoCurso.notaAF > 0 && alunoCurso.situacaoAluno() === 'Aprovado') {
+
+                        resultados[1] = resultados[1] + 1;
                     }
                     else if (alunoCurso.situacaoAluno() == 'Reprovado') {
-                        resultados[2] = resultados[2]++;
+                        resultados[2] = resultados[2] + 1;
                     }
                     else if (alunoCurso.situacaoAluno() == 'Aprovado') {
-                        resultados[0] = resultados[0]++;
+                        resultados[0] = resultados[0] + 1;
                     }
+                }
             });
         }
         console.log(resultados);

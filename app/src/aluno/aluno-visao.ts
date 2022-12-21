@@ -45,7 +45,7 @@ export class AlunoVisao {
       matricula.focus();
 
       matricula.value = String(novoNumeroMatricula);
-      matricula.disabled = true;
+      // matricula.disabled = true;
    }
 
    popularSelectCursos(cursos: import("../curso/curso").Curso[]) {
@@ -62,7 +62,6 @@ export class AlunoVisao {
       var select = document.querySelectorAll('select');
       var selectInstance = M.FormSelect.init(select);
    }
-
 
    desenharEdit(aluno: Aluno): void {
       const id = this.getValueInputElement('id');
@@ -89,7 +88,7 @@ export class AlunoVisao {
       id.focus();
       matricula.value = String(aluno.matricula);
       matricula.focus();
-      matricula.disabled = matricula.readOnly = true;
+      // matricula.disabled = matricula.readOnly = true;
       nome.value = String(aluno.nome);
       nome.focus();
       cpf.value = String(aluno.cpf);

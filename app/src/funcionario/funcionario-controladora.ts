@@ -2,6 +2,7 @@ import { Funcionario } from './funcionario';
 import { FuncionarioServico } from './funcionario-servico';
 import { FuncionarioVisao } from './funcionario-visao';
 import { carregarPagina } from '../utils/carrega-pagina';
+import { carregaProibida } from '../utils/carrega-403';
 
 export class FuncionarioControladora {
     funcionarioServico: FuncionarioServico;
@@ -13,31 +14,61 @@ export class FuncionarioControladora {
 
     async init(): Promise<void> {
         const [main] = document.getElementsByTagName('main');
-
+        const usuarioLogado  = JSON.parse(String(localStorage.getItem('usuario')));
+        // if(!Number(usuarioLogado.item.e_administrador)){
+        //     await carregaProibida();
+        // }
         if (this.funcionarioVisao.listarFuncionariosRegex()) {
-            main.innerHTML = '';
-            main.innerHTML = await carregarPagina("/funcionario/listar-funcionario.html");
+            if(!Number(usuarioLogado.item.e_administrador)){
+                await carregaProibida();
+            }else{
+
+                main.innerHTML = '';
+                main.innerHTML = await carregarPagina("/funcionario/listar-funcionario.html");
+                // main.innerHTML = '';
+                // main.innerHTML = await carregarPagina("/funcionario/listar-funcionario.html");
+                
+                await this.insereDadosNaView();
+                this.funcionarioVisao.aoDispararRemover(this.remover);
+            }
             
-            await this.insereDadosNaView();
-            this.funcionarioVisao.aoDispararRemover(this.remover);
         }
         else if (this.funcionarioVisao.cadastrarFuncionariosRegex()) {
             main.innerHTML = '';
-            main.innerHTML = await carregarPagina("/funcionario/formulario-funcionario.html");
+
+            if(!Number(usuarioLogado.item.e_administrador)){
+                console.log('entrei');
+                main.innerHTML = await carregarPagina("403.html");
+            }else{
+
+                main.innerHTML = '';
+                main.innerHTML = await carregarPagina("/funcionario/formulario-funcionario.html");
+                await this.funcionarioVisao.desenharCadastro();
+                this.funcionarioVisao.aoDispararCadastrar(this.cadastrar);
+            }
             
-            await this.funcionarioVisao.desenharCadastro();
-            this.funcionarioVisao.aoDispararCadastrar(this.cadastrar);
         }
         else if (this.funcionarioVisao.atualizarFuncionariosRegex()) {
-            main.innerHTML = await carregarPagina("/funcionario/formulario-funcionario.html");
-
-            const funcionarioId = this.funcionarioServico.pegaUrlId();
-            await this.insereDadosNaViewEdit(funcionarioId);
-            this.funcionarioVisao.aoDispararEditar(this.editar);
+            if(!Number(usuarioLogado.item.e_administrador)){
+                await carregaProibida();
+            }else{
+                main.innerHTML = '';
+                main.innerHTML = await carregarPagina("/funcionario/formulario-funcionario.html");
+                const funcionarioId = this.funcionarioServico.pegaUrlId();
+                await this.insereDadosNaViewEdit(funcionarioId);
+                this.funcionarioVisao.aoDispararEditar(this.editar);
+            }
+            
         }
         else if (this.funcionarioVisao.visualizarFuncionariosRegex()) {
-            main.innerHTML = await carregarPagina("/funcionario/formulario-funcionario.html");
+            if(!Number(usuarioLogado.item.e_administrador)){
+                await carregaProibida();
+            }else{
 
+                main.innerHTML = '';
+                main.innerHTML = await carregarPagina("/funcionario/formulario-funcionario.html");
+            }
+            
             const funcionarioId = this.funcionarioServico.pegaUrlId();
             await this.insereDadosNaViewVisualiza(funcionarioId);
             this.funcionarioVisao.configuraVisualizacao();

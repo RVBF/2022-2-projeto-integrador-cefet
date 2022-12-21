@@ -8,11 +8,11 @@
       return session_status() === PHP_SESSION_ACTIVE;
     }
     function iniciarSessao() {
-      session_name( 'sid' ); // Chave do cookie
-      session_set_cookie_params([ 'lifetime' => time() + 60 * 10, 'secure' => true, 'httponly' => true]);
-      // session_set_cookie_params(
-      //   time() + 60 * 10, // 10 min 
-      //   null, null, true, true );
+      session_name( 'SID' ); // Chave do cookie
+      // session_set_cookie_params([ 'lifetime' => time() + 60 * 10, 'secure' => true, 'httponly' => true]);
+      session_set_cookie_params(
+        time() + 60 * 10, // 10 min 
+        null, null, true, true );
       session_start();
     }
 

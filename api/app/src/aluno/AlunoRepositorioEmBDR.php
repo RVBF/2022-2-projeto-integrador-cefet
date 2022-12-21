@@ -71,6 +71,7 @@ class AlunoRepositorioEmBDR implements AlunoRepositorio
 
          $sql = 'UPDATE `aluno` SET
                   nome = :nome,
+                  matricula = :matricula,
                   cpf = :cpf,
                   telefone = :telefone,
                   email = :email 			 	
@@ -78,6 +79,7 @@ class AlunoRepositorioEmBDR implements AlunoRepositorio
          $preparedStatement = $this->pdow->prepare($sql);
 
          $executou = $preparedStatement->execute([
+            'matricula' => $aluno->getMatricula(),
             'nome' => $aluno->getNome(),
             'cpf' => $aluno->getCpf(),
             'telefone' => $aluno->getTelefone(),

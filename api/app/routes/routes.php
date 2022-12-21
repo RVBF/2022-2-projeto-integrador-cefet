@@ -25,6 +25,12 @@ try {
 		$controladora->listar($request);
 	});
 
+	Route::get('/aluno-curso/professor/{id}', function () use (&$db) {
+		$controladora  = new AlunoCursoControladora($db);
+		$request = new Request;
+		$controladora->listarProfessores($request);
+	});
+
 	Route::post('/aluno-curso', function () use (&$db) {
 		$controladora  = new AlunoCursoControladora($db);
 		$request = new Request;
@@ -58,6 +64,7 @@ try {
 
 //alunos
 	Route::get('/aluno', function () use (&$db) {
+		// Debuger::debug($_SESSION);
 		$controladora  = new AlunoControladora($db);
 		$request = new Request;
 		$controladora->listar($request);
