@@ -26,6 +26,7 @@ export class LoginRepositorio {
     async deslogar(): Promise<void> {
         const response = await fetch(`${API_LOGIN}/sair`, {
             method: 'DELETE',
+            credentials: 'include',
             headers: {
                 'content-type': 'application/json',
             },

@@ -7,6 +7,7 @@ interface AlunoRepositorio
     public function adicionar(Aluno &$curso);
     public function atualizar(Aluno &$curso);
     public function comId($id);
+    public function comCursoId($id);
     public function delete($id);
 
 }

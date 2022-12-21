@@ -8,7 +8,6 @@ import { formataData } from "../utils/formata-data";
 import { Funcionario } from "../funcionario/funcionario";
 
 export class CursoVisao {
-
     cursoServico: CursoServico;
 
     constructor() {
@@ -22,7 +21,6 @@ export class CursoVisao {
 
     desenhar(cursos: Curso[]): void {
         const tbodyTable = document.querySelector('#curso > tbody');
-        console.log(cursos);
         if (!cursos) {
             this.showSuccessMessage('Nenhum dado cadastrado!');
             return;
@@ -36,6 +34,7 @@ export class CursoVisao {
                 colunaTabela(formataData(String(curso.dataFim))),
                 colunaTabela((curso.professor as Funcionario).nome),
                 colunaTabela(curso.situacao),
+                colunaTabela(Button('Relatório', '<span class="material-icons">insights</span>', 'btn gerar_relatorio', [{ 'name': 'curso-id', 'valor': String(curso.id) }]) as HTMLElement),
                 colunaTabela(Link('atualizar', `/cursos/${curso.id}/editar`, '<span class="material-icons">edit </span>', 'btn') as HTMLElement),
                 colunaTabela(Link('visualizar', `/cursos/${curso.id}/visualizar`, '<span class="material-icons">visibility</span>', 'btn') as HTMLElement),
                 colunaTabela(Button('remover', '<span class="material-icons">delete_outline</span>', 'btn remover', [{ 'name': 'curso-id', 'valor': String(curso.id) }]) as HTMLElement),
@@ -47,6 +46,14 @@ export class CursoVisao {
     inicializaSelect(): void {
         var select = document.querySelectorAll('select');
         var selectInstance = M.FormSelect.init(select);
+    }
+
+    renderizarGrafico(alunos: Promise<any>) : void {
+        console.log(alunos)
+
+            const elem = document.querySelector('.modal') as HTMLElement;
+            M.Modal.init(elem, {opacity: 0.5});
+            M.Modal.getInstance(elem).open();
     }
 
     desenharEdit(curso: Curso): void {
@@ -132,7 +139,22 @@ export class CursoVisao {
 
         voltaCursoBotao.addEventListener('click', functionToAct);
     }
-
+    
+    aoDispararGraficoCurso(callback: any): void {
+        const functionToAct = (elem: MouseEvent): void => {
+           elem.preventDefault();
+           const botao = (elem.target as HTMLButtonElement).parentNode as HTMLButtonElement;
+  
+           callback(botao.getAttribute('curso-id'));
+        };
+  
+        const botoesRemoverAluno = document.querySelectorAll('.gerar_relatorio');
+        botoesRemoverAluno.forEach((botao, i) => {
+           const elemento = botoesRemoverAluno[i] as HTMLButtonElement;
+           elemento.addEventListener('click', functionToAct)
+        })
+     }
+  
     aoDispararRemover(callback: any): void {
         const functionToAct = (elem: MouseEvent): void => {
             elem.preventDefault();

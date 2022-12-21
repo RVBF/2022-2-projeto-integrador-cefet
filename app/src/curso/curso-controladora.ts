@@ -3,6 +3,7 @@ import { CursoServico } from './curso-servico';
 import { CursoVisao } from './curso-visao';
 import { carregarPagina } from '../utils/carrega-pagina';
 import { FuncionarioServico } from '../funcionario/funcionario-servico';
+import { AlunoServico } from '../aluno/aluno-servico';
 /* eslint-disable-next-line func-style */
 
 async function loadPage(file: string): Promise<string> {
@@ -11,6 +12,7 @@ async function loadPage(file: string): Promise<string> {
 }
 export class CursoControladora {
     cursoServico: CursoServico;
+    alunoServico: AlunoServico;
     funcionarioServico : FuncionarioServico;
     cursoVisao: CursoVisao;
 
@@ -18,6 +20,7 @@ export class CursoControladora {
         this.cursoServico = new CursoServico();
         this.cursoVisao = new CursoVisao();
         this.funcionarioServico = new FuncionarioServico();
+        this.alunoServico = new AlunoServico();
     }
 
     async init(): Promise<void> {
@@ -28,7 +31,7 @@ export class CursoControladora {
             main.innerHTML = await carregarPagina("/curso/listar-curso.html");
             await this.insereDadosNaView();
             this.cursoVisao.aoDispararRemover(this.remover);
-
+            this.cursoVisao.aoDispararGraficoCurso(this.buscaTodosAlunosCurso);
         }
         else if (this.cursoVisao.cadastrarCursosRegex()) {
             main.innerHTML = '';
@@ -119,6 +122,18 @@ export class CursoControladora {
             }, 2000);
         } catch (error: any) {
             this.cursoVisao.habilitaBotao();
+            this.cursoVisao.showErrorMessage(error);
+        }
+    };
+    buscaTodosAlunosCurso = async (idCurso: string): Promise<void> => {
+        try {
+            const alunos = this.alunoServico.porCurso(Number(idCurso));
+            this.cursoVisao.renderizarGrafico(alunos);
+            // setTimeout(() => {
+            //     location.href = '/cursos';
+            // }, 2000);
+        } catch (error: any) {
+            // this.cursoVisao.habilitaBotao();
             this.cursoVisao.showErrorMessage(error);
         }
     };

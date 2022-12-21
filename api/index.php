@@ -18,6 +18,7 @@
     header('Content-Type: text/plain');
     die();
   }
+  
   header('Authorization: true');
   header('Access-Control-Allow-Origin: https://localhost:1234');
   header('Access-Control-Allow-Credentials: true');

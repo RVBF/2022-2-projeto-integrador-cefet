@@ -10,6 +10,8 @@ export class FuncionarioRepositorio {
         const response = await fetch(`${API_FUNCIONARIO}/${Funcionario.id}/edit`, {
             method: 'PUT',
             body: JSON.stringify(Funcionario),
+
+            credentials: 'include',
             headers: {
                 'content-type': 'application/json',
             },
@@ -27,6 +29,8 @@ export class FuncionarioRepositorio {
         const response = await fetch(`${API_FUNCIONARIO}`, {
             method: 'POST',
             body: JSON.stringify(funcionario),
+
+            credentials: 'include',
             headers: {
                 "Content-Type": "application/json;application/x-www-form-urlencoded;charset=UTF-8",
             },
@@ -47,6 +51,8 @@ export class FuncionarioRepositorio {
     async todos(limit: number | null, offset: number | null): Promise<Funcionario[]> {
         const response = await fetch(`${API_FUNCIONARIO}`, {
             method: 'GET',
+
+            credentials: 'include',
             headers: {
                 'Content-Type': 'application/json;charset=utf-8;'
             },
@@ -69,6 +75,8 @@ export class FuncionarioRepositorio {
     async todosProfessores(): Promise<Funcionario[]> {
         const response = await fetch(`${API_FUNCIONARIO}/professores`, {
             method: 'GET',
+
+            credentials: 'include',
             headers: {
                 'Content-Type': 'application/json;charset=utf-8;'
             },
@@ -101,6 +109,8 @@ export class FuncionarioRepositorio {
         const response = await fetch(`${API_FUNCIONARIO}/${funcionarioId}`, {
             method: 'DELETE',
             body: JSON.stringify(AudioWorkletNode),
+
+            credentials: 'include',
             headers: {
                 'content-type': 'application/json',
             },

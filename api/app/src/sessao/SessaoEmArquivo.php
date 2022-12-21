@@ -4,15 +4,15 @@
 
 
   class SessaoEmArquivo implements Sessao {
-    const UM_DIA = 24*60*60;
-
     function sessaoIniciada() {
       return session_status() === PHP_SESSION_ACTIVE;
     }
     function iniciarSessao() {
-      session_name('SID');
-      session_set_cookie_params( [ 'lifetime' => self::UM_DIA, 'secure' => true, 'httponly' => true] );
-      return session_start();
+      session_name( 'sid' ); // Chave do cookie
+      session_set_cookie_params(
+        time() + 60 * 10, // 10 min 
+        null, null, true, true );
+      session_start();
     }
 
     function destruirSessao() {

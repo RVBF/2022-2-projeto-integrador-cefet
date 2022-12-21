@@ -10,11 +10,13 @@ export class AlunoRepositorio {
       const response = await fetch(`${API_ALUNO}/${aluno.id}/edit`, {
          method: 'PUT',
          body: JSON.stringify(aluno),
+
+         credentials: 'include',
          headers: {
             'content-type': 'application/json',
          },
       });
-      
+
       if (response.status < 200 && response.status > 299) {
          const resposta = await response.text().then(errorMessage => {
             return errorMessage;
@@ -31,6 +33,8 @@ export class AlunoRepositorio {
       const response = await fetch(`${API_ALUNO}`, {
          method: 'POST',
          body: JSON.stringify(aluno),
+
+         credentials: 'include',
          headers: {
             "Content-Type": "application/json;application/x-www-form-urlencoded;charset=UTF-8",
          },
@@ -51,9 +55,7 @@ export class AlunoRepositorio {
    async todos(limit: number | null, offset: number | null): Promise<Aluno[]> {
       const response = await fetch(`${API_ALUNO}`, {
          method: 'GET',
-         headers: {
-            'Content-Type': 'application/json;charset=utf-8;'
-         },
+
          // body: JSON.stringify({limit : limit, offset: offset})
       });
 
@@ -81,12 +83,29 @@ export class AlunoRepositorio {
       return response.json();
    }
 
+   async buscarPorCurso(cursoId: Number): Promise<Aluno> {
+      const response = await fetch(`${API_ALUNO}/curso/${cursoId}/show`, {
+         method: 'GET',
+      });
+
+      if (response.status < 200 && response.status > 299) {
+         const resposta = await response.text().then(errorMessage => {
+            return errorMessage;
+         })
+
+         throw new AlunoError(`Erro ao buscar aluno de id ${cursoId} : ${String(JSON.parse(resposta).split('|').join('<br>'))}`);
+
+      }
+
+      return response.json();
+   }
+
    async getProximaMatriculaDisponivel(): Promise<String> {
       const response = await fetch(`${API_ALUNO}/numero-para-matricula`, {
          method: 'GET',
       });
 
-      
+
       if (response.status < 200 && response.status > 299) {
          throw new AlunoError(`Erro ao buscar um novo número de matrícula : ${response.statusText}`);
       }
@@ -99,6 +118,8 @@ export class AlunoRepositorio {
       const response = await fetch(`${API_ALUNO}/${alunoId}`, {
          method: 'DELETE',
          body: JSON.stringify(AudioWorkletNode),
+
+         credentials: 'include',
          headers: {
             'content-type': 'application/json',
          },

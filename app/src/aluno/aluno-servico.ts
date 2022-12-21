@@ -33,6 +33,9 @@ export class AlunoServico {
    porAluno(alunoId: number): Promise<any> {
       return this.alunoRepositorio.buscarPorAluno(alunoId);
    }
+   porCurso(cursoId: number): Promise<any> {
+      return this.alunoRepositorio.buscarPorCurso(cursoId);
+   }
 
    delete(alunoId: number): Promise<Response> {
       return this.alunoRepositorio.delete(alunoId);

@@ -10,12 +10,14 @@ export class AlunoCursoRepositorio {
       const response = await fetch(`${API_ALUNOCURSO}/${AlunoCurso.id}`, {
          method: 'PUT',
          body: JSON.stringify(AlunoCurso),
-         headers: {
+         
+         credentials: 'include',
+headers: {
             'content-type': 'application/json',
          },
       });
-      
-      
+
+
       if (!response.ok) {
          throw new AlunoCursoError('Não foi possível atualizar as notas!');
       }
@@ -23,30 +25,31 @@ export class AlunoCursoRepositorio {
    }
 
    async adicionar(alunoCurso: AlunoCurso): Promise<Response> {
-      return  await fetch(`${API_ALUNOCURSO}`, {
+      return await fetch(`${API_ALUNOCURSO}`, {
          method: 'POST',
          body: JSON.stringify(AlunoCurso),
-         headers: {
+         
+         credentials: 'include',
+headers: {
             "Content-Type": "application/json;application/x-www-form-urlencoded;charset=UTF-8",
          },
       }).then(function (response) {
 
-      if (!response.ok) {
-      }
-      return response.json();  
-   })
-     .catch(err =>{
-      console.log(err);
-         //throw new Error(err.join('<br>'));
-     });
+         if (!response.ok) {
+         }
+         return response.json();
+      })
+         .catch(err => {
+            console.log(err);
+            //throw new Error(err.join('<br>'));
+         });
    }
 
    async todos(limit: number | null, offset: number | null): Promise<AlunoCurso[]> {
       const response = await fetch(`${API_ALUNOCURSO}`, {
          method: 'GET',
-         headers: {
-            'Content-Type': 'application/json;charset=utf-8;'
-         },
+         
+
          // body: JSON.stringify({limit : limit, offset: offset})
       });
       if (!response.ok) {
@@ -72,7 +75,9 @@ export class AlunoCursoRepositorio {
       const response = await fetch(`${API_ALUNOCURSO}/${alunoId}/show`, {
          method: 'DELETE',
          body: JSON.stringify(AlunoCurso),
-         headers: {
+         
+         credentials: 'include',
+headers: {
             'content-type': 'application/json',
          },
       });
@@ -86,8 +91,8 @@ export class AlunoCursoRepositorio {
       return response;
    }
 
-   async comId( id: number ): Promise<AlunoCurso> {
-      
+   async comId(id: number): Promise<AlunoCurso> {
+
       const response = await fetch(`${API_ALUNOCURSO}/${id}/show`, {
          method: 'GET',
       });
