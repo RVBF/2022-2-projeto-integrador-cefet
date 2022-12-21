@@ -40,7 +40,13 @@ window.addEventListener('load', async () => {
     const funcionariosPath = (/^\/funcionario\/?([^\s]+)?$/i).test(urlAtual);
     const alunosPath = (/^\/alunos\/?([^\s]+)?$/i).test(urlAtual);
     const cursosPath = (/^\/cursos\/?([^\s]+)?$/i).test(urlAtual);
-
+    const usuarioLogado  = JSON.parse(String(localStorage.getItem('usuario')));
+    if(usuarioLogado != null && usuarioLogado != ''){
+        const nomeUsuarioCampo = document.getElementById('nome_usuario_menu') as HTMLElement;
+        nomeUsuarioCampo.innerHTML = usuario.item.nome
+        const emailUsuarioCampo = document.getElementById('email_usuario_menu') as HTMLElement;
+        emailUsuarioCampo.innerHTML = usuario.item.email
+    }
 
     if (proibido) {
         await carregaProibida();
