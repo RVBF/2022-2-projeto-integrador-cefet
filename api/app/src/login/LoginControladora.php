@@ -5,6 +5,7 @@ namespace App\Src\Login;
 use App\Src\Login\LoginExcecao;
 use App\Src\Execao\RepositorioExcecao;
 use App\Request;
+use App\Src\Comum\Debuger;
 use App\Src\Servico\ServicoVisao;
 use App\Src\Sessao\SessaoEmArquivo;
 
@@ -22,7 +23,7 @@ class LoginControladora
 
     $this->servicoLogin = new LoginRepositorioEmBDR($db);
     $this->sessaoEmArquivo = new SessaoEmArquivo();
-    // $this->sessaoEmArquivo->iniciarSessao();
+    $this->sessaoEmArquivo->iniciarSessao();
   }
 
   function autenticar(Request $request)
@@ -39,9 +40,9 @@ class LoginControladora
       $sessaoFormatada = $usuarioSessao->sessaoFormatada();
 
       
-      $this->sessaoEmArquivo->iniciarSessao();
+      $this->sessaoEmArquivo->regerarId();
       $this->sessaoEmArquivo->definirValor('usuario', $sessaoFormatada);
-
+      Debuger::debug($this->sessaoEmArquivo->obterValor())
       $this->servicoVisao->responsePegaTodosSuccess($sessaoFormatada);
     } catch (\PDOException $errorPDO) {
       $this->servicoVisao->exibirErroAoConectar($errorPDO->getMessage());

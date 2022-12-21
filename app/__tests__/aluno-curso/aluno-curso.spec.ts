@@ -1,4 +1,5 @@
 import { AlunoCurso } from '../../src/aluno-curso/aluno-curso';
+import { Curso } from '../../src/curso/curso';
 
 describe('Realizar os testes das Notas', () => {
     describe('Validar retorno de resultado baseado em notas', () => {
@@ -11,7 +12,7 @@ describe('Realizar os testes das Notas', () => {
                 notaAF: 0,
                 faltas: 1,
                 aluno: null,
-                curso: null
+                curso: new Curso({ id: 1, codigo: '', nome: '', situacao: '', numeroAulas: 10, dataInicio: null, dataFim: null, professor: null })
             });
             expect(nota.situacaoAluno()).toBe('Aprovado');
         })
@@ -25,7 +26,7 @@ describe('Realizar os testes das Notas', () => {
                 notaAF: 7,
                 faltas: 1,
                 aluno: null,
-                curso: null
+                curso: new Curso({ id: 1, codigo: '', nome: '', situacao: '', numeroAulas: 10, dataInicio: null, dataFim: null, professor: null })
             });
             expect(nota.situacaoFinalAluno()).toBe('Aprovado');
         })
@@ -39,10 +40,10 @@ describe('Realizar os testes das Notas', () => {
                 notaAF: 0,
                 faltas: 1,
                 aluno: null,
-                curso: null
+                curso: new Curso({ id: 1, codigo: '', nome: '', situacao: '', numeroAulas: 10, dataInicio: null, dataFim: null, professor: null })
             });
             expect(nota.situacaoAluno()).toBe('Avaliação Final');
-        });
+        })
 
         it('Deve retornar {Reprovado} quando média de avalições for menor que 3', function () {
             const nota = new AlunoCurso({
@@ -53,10 +54,10 @@ describe('Realizar os testes das Notas', () => {
                 notaAF: 0,
                 faltas: 1,
                 aluno: null,
-                curso: null
+                curso: new Curso({ id: 1, codigo: '', nome: '', situacao: '', numeroAulas: 10, dataInicio: null, dataFim: null, professor: null })
             });
             expect(nota.situacaoAluno()).toBe('Reprovado');
-        });
+        })
 
         it('Deve retornar {Reprovado} quando média final for menor que 5', function () {
             const nota = new AlunoCurso({
@@ -67,9 +68,9 @@ describe('Realizar os testes das Notas', () => {
                 notaAF: 3.4,
                 faltas: 1,
                 aluno: null,
-                curso: null
+                curso: new Curso({ id: 1, codigo: '', nome: '', situacao: '', numeroAulas: 10, dataInicio: null, dataFim: null, professor: null })
             });
             expect(nota.situacaoFinalAluno()).toBe('Reprovado');
-        });
-    })
+        })
+    });
 });

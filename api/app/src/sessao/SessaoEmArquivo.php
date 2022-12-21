@@ -20,11 +20,11 @@ class SessaoEmArquivo implements Sessao
 
   function iniciarSessao()
   {
-    if ($this->sessaoIniciada()) $this->regerarId();
+    // if ($this->sessaoIniciada()) $this->regerarId();
 
     if (!isset($_SESSION)) {
+      session_set_cookie_params(['lifetime'=> self::UM_DIA,'httponly'=> true]);
       session_start();
-      setcookie(session_name(),session_id(),self::UM_DIA);
     }
   }
 
